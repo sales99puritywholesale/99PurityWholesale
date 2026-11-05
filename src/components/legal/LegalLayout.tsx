@@ -151,7 +151,7 @@ export default function LegalLayout({ title, badge, lastUpdated, sections }: Leg
         primaryCtaText="Chat on WhatsApp"
         primaryCtaHref="https://wa.me/18433307365?text=Hi%2C%20I%27d%20like%20to%20apply%20for%20a%20wholesale%20peptide%20account."
         secondaryCtaText="Email Operations"
-        secondaryCtaHref="mailto:wholesale@99puritypeptides.com"
+        secondaryCtaHref="mailto:sales@99puritywholesale.com"
       />
     </main>
   );

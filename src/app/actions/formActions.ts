@@ -7,7 +7,7 @@ const resendApiKey = process.env.RESEND_API_KEY;
 const resend = new Resend(resendApiKey);
 
 // Recipient email address configured by the user (supports comma-separated list of emails)
-const notificationEmailInput = process.env.NOTIFICATION_EMAIL || 'wholesale@99puritypeptides.com,kylefbelk@gmail.com';
+const notificationEmailInput = process.env.NOTIFICATION_EMAIL || 'sales@99puritywholesale.com,kylefbelk@gmail.com';
 const notificationEmails = notificationEmailInput.split(',').map(email => email.trim()).filter(Boolean);
 
 // Sender address - onboarding@resend.dev is the default Resend sandbox sender

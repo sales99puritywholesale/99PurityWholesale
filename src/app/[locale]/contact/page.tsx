@@ -124,7 +124,7 @@ export default function ContactPage() {
                   {t("Methods.email.description")}
                 </p>
                 <a
-                  href="mailto:wholesale@99puritypeptides.com"
+                  href="mailto:sales@99puritywholesale.com"
                   className="w-full bg-black/5 hover:bg-black/10 text-black border border-black/10 font-bold py-4 px-8 rounded-xl transition-all flex items-center justify-center space-x-2 text-xs font-archia tracking-wider uppercase"
                 >
                   <Mail className="w-4 h-4" />

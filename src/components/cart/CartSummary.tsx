@@ -24,7 +24,7 @@ export default function CartSummary({ items }: CartSummaryProps) {
 
   const handleEmailInquiry = () => {
     const message = buildInquiryMessage(items);
-    const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'wholesale@99puritypeptides.com';
+    const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'sales@99puritywholesale.com';
     const mailtoURL = `mailto:${email}?subject=${encodeURIComponent(message.email.subject)}&body=${encodeURIComponent(message.email.body)}`;
     window.location.href = mailtoURL;
   };

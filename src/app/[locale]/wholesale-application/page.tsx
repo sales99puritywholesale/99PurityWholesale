@@ -210,7 +210,7 @@ export default async function WholesaleApplicationPage({ params: { locale } }: {
         primaryCtaText={t('fastTrack.whatsapp')}
         primaryCtaHref="https://wa.me/18433307365?text=Hi%2C%20I%27d%20like%20to%20apply%20for%20a%20wholesale%20peptide%20account."
         secondaryCtaText={t('fastTrack.email')}
-        secondaryCtaHref="mailto:wholesale@99puritypeptides.com"
+        secondaryCtaHref="mailto:sales@99puritywholesale.com"
       />
       
     </main>

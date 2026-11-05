@@ -91,7 +91,7 @@ export default function GlobalCTA({
               { label: t('social.linkedin'), href: 'https://linkedin.com' },
               { label: t('social.threads'), href: 'https://threads.net' },
               { label: t('social.tiktok'), href: 'https://tiktok.com' },
-              { label: t('social.email'), href: 'mailto:wholesale@99puritypeptides.com' }
+              { label: t('social.email'), href: 'mailto:sales@99puritywholesale.com' }
             ].map((social) => (
               <a 
                 key={social.label}

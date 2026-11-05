@@ -613,7 +613,7 @@ export default async function LocationTemplatePage({ params }: { params: { local
                     </div>
 
                     <a
-                      href={`mailto:wholesale@99puritypeptides.com?subject=${encodeURIComponent(t('emailSubject', { city: location.city, state: location.state }))}`}
+                      href={`mailto:sales@99puritywholesale.com?subject=${encodeURIComponent(t('emailSubject', { city: location.city, state: location.state }))}`}
                       className="w-full bg-white/5 border border-white/10 hover:border-white hover:bg-white/10 text-white font-bold py-4 rounded-xl transition-all font-absans text-[11px] uppercase tracking-widest flex items-center justify-center gap-2.5"
                     >
                       <Mail className="w-4 h-4" /> {t('emailCta')}

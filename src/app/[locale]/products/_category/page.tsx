@@ -512,7 +512,7 @@ export default async function CategoryPage({ params }: { params: { locale: strin
         primaryCtaText="WhatsApp Sales"
         primaryCtaHref="https://wa.me/18433307365?text=Hi,%20I'm%20interested%20in%20high-volume%20peptide%20sourcing%20and%20receiving%20the%20wholesale%20price%20list."
         secondaryCtaText="Email Laboratory"
-        secondaryCtaHref="mailto:wholesale@99puritypeptides.com"
+        secondaryCtaHref="mailto:sales@99puritywholesale.com"
       />
 
     </main>

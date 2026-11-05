@@ -69,7 +69,7 @@ export default function RefundPolicyPage() {
       content: (
         <>
           <p>
-            To submit a quality or transit claim, please email our laboratory operations desk at <strong>wholesale@99puritypeptides.com</strong> with your order invoice number, batch/lot tracking code, and any supporting HPLC chromatograms or photos.
+            To submit a quality or transit claim, please email our laboratory operations desk at <strong>sales@99puritywholesale.com</strong> with your order invoice number, batch/lot tracking code, and any supporting HPLC chromatograms or photos.
           </p>
         </>
       )

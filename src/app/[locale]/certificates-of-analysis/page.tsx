@@ -553,7 +553,7 @@ export default function COAPage() {
         primaryCtaText="WhatsApp Sales"
         primaryCtaHref="https://wa.me/18433307365?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20verified%20batch%20quality%20and%20receiving%20the%20wholesale%20price%20list."
         secondaryCtaText="Email Laboratory"
-        secondaryCtaHref="mailto:wholesale@99puritypeptides.com"
+        secondaryCtaHref="mailto:sales@99puritywholesale.com"
       />
 
     </main>

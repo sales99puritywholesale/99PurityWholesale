@@ -520,7 +520,7 @@ export default async function ServicesPage({ params }: { params: { locale: strin
         primaryCtaText="WhatsApp Sales"
         primaryCtaHref={`https://wa.me/18433307365?text=${encodeURIComponent(t('scheduleMsg'))}`}
         secondaryCtaText="Email Laboratory"
-        secondaryCtaHref="mailto:wholesale@99puritypeptides.com"
+        secondaryCtaHref="mailto:sales@99puritywholesale.com"
       />
 
     </main>
