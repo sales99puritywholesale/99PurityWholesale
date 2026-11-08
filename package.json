@@ -6,10 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "typecheck:portal": "tsc -p tsconfig.portal.json",
+    "lint:portal": "eslint \"src/app/(portal)\" src/components/portal src/lib/portal src/portal src/middleware.ts tests --ext .ts,.tsx --max-warnings 0",
+    "check:portal": "npm run typecheck:portal && npm run lint:portal && npm test"
   },
   "dependencies": {
     "@studio-freight/react-lenis": "^0.0.47",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.0",
     "@tailwindcss/typography": "^0.5.19",
     "framer-motion": "^11.15.0",
     "fuse.js": "^7.3.0",
@@ -22,7 +28,9 @@
     "next-pwa": "^5.6.0",
     "react": "^18",
     "react-dom": "^18",
-    "resend": "^6.12.3"
+    "resend": "^6.12.3",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -32,6 +40,7 @@
     "eslint-config-next": "14.2.35",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.12"
   }
 }
