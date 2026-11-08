@@ -1,19 +1,40 @@
 import createNextIntlPlugin from 'next-intl/plugin';
 import withPWAInit from 'next-pwa';
+import defaultRuntimeCaching from 'next-pwa/cache.js';
 
 const withNextIntl = createNextIntlPlugin();
+
+// Portal paths must never be served from or written to any service-worker cache.
+// This rule is listed first so it wins over next-pwa's default runtime caching.
+const portalNetworkOnly = {
+  urlPattern: ({ url }) => /^\/(client|admin|login|auth|api)(\/|$)/.test(url.pathname),
+  handler: 'NetworkOnly',
+};
 
 const withPWA = withPWAInit({
   dest: 'public',
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
+  runtimeCaching: [portalNetworkOnly, ...defaultRuntimeCaching],
 });
+
+const PORTAL_SECURITY_HEADERS = [
+  { key: 'Cache-Control', value: 'private, no-store, max-age=0' },
+  { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  async headers() {
+    return [{ source: '/:portal(client|admin|login|auth)/:path*', headers: PORTAL_SECURITY_HEADERS },
+            { source: '/:portal(client|admin|login|auth)', headers: PORTAL_SECURITY_HEADERS }];
+  },
   async redirects() {
     return [
       {

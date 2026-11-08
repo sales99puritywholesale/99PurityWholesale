@@ -15,12 +15,34 @@ const config: Config = {
           bg: "#090C11",
           accent: "#4FC3D0",
           text: "#EDF2F7"
+        },
+        // Authenticated portal only (light canvas, dark sidebar). Namespaced so public-site classes are unaffected.
+        portal: {
+          canvas: "#F5F7FA",
+          sidebar: "#090C11",
+          'sidebar-hover': "#141A22",
+          'sidebar-text': "#C8D1DC",
+          accent: "#4FC3D0",
+          'accent-strong': "#1B7F8C",
+          text: "#17212B",
+          muted: "#687582",
+          card: "#FFFFFF",
+          border: "#E5EAF0",
+          danger: "#B42318",
+          'danger-soft': "#FEF3F2",
+          warning: "#B54708",
+          'warning-soft': "#FFFAEB",
+          success: "#067647",
+          'success-soft': "#ECFDF3",
         }
       },
       fontFamily: {
         rajdhani: ['var(--font-rajdhani)'],
         'dm-sans': ['var(--font-dm-sans)'],
         'dm-mono': ['var(--font-dm-mono)'],
+        'portal-heading': ['var(--font-portal-heading)', 'sans-serif'],
+        'portal-body': ['var(--font-portal-body)', 'system-ui', 'sans-serif'],
+        'portal-mono': ['var(--font-portal-mono)', 'ui-monospace', 'monospace'],
       },
       typography: (theme: any) => ({
         brand: {

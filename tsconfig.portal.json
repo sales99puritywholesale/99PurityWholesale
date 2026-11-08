@@ -1,0 +1,27 @@
+{
+  // Strict, build-independent type check for PORTAL code only. The public site keeps its existing baseline
+  // (next.config.mjs still has ignoreBuildErrors), so this config is the gate for everything under the portal paths.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "noEmit": true,
+    "incremental": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/app/(portal)/**/*.ts",
+    "src/app/(portal)/**/*.tsx",
+    "src/components/portal/**/*.ts",
+    "src/components/portal/**/*.tsx",
+    "src/lib/portal/**/*.ts",
+    "src/portal/**/*.ts",
+    "src/middleware.ts",
+    "tests/**/*.ts",
+    "vitest.config.mts"
+  ],
+  "exclude": ["node_modules"]
+}

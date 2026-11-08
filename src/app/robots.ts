@@ -12,6 +12,10 @@ export default function robots(): MetadataRoute.Robots {
           '/_next/',
           '/api/',
           '/static/',
+          '/client/',
+          '/admin/',
+          '/login',
+          '/auth/',
         ],
       },
       {
@@ -21,6 +25,10 @@ export default function robots(): MetadataRoute.Robots {
           '/_next/',
           '/api/',
           '/static/',
+          '/client/',
+          '/admin/',
+          '/login',
+          '/auth/',
         ],
       }
     ],

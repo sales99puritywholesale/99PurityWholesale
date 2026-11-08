@@ -1,0 +1,42 @@
+/*
+ * Portal stylesheet. Imported ONLY by the (portal) root layout, so none of it reaches the public site, and the public
+ * globals.css (dark marketing styles, body rules) is deliberately NOT loaded here.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-portal-canvas font-portal-body text-portal-text antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid #1b7f8c;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .portal-eyebrow {
+    @apply font-portal-heading text-xs font-semibold uppercase tracking-[0.18em] text-portal-accent-strong;
+  }
+  .portal-id {
+    @apply font-portal-mono text-sm text-portal-text underline decoration-portal-border underline-offset-4;
+  }
+  .portal-btn {
+    @apply inline-flex items-center justify-center rounded-full bg-portal-accent px-5 py-2.5 text-sm font-semibold text-portal-sidebar transition-colors hover:bg-[#6ad0db] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .portal-btn-quiet {
+    @apply inline-flex items-center justify-center rounded-full border border-portal-border bg-portal-card px-4 py-2 text-sm font-medium text-portal-text transition-colors hover:bg-portal-canvas;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
