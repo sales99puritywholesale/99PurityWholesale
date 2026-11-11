@@ -1,0 +1,15 @@
+# P3 development fixture pricing: what the SQL supports (answers to the pre-provisioning questions)
+
+Source of truth: `private.shop_compose`, `private.shop_price_breakdown` and `public.markup_rules` in the applied migration. Values are integer cents; markup values are integers in 1e-4 units (percent x 10000, dollars x 10000).
+
+1. **Percentage and fixed markup together?** Not in one rule. A `markup_rules` row has ONE `markup_type` (percent or fixed), and the unique index allows one rule per (organization, kind, product): a second ORGANIZATION rule for the same scope is rejected, and a product-specific rule REPLACES the all-products rule (it does not add to it). Both types can only be combined as an ORGANIZATION rule plus a REPRESENTATIVE rule.
+2. **Precedence and order.** (a) Pick the organization rule (product-specific beats all-products) and the representative rule (same way). (b) org amount = markup_amount(org rule, BASE); org price = base + org amount. (c) The representative value is clamped to the organization rule's representative bounds (a bound applies only when set). (d) rep amount = markup_amount(rep rule, ORG PRICE) (a fixed rep amount ignores the price). (e) unit = max(org price + rep amount, floor).
+3. **Schema changes needed?** None. The closest supported way to reach "15 percent + $5.00" is an organization rule of 15 percent plus a representative rule with a FIXED $5.00 value (`org_percent_plus_rep_fixed`). That uses the representative slot, which the request wanted empty ("none initially"), so the owner must choose. The alternative is 15 percent only (`org_percent_only`). The provisioning tool refuses to run without an explicit `--markup-mode`.
+4. **Rounding.** markup_amount rounds half away from zero to whole cents per markup amount (percent: (price x value_e4 + 500000) / 1000000; fixed: (value_e4 + 50) / 100). Rounding is applied to each markup amount, not to the final total.
+5. **Floor.** Floor = base (as requested). Because the markup is positive, the unit price is always at least base x 1.15, so the floor never binds for these fixtures. A variant needs BOTH a base price and a floor to be listed or sold.
+6. **Resulting customer prices** (development placeholders; preview computed with the same integer arithmetic; the provisioning tool verifies each against `private.shop_compose` and the customer RPC at run time):
+
+Run `node supabase/review/provisioning/provision-p3-dev-fixtures.mjs --offline-plan` for the full 20-row table (base, `15% + $5.00`, `15% only`). Examples: BPC-157 5mg x10: $32.00 -> $41.80 (or $36.80); Retatrutide 10mg x10: $108.00 -> $129.20 (or $124.20).
+
+7. **Organization type and currency.** The `organizations` table stores name, code, status and payment terms only. "Wholesale buyer" and "USD" have no column (orders are USD). The fixture uses `payment_terms = prepay`.
+8. **Catalog matches.** All ten products exist; `CJC-1295` is ambiguous (the plain item is "CJC-1295 (no DAC)", slug `cjc-1295-no-dac`, chosen and flagged for the owner's confirmation). Two variants per product were selected (the first two sizes), 20 in total, all verified against the persisted seed.
