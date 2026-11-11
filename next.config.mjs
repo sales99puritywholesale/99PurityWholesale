@@ -30,7 +30,9 @@ const PORTAL_SECURITY_HEADERS = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // portal file uploads (label artwork, signed agreements) go through server actions; the portal limit is 10 MB per file
-  experimental: { serverActions: { bodySizeLimit: '11mb' } },
+  // NEXT_BUILD_CPUS caps the number of parallel page-generation workers. The public site pre-renders about 960 pages and every worker loads the large product and research data
+  // files, so on a build machine that reports many CPUs the memory adds up past the 8 GB limit of typical hosts. Set NEXT_BUILD_CPUS=2 there. Unset = Next's default (unchanged).
+  experimental: { serverActions: { bodySizeLimit: '11mb' }, ...(Number(process.env.NEXT_BUILD_CPUS) >= 1 ? { cpus: Math.floor(Number(process.env.NEXT_BUILD_CPUS)) } : {}) },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   async headers() {
