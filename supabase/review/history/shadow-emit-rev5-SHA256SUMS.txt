@@ -1,0 +1,11 @@
+# Emitted shadow SQL for 0005 REV5 (hashes only; the SQL itself is generated offline by tests/shadow-construct.mjs and was NEVER executed). 2026-11-10.
+# 0005 source: supabase/review/0005_rate_limits_and_owner_mfa.rev5.sql sha256 a5a4242dd64867e83e9bbab028889bfddb0d90b31ada0812fe0510f630e2f64d. Files other than 14-0005.sql are byte-identical to the rev4 and rev3.1 emissions.
+b4c38474fb342366f3c7b3cedbece185b36326be00c1f79545fa3e57d72f70a9  00-roles.sql
+cd3b977ed156a40d4e8932f0b2ca3369431409e803e2e6f253c4249b6774e072  01-standins.sql
+81885aafd85caa20697e181a67286b9dfee7baffe292eaa582c13c974743a657  10-0001.sql
+eb76a0e98436670b4a930abc8f2da24307b9e6788ec3e10ec9adbd3307c12aa9  11-0002.sql
+465822847f5ef23ffd2c31fe295e6364708d7361c33e9d84dfddd41a335e7483  12-0003.sql
+64fac5cad2707b1a9e4c2ffd148c72acbf41e3f06afc34f3e94366f23a88099d  13-0004.sql
+45d06153fbf208b712225f0d47412686e8996089940ee65ba51a7ec60cc9ffcf  14-0005.sql
+d7302fb1d3bcb11e00747daea54189bcb8aa8734f17e60865ad7d11ceb4312df  90-post.sql
+1e21aebd2fc99f0e21fd9f80572da1f994f82d77a161a18643ac7e083998e5e0  99-cleanup.sql

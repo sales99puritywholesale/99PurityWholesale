@@ -1,0 +1,221 @@
+{
+  "manifestVersion": 1,
+  "label": "DEVELOPMENT FIXTURES ONLY. The prices below are placeholder development values, not commercial wholesale prices, and the product selection is a fixture choice, not a recommendation or an approval for sale.",
+  "projectRef": "semtmllmwhxznxechfsk",
+  "organization": {
+    "name": "99 Purity Demo Wholesale",
+    "code": "99PW-DEV-001",
+    "paymentTerms": "prepay",
+    "status": "active",
+    "requestedType": "Wholesale buyer",
+    "requestedCurrency": "USD",
+    "schemaNote": "The organizations table has no type or currency column (orders are USD). Only name, code, status and payment terms are stored."
+  },
+  "owner": {
+    "role": "owner",
+    "emailSource": "--owner-email at run time (never stored in this manifest)"
+  },
+  "pricing": {
+    "floorEqualsBase": true,
+    "organizationPercentE4": 150000,
+    "representativeFixedE4": 50000,
+    "markupModeOptions": {
+      "org_percent_plus_rep_fixed": "organization rule 15 percent + representative rule fixed $5.00 (price = base x 1.15 + $5.00, never below the floor)",
+      "org_percent_only": "organization rule 15 percent only"
+    },
+    "ownerDecisionRequired": "The markup mode is chosen by the owner with --markup-mode (org_percent_plus_rep_fixed or org_percent_only) and is part of the approval string; it is not stored here so that this manifest (and its hash) stays fixed."
+  },
+  "products": [
+    {
+      "requested": "BPC-157",
+      "slug": "bpc-157",
+      "catalogName": "BPC-157",
+      "variants": [
+        {
+          "spec": "5mg×10",
+          "sku": "BPC-157-5MGX10",
+          "baseCents": 3200,
+          "floorCents": 3200
+        },
+        {
+          "spec": "10mg×10",
+          "sku": "BPC-157-10MGX10",
+          "baseCents": 5400,
+          "floorCents": 5400
+        }
+      ]
+    },
+    {
+      "requested": "TB-500",
+      "slug": "tb-500",
+      "catalogName": "TB-500",
+      "variants": [
+        {
+          "spec": "5mg×10",
+          "sku": "TB-500-5MGX10",
+          "baseCents": 3600,
+          "floorCents": 3600
+        },
+        {
+          "spec": "10mg×10",
+          "sku": "TB-500-10MGX10",
+          "baseCents": 6200,
+          "floorCents": 6200
+        }
+      ]
+    },
+    {
+      "requested": "GHK-Cu",
+      "slug": "ghk-cu",
+      "catalogName": "GHK-Cu",
+      "variants": [
+        {
+          "spec": "50mg×10",
+          "sku": "GHK-CU-50MGX10",
+          "baseCents": 2800,
+          "floorCents": 2800
+        },
+        {
+          "spec": "100mg×10",
+          "sku": "GHK-CU-100MGX10",
+          "baseCents": 4600,
+          "floorCents": 4600
+        }
+      ]
+    },
+    {
+      "requested": "KPV",
+      "slug": "kpv",
+      "catalogName": "KPV",
+      "variants": [
+        {
+          "spec": "5mg×10",
+          "sku": "KPV-5MGX10",
+          "baseCents": 3000,
+          "floorCents": 3000
+        },
+        {
+          "spec": "10mg×10",
+          "sku": "KPV-10MGX10",
+          "baseCents": 5200,
+          "floorCents": 5200
+        }
+      ]
+    },
+    {
+      "requested": "CJC-1295",
+      "slug": "cjc-1295-no-dac",
+      "catalogName": "CJC-1295 (no DAC)",
+      "note": "Ambiguous in the catalog (cjc-1295-dac, cjc-1295-no-dac, blends). The plain CJC-1295 item is \"CJC-1295 (no DAC)\"; the owner must confirm.",
+      "variants": [
+        {
+          "spec": "5mg×10",
+          "sku": "CJC-1295-NO-DAC-5MGX10",
+          "baseCents": 3400,
+          "floorCents": 3400
+        },
+        {
+          "spec": "10mg×10",
+          "sku": "CJC-1295-NO-DAC-10MGX10",
+          "baseCents": 5800,
+          "floorCents": 5800
+        }
+      ]
+    },
+    {
+      "requested": "Ipamorelin",
+      "slug": "ipamorelin",
+      "catalogName": "Ipamorelin",
+      "variants": [
+        {
+          "spec": "5mg×10",
+          "sku": "IPAMORELIN-5MGX10",
+          "baseCents": 2600,
+          "floorCents": 2600
+        },
+        {
+          "spec": "10mg×10",
+          "sku": "IPAMORELIN-10MGX10",
+          "baseCents": 4400,
+          "floorCents": 4400
+        }
+      ]
+    },
+    {
+      "requested": "MOTS-C",
+      "slug": "mots-c",
+      "catalogName": "MOTS-c",
+      "variants": [
+        {
+          "spec": "10mg×10",
+          "sku": "MOTS-C-10MGX10",
+          "baseCents": 4800,
+          "floorCents": 4800
+        },
+        {
+          "spec": "15mg×10",
+          "sku": "MOTS-C-15MGX10",
+          "baseCents": 6600,
+          "floorCents": 6600
+        }
+      ]
+    },
+    {
+      "requested": "NAD+",
+      "slug": "nad",
+      "catalogName": "NAD+",
+      "variants": [
+        {
+          "spec": "100mg×10",
+          "sku": "NAD-100MGX10",
+          "baseCents": 3800,
+          "floorCents": 3800
+        },
+        {
+          "spec": "500mg×10",
+          "sku": "NAD-500MGX10",
+          "baseCents": 9800,
+          "floorCents": 9800
+        }
+      ]
+    },
+    {
+      "requested": "Semaglutide",
+      "slug": "semaglutide",
+      "catalogName": "Semaglutide",
+      "variants": [
+        {
+          "spec": "10mg×10",
+          "sku": "SEMAGLUTIDE-10MGX10",
+          "baseCents": 7200,
+          "floorCents": 7200
+        },
+        {
+          "spec": "15mg×10",
+          "sku": "SEMAGLUTIDE-15MGX10",
+          "baseCents": 9600,
+          "floorCents": 9600
+        }
+      ]
+    },
+    {
+      "requested": "Retatrutide",
+      "slug": "retatrutide",
+      "catalogName": "Retatrutide",
+      "variants": [
+        {
+          "spec": "5mg×10",
+          "sku": "RETATRUTIDE-5MGX10",
+          "baseCents": 6400,
+          "floorCents": 6400
+        },
+        {
+          "spec": "10mg×10",
+          "sku": "RETATRUTIDE-10MGX10",
+          "baseCents": 10800,
+          "floorCents": 10800
+        }
+      ]
+    }
+  ]
+}

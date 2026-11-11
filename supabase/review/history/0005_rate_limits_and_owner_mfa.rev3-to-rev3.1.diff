@@ -1,0 +1,12 @@
+1041,1043c1041,1047
+<   if exists (select 1 from pg_proc pr join pg_namespace n on n.oid = pr.pronamespace
+<               where n.nspname in ('public', 'private') and pr.proname like any (array['rpc_owner_%', 'rpc_staff_authorize_owner%', 'rpc_staff_owner%', 'owner_%', 'guard_owner_%', 'rl_user_key'])
+<                 and pg_get_functiondef(pr.oid) ~* '(insert\s+into|update|delete\s+from)\s+auth\.') then
+---
+>   -- pg_get_functiondef() RAISES on aggregate functions (42809) and PostgreSQL does not guarantee the order in which the conditions of a WHERE clause are
+>   -- evaluated, so the candidate rows are first reduced to ordinary functions of OUR schemas in a subquery the planner cannot flatten (OFFSET 0).
+>   if exists (select 1 from (select pr.oid from pg_proc pr join pg_namespace n on n.oid = pr.pronamespace
+>                              where n.nspname in ('public', 'private') and pr.prokind = 'f'
+>                                and pr.proname like any (array['rpc_owner_%', 'rpc_staff_authorize_owner%', 'rpc_staff_owner%', 'owner_%', 'guard_owner_%', 'rl_user_key', 'rpc_throttle_password_recovery', 'rpc_my_owner_context'])
+>                              offset 0) cand
+>               where pg_get_functiondef(cand.oid) ~* '(insert\s+into|update|delete\s+from)\s+auth\.') then

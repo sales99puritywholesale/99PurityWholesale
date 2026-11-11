@@ -1,0 +1,42 @@
+# SHA-256 manifest of the rev5 offline preparation (2026-11-10). LF line endings as stored; verify with: sha256sum -c supabase/review/history/rev5-DELIVERABLES-SHA256SUMS.txt (from the project root).
+# Section 1: NEW or CHANGED deliverables. Section 2: PRESERVED artifacts that must be byte-identical to their recorded hashes. The manifest cannot contain its own hash.
+# NOTHING here was executed against a database, nothing was applied, nothing is in supabase/migrations/ or supabase/migration-hashes.txt.
+# --- 1. rev5 deliverables
+a5a4242dd64867e83e9bbab028889bfddb0d90b31ada0812fe0510f630e2f64d  supabase/review/0005_rate_limits_and_owner_mfa.rev5.sql
+978d7a27617e84cdb5eff8763038f891d963823595cef2e3907743994f125e04  supabase/review/history/0005_rate_limits_and_owner_mfa.rev4-to-rev5.diff
+4432f2440e10a3c0bfe8ee70e4afa821974551e01e06b1825c00cc5ef533e85c  supabase/review/history/shadow-emit-rev5-SHA256SUMS.txt
+b5b2898f1074687db500a844ff9d6322a3c1313c83f01493f1d44577004bb76b  supabase/review/history/0005-hashes.txt
+d0c401bdafa1f104cc365f5f0af67b4752dce4aa002659c3e908b198e01bf38d  supabase/review/static-check-p22.mjs
+0e08690174e1e995f7d5bb703783b28d6e1037ce683d2de6043a26f2d14b3a2b  supabase/review/tests/dry-execute-0005-rev5.mjs
+04d8412d368607791e0740ed47c06942f0e1d7028bd02cd577c7b84d8d500847  supabase/review/tests/rev5-harness-guards.mjs
+10e918e9c6b2b68e97d552bc16d8978d8d0cc985228fb471296305d7aa942242  supabase/review/tests/rev5-negative-controls.mjs
+cedbb7623e2f9be4573f9aeaa6af0da430bd860cde5828ace2a7ff2a1922a614  supabase/review/tests/shadow-construct.mjs
+33a4e0421f5384960c851e4bb678c94b31b0307cd062a8745eb3a2f8d7be961f  src/lib/portal/permissions/owner.ts
+985542d2408bb40b86bb0a683cf58713caab2708cd0d8104d7b548853cb897f1  src/lib/portal/permissions/owner-rev5.ts
+9b2e25cd06407a021cf42e6ebd116dc6949470f5286a1fb134052e738ea63598  src/lib/portal/ratelimit/app-throttle.ts
+fb0e60424c7e883f047e021602177aa0bbab8003b9ad61148e09bc357b7846ec  tests/portal/owner-rev5.test.ts
+e40d4ce1611c305eabb1d99b681c5bce9e7c3214ec92182281f41733768fc594  tests/portal/owner-ratelimit-rpc.test.ts
+6dfb71f75d4991a69b50e16c33d834998a393bdf75bab8fe87707395025e25b1  docs/P2-4-0005-REV5-SECURITY-REVIEW.md
+9ef6c1beafd54e114c5ef6a9eca6896059f6dd64aafdfb4f0df85805457376f4  docs/P2-4-0005-REV5-SPEC.md
+41db29cc9d3bcd08109c0489a46ad2c6c8b6df54f3a2e8448c1b4679002a7f1d  docs/P2-POSTGREST-TX-INVARIANT.md
+5cf9f0b0865392b46e6fa0e14ad94a02dbcf95e4f62ee017c31c78a71bc3d90c  docs/P2-APP-THROTTLE-INTERFACE.md
+1ab2791a64a53aca425af64c13e708aeb894a159e67dc5da6fac1143df904f63  docs/P2-4-RECOVERY-BREAK-GLASS.md
+b27fb2031a774683492733c9576416aee29624d76e070ea2b8f925f304ac311b  docs/P2-IDENTITY-VERIFICATION-POLICY-SPEC.md
+ebb9930f60b9391abf9a7d89130fcbc564b3c61b6e68179dbb55adfec180ee81  docs/P2-ISOLATED-VERIFICATION-PLAN.md
+b64a59d7a3221fb6ef9c5eb6912ce486de47417bfea2b6b8ecb3e71a5bfb9864  docs/P2-SHADOW-ISOLATION-PROOF.md
+717b128067570508bd8bf788e85cf8ca49f68e834df01225c27b615a301976ea  docs/P2-4-0005-REV4-SPEC.md
+f7b0bfbb956b8156d7c3fc79c67c472cb433af82964b33506d6f19f5c2b88e8b  docs/P2-4-0005-REV4-SECURITY-REVIEW.md
+# --- 2. preserved artifacts (unchanged): rev3, rev3.1 (canonical), rev4 SQL; the rev3.1 dry-run harness (executed evidence); the rev4 mirror and tests; the four applied migrations and their manifest
+c6400e5025be1b1f604568cfe3870a6aaf0c5903581b0eafa406802492670a63  supabase/review/history/0005_rate_limits_and_owner_mfa.rev3.sql
+8548e27e7c800d9d38f8bb6dca1dcb11f7755785b1e6fa0f0616120f05443e8d  supabase/review/0005_rate_limits_and_owner_mfa.sql
+26709232441f68cd510bd33349fa615d4082e4c108cc986e03cbd8a7736c3368  supabase/review/0005_rate_limits_and_owner_mfa.rev4.sql
+e41da593e2ef94448d5f4c090cad4d8c03d483a30588795d782d0b2c4be0bbf5  supabase/review/tests/dry-execute-0005.mjs
+c3d31e84b8041864a0a54547fc13a731d3336cba2091d6962e88972447939fad  src/lib/portal/permissions/owner-rev4.ts
+095a8e66e1d9208eb4cdf5f49ea40c6eb917a1f3d83ad77cb422e8d76be1bfae  tests/portal/owner-rev4.test.ts
+9cb0a5d18baeaee2d3a9d372db13cf8b499f40f587d4b51d5c518991972c1f07  supabase/review/history/shadow-emit-rev4-SHA256SUMS.txt
+6f1af735ceb409f995c63903d1701f1c3a1521e5098fc0ad1c5b8c9cffffa0cd  supabase/review/history/0005_rate_limits_and_owner_mfa.rev3.1-to-rev4.diff
+28e2cebf55e07679b71c7bbb7453517e3cde8c1b420e4eab9088ef98b544011e  supabase/migrations/20261108000001_foundation_identity.sql
+852f13efef9754b1882ec17ef2e3ab2833c66143233af21c396abc20b28823ee  supabase/migrations/20261108000002_staff_capabilities.sql
+e1aa9d15696913e25f5916ccc036b9c5f44d668dba95922dea87c5ac36e5fa60  supabase/migrations/20261108000003_audit_and_step_up.sql
+8a6a5003d46ecd0daa1f5149566ac452076f637a9ed38a9da5125273551fc12b  supabase/migrations/20261108000004_staff_management_rpcs.sql
+eeaeb7ef6082e5aa51074df0a3490b7eeb90a85ccb4145805a7a7e2331a747b4  supabase/migration-hashes.txt

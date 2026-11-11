@@ -1,0 +1,39 @@
+--- history/0002_staff_capabilities.rev2.sql	2026-11-07 11:31:31.658080400 +0530
++++ 0002_staff_capabilities.sql	2026-11-07 11:32:00.194377800 +0530
+@@ -20,6 +20,11 @@
+ --      cascade safe); TRUNCATE blocked on staff tables.
+ --  F-5 structure check also verifies data types and required enum labels; passed rows must be self-consistent;
+ --      validation records must not be future-dated.
++-- rev2.1 (review pass 2): (a) the composite FK window->factor is ON DELETE CASCADE so staff deletion cannot be
++--   blocked by FK action ordering (NO ACTION would be checked after the window cascade while approval rows
++--   still exist); (b) the window update trigger lets ON DELETE SET NULL (an UPDATE) clear authorized_by and
++--   revoked_by, but never set them to another value. Approval and window deletion semantics: see the review
++--   document, section 'Review pass 2'.
+ -- Lock hierarchy (always acquire in this order): (1) advisory 'm1:last_admin', (2) organization row,
+ --   (3) per-user advisory lock. No path acquires them in a different order.
+ -- =====================================================================================
+@@ -81,7 +86,7 @@
+   window_id   uuid not null,
+   approved_at timestamptz not null default now(),
+   constraint staff_mfa_factors_window_user_fk foreign key (window_id, user_id)
+-    references private.staff_mfa_enrolment_windows (id, target_user_id),
++    references private.staff_mfa_enrolment_windows (id, target_user_id) on delete cascade,
+   constraint staff_mfa_factors_user_fk foreign key (user_id) references public.staff_members (user_id) on delete cascade,
+   constraint staff_mfa_factors_one_per_window unique (window_id)
+ );
+@@ -380,12 +385,13 @@
+ as $$
+ begin
+   if new.id <> old.id or new.target_user_id <> old.target_user_id
+-     or new.authorized_by is distinct from old.authorized_by
++     or (new.authorized_by is distinct from old.authorized_by and new.authorized_by is not null)
+      or new.authorized_at <> old.authorized_at or new.expires_at <> old.expires_at or new.reason <> old.reason then
+     raise exception 'enrolment window identity, target, authorizer, timing and reason are immutable' using errcode = '23514';
+   end if;
+   if old.revoked_at is not null and (new.revoked_at is distinct from old.revoked_at
+-       or new.revoked_by is distinct from old.revoked_by or new.revoke_reason is distinct from old.revoke_reason) then
++       or (new.revoked_by is distinct from old.revoked_by and new.revoked_by is not null)
++       or new.revoke_reason is distinct from old.revoke_reason) then
+     raise exception 'a revoked enrolment window cannot be changed' using errcode = '23514';
+   end if;
+   if old.consumed_at is not null and new.consumed_at is distinct from old.consumed_at then

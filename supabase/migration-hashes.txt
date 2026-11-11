@@ -1,0 +1,21 @@
+# Change control for supabase/migrations/. sha256 of each migration file (LF line endings).
+# The files below are BYTE-IDENTICAL copies of the reviewed drafts in supabase/review/ (0001/0002: docs/P2-1-DRAFT-REVIEW.md; 0003/0004: docs/P2-2-RPC-TEST-PLAN.md). All four are APPLIED on the hosted development project (history 20261108000001 to 20261108000004).
+# Any change to a migration must be reviewed and must update this file in the same change; tests/db/migration-integrity.test.mjs fails otherwise.
+28e2cebf55e07679b71c7bbb7453517e3cde8c1b420e4eab9088ef98b544011e  20261108000001_foundation_identity.sql
+852f13efef9754b1882ec17ef2e3ab2833c66143233af21c396abc20b28823ee  20261108000002_staff_capabilities.sql
+e1aa9d15696913e25f5916ccc036b9c5f44d668dba95922dea87c5ac36e5fa60  20261108000003_audit_and_step_up.sql
+8a6a5003d46ecd0daa1f5149566ac452076f637a9ed38a9da5125273551fc12b  20261108000004_staff_management_rpcs.sql
+# P3 (catalog, pricing, carts, orders): PROMOTED to this directory and APPLIED to the hosted development project (history 20261110000100). A byte-identical copy of supabase/review/p3/20261110000100_p3_catalog_pricing_orders.rev2.sql
+# (the revised candidate that passed the rollback dry run and Phase T on the hosted development project). The original review draft (sha256 bfd391c1...a799e) has a shipping-validation defect and must never be promoted.
+# It was applied with the pinned apply harness (supabase/review/tests/apply-p3.mjs) after the project owner's approval.
+d5efe7e9753b13c6ccaedf1fb70d31ab3431d967d46764ceb3cb290ce5195beb  20261110000100_p3_catalog_pricing_orders.sql
+# P4 (invoices, payments, locked wallet; replaces public.rpc_checkout to issue the invoice with the order): PROMOTED to this directory and APPLIED to the hosted development project on 2026-11-11 (history 20261111000100), a byte-identical copy of supabase/review/p4/20261111000100_p4_invoices_payments_wallet.sql.
+# It was applied with the pinned harness supabase/review/tests/apply-p4.mjs (rehearsal first, then commit) after the project owner's approval; post-commit verification passed (117 checks).
+97941a128db8d932c40d94d3c9a04599afa2a3d8ca37b6c0bf5eeeecdc9fcbe6  20261111000100_p4_invoices_payments_wallet.sql
+# P5 to P9 (fulfillment onboarding, API and webhooks, inventory and warehouse, admin operations, after-sales): PROMOTED to this directory on 2026-11-11 as byte-identical copies of the reviewed drafts in supabase/review/p5..p9.
+# Rehearsed (rolled back) in ONE transaction on the hosted development project with supabase/review/tests/apply-chain.mjs plus the scenario test (386 checks). APPLIED to the hosted development project on 2026-11-11 in ONE transaction (history 20261111000200 to 20261111000600) with apply-chain.mjs after the owner's approval; post-commit verification passed (110 checks).
+cd748b98d8ec2a5e212ef5b8acffab9491642c0c68622dd775241321112e4104  20261111000200_p5_fulfillment_onboarding.sql
+df101053c9d7fd976315ac433c35c014e039582b892c7e3f3a377a2194250217  20261111000300_p6_api_integrations.sql
+e98b0950f3291f3dd4f1890027e343acb07b62ebd8742dc1ba28f55dfcbdf997  20261111000400_p7_inventory_warehouse.sql
+ff356a557b83e7b119cc1db533cceff50596408cfabcc64c795a25eb4f7257d0  20261111000500_p8_admin_operations.sql
+dfd351f67d9ccb58186bb4416e4f8744bec7340ceb3144ee6a65a14af254e7f8  20261111000600_p9_aftersales.sql

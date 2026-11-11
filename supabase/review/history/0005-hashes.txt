@@ -1,0 +1,24 @@
+# Review history of 0005_rate_limits_and_owner_mfa.sql (review drafts; NOT migrations; 0005 is NOT applied to any database).
+# sha256 (LF line endings)                                           revision  file                                                              status
+c6400e5025be1b1f604568cfe3870a6aaf0c5903581b0eafa406802492670a63  rev3      history/0005_rate_limits_and_owner_mfa.rev3.sql                    superseded; its rolled-back dry execution FAILED at the final self-check (42809, pg_get_functiondef on an aggregate); nothing persisted
+8548e27e7c800d9d38f8bb6dca1dcb11f7755785b1e6fa0f0616120f05443e8d  rev3.1    0005_rate_limits_and_owner_mfa.sql (and tests/0005-rev3.1-candidate.sql, the executed evidence copy)    CURRENT reviewed candidate; its rolled-back dry execution ran to completion; not applied
+# rev3 -> rev3.1: history/0005_rate_limits_and_owner_mfa.rev3-to-rev3.1.diff (one hunk: lines 1041-1043 replaced by 1041-1047, the ordinary-function filter around pg_get_functiondef)
+26709232441f68cd510bd33349fa615d4082e4c108cc986e03cbd8a7736c3368  rev4      0005_rate_limits_and_owner_mfa.rev4.sql                           REVIEW DRAFT (written 2026-11-10 under D-V8; operator-initiated recovery, two-person approval, explicit window revocation, durable quotas); NOT executed, NOT applied; offline checks only
+# rev3.1 -> rev4: history/0005_rate_limits_and_owner_mfa.rev3.1-to-rev4.diff (unified diff, 807 lines added, 211 removed; 11 functions byte-identical, 11 changed, 7 new, 0 removed)
+# NOTE on rev3.1: it remains the canonical file and is unchanged, but its owner-code recovery request path contains a latent defect (cooloff_until computed before created_at; the table check fails by microseconds), see docs/P2-4-0005-REV4-SECURITY-REVIEW.md section 8. Do not apply rev3.1.
+# emitted shadow SQL for rev4 (hashes only; the SQL itself is generated offline and never executed here): history/shadow-emit-rev4-SHA256SUMS.txt
+a5a4242dd64867e83e9bbab028889bfddb0d90b31ada0812fe0510f630e2f64d  rev5      0005_rate_limits_and_owner_mfa.rev5.sql                           REVIEW DRAFT (written 2026-11-10 after the rev4 security review, findings F1-F11; R1 factor-removal sequence, READ COMMITTED guard, operator rechecks, notarization as supplementary flag, ON DELETE RESTRICT retention); NOT executed, NOT applied; offline checks only; rev4 and rev3.1 unchanged
+# rev4 -> rev5: history/0005_rate_limits_and_owner_mfa.rev4-to-rev5.diff (unified diff, 456 lines added, 100 removed; 10 functions identical, 19 changed, 6 new, 0 removed)
+# emitted shadow SQL for rev5 (hashes only; never executed): history/shadow-emit-rev5-SHA256SUMS.txt
+# complete rev5 deliverables manifest: history/rev5-DELIVERABLES-SHA256SUMS.txt
+# NOTE: rev4 is SUPERSEDED by rev5 (kept as a historical artifact). Its two documents carry a supersession banner; the rev4 SQL file is unchanged.
+571e1a966ee36087d3c938e0a84be9f1ad69870fdaf98c5b2e427a36490f16de  rev6      0005_rate_limits_and_owner_mfa.rev6.sql                           REVIEW DRAFT (written 2026-11-10 under the approved rev6 design decisions: fail-closed factor reads, stranded-owner exception, five-window hard maximum, per-window database-verified manual removal); NEVER parsed by PostgreSQL, NOT executed, NOT applied; offline checks only; rev5, rev4, rev3.1 and rev3 unchanged
+# rev5 -> rev6: history/0005_rate_limits_and_owner_mfa.rev5-to-rev6.diff (unified diff, 1095 lines added, 131 removed; 19 functions identical, 15 changed, 13 new, 1 removed)
+# emitted shadow SQL for rev6 (hashes only; never executed): history/shadow-emit-rev6-SHA256SUMS.txt
+# complete rev6 deliverables manifest: history/rev6-DELIVERABLES-SHA256SUMS.txt
+# NOTE: rev5 is SUPERSEDED in part by rev6 (kept as a historical artifact; its two documents carry a banner; the rev5 SQL file is unchanged).
+7d5db7c0b61e51ba6fcfcf01c9e3e6281fbe6ca339969e23cfd8d6a19918eb90  rev7      0005_rate_limits_and_owner_mfa.rev7.sql                           REVIEW DRAFT (written 2026-11-10 after the independent adversarial review of rev6: F1, F2, F3, F4, F5, F7 and F13 corrected; never parsed or executed; NOT applied)
+# rev6 -> rev7: history/0005_rate_limits_and_owner_mfa.rev6-to-rev7.diff (unified diff, 467 lines added, 80 removed; 40 functions identical, 7 changed, 6 new, 0 removed)
+# emitted shadow SQL for rev7 (hashes only; never executed): history/shadow-emit-rev7-SHA256SUMS.txt
+# complete rev7 deliverables manifest: history/rev7-DELIVERABLES-SHA256SUMS.txt
+# NOTE: rev6 is SUPERSEDED in part by rev7 (kept as a historical artifact; the rev6 SQL file and its documents are unchanged).

@@ -1,0 +1,60 @@
+# SHA-256 manifest of the rev7 offline preparation (2026-11-10). LF line endings as stored; verify with: sha256sum -c supabase/review/history/rev7-DELIVERABLES-SHA256SUMS.txt (from the project root).
+# Section 1: NEW or CHANGED in the rev7 task. Section 2: PRESERVED artifacts that must be byte-identical to their recorded hashes. The manifest cannot contain its own hash.
+# NOTHING here was executed against a database, nothing was applied, nothing is in supabase/migrations/ or supabase/migration-hashes.txt, rev7 is not promoted anywhere.
+# NOTE: two entries of rev6-DELIVERABLES-SHA256SUMS.txt legitimately differ now because the rev7 task updated them: supabase/review/static-check-p22.mjs (rules P32 to P38 added) and supabase/review/history/0005-hashes.txt (rev7 rows appended). Every other rev6 entry is byte-identical (section 2).
+# --- 1. rev7 deliverables
+7d5db7c0b61e51ba6fcfcf01c9e3e6281fbe6ca339969e23cfd8d6a19918eb90  supabase/review/0005_rate_limits_and_owner_mfa.rev7.sql
+f530fea28418a6a96678408b482d2ed1362428eab8f5c50e731ba2913843b0d6  supabase/review/history/0005_rate_limits_and_owner_mfa.rev6-to-rev7.diff
+9c2b23151e9fde7fa016ff1090e9ac80c1cca207b0f526839c3307e16d439722  supabase/review/history/shadow-emit-rev7-SHA256SUMS.txt
+8ce3f615ce152467c0b8d19a81acdc0350fafe96917ebce7fc2ccfb9d5a2db5e  supabase/review/history/0005-hashes.txt
+6cb7fdc35bac6a205736acc7fa0be556f85ba398481a078db10d10b3f76a14ed  supabase/review/static-check-p22.mjs
+c6263f321f1e41411714bb8b627017abc44dde452441189625cfba20bec54b29  supabase/review/tests/dry-execute-0005-rev7.mjs
+0aa2d97ecf06ecc9672e791a8cceb3154dfac05161f9f6b432ae3f5c3c5cd97f  supabase/review/tests/rev7-harness-guards.mjs
+38f41e8cc9a488b47682e788c0280104d8eed35cd7816c055a01ce7b637b7457  supabase/review/tests/rev7-negative-controls.mjs
+f07ec896c8e6c23d0f596cff07dd2ae16d4979acd04d1c06da0a76632c19178c  src/lib/portal/permissions/owner-rev7.ts
+929a760ae94a0d7e955d581d2d99b0e5229e92f663d0fdc327e69b57515022a5  tests/portal/owner-rev7.test.ts
+e7daa4fde0307b8d3c74144e67e9db53981898dd806fd3b16da8a48a2c3b0799  docs/P2-4-0005-REV7-SECURITY-REVIEW.md
+7f8bc6d5a4249b78f785b7aa80b716df094137bfa64dcf0e21e2505cadfe780f  docs/P2-REV7-VERIFICATION-PLAN.md
+# --- 2. preserved (unchanged by the rev7 task)
+571e1a966ee36087d3c938e0a84be9f1ad69870fdaf98c5b2e427a36490f16de  supabase/review/0005_rate_limits_and_owner_mfa.rev6.sql
+c6400e5025be1b1f604568cfe3870a6aaf0c5903581b0eafa406802492670a63  supabase/review/history/0005_rate_limits_and_owner_mfa.rev3.sql
+8548e27e7c800d9d38f8bb6dca1dcb11f7755785b1e6fa0f0616120f05443e8d  supabase/review/0005_rate_limits_and_owner_mfa.sql
+26709232441f68cd510bd33349fa615d4082e4c108cc986e03cbd8a7736c3368  supabase/review/0005_rate_limits_and_owner_mfa.rev4.sql
+a5a4242dd64867e83e9bbab028889bfddb0d90b31ada0812fe0510f630e2f64d  supabase/review/0005_rate_limits_and_owner_mfa.rev5.sql
+9d6ce5713f73adf22a44443b53537c0d2579bd1048e32130075f342b1dc9f98f  supabase/review/history/0005_rate_limits_and_owner_mfa.rev5-to-rev6.diff
+b206598cc4bd1087d605a7dbe0c7b379f304aeba685a37cef13e6fae8a498e13  supabase/review/history/shadow-emit-rev6-SHA256SUMS.txt
+4432f2440e10a3c0bfe8ee70e4afa821974551e01e06b1825c00cc5ef533e85c  supabase/review/history/shadow-emit-rev5-SHA256SUMS.txt
+9cb0a5d18baeaee2d3a9d372db13cf8b499f40f587d4b51d5c518991972c1f07  supabase/review/history/shadow-emit-rev4-SHA256SUMS.txt
+978d7a27617e84cdb5eff8763038f891d963823595cef2e3907743994f125e04  supabase/review/history/0005_rate_limits_and_owner_mfa.rev4-to-rev5.diff
+6f1af735ceb409f995c63903d1701f1c3a1521e5098fc0ad1c5b8c9cffffa0cd  supabase/review/history/0005_rate_limits_and_owner_mfa.rev3.1-to-rev4.diff
+1108dc63acff46664296742b4be6c164c64585c0cc70ec84420d6d224bbf5419  supabase/review/history/rev6-DELIVERABLES-SHA256SUMS.txt
+056c9f6eff21b3206b933da8eb0e3b309037f41a25696c9562e408313bbc2f19  supabase/review/history/rev5-DELIVERABLES-SHA256SUMS.txt
+4ab4aca73ae4108f9db648450284d39bed73cbc95174c47d9cb215b71d1e6b44  supabase/review/tests/dry-execute-0005-rev6.mjs
+b171c0e03b958237cd5644e05694c0ebea98576dab547261cd8fce32bfd6c6a4  supabase/review/tests/rev6-harness-guards.mjs
+d5ad97103e18ef6b7ff9665fdd9b333cbdc0febe748658b7563acbf4664de609  supabase/review/tests/rev6-negative-controls.mjs
+b4035482b07e378aec66217240a037e10827b6bb349c9c7eb4c03fa6cb208476  supabase/review/tests/shadow-construct.mjs
+e41da593e2ef94448d5f4c090cad4d8c03d483a30588795d782d0b2c4be0bbf5  supabase/review/tests/dry-execute-0005.mjs
+0e08690174e1e995f7d5bb703783b28d6e1037ce683d2de6043a26f2d14b3a2b  supabase/review/tests/dry-execute-0005-rev5.mjs
+04d8412d368607791e0740ed47c06942f0e1d7028bd02cd577c7b84d8d500847  supabase/review/tests/rev5-harness-guards.mjs
+10e918e9c6b2b68e97d552bc16d8978d8d0cc985228fb471296305d7aa942242  supabase/review/tests/rev5-negative-controls.mjs
+33a4e0421f5384960c851e4bb678c94b31b0307cd062a8745eb3a2f8d7be961f  src/lib/portal/permissions/owner.ts
+c3d31e84b8041864a0a54547fc13a731d3336cba2091d6962e88972447939fad  src/lib/portal/permissions/owner-rev4.ts
+985542d2408bb40b86bb0a683cf58713caab2708cd0d8104d7b548853cb897f1  src/lib/portal/permissions/owner-rev5.ts
+2ce9cfacb0e84ec471e653a5938a8e11719d99b4fe0f4c101777c75b234d1ef7  src/lib/portal/permissions/owner-rev6.ts
+9b2e25cd06407a021cf42e6ebd116dc6949470f5286a1fb134052e738ea63598  src/lib/portal/ratelimit/app-throttle.ts
+095a8e66e1d9208eb4cdf5f49ea40c6eb917a1f3d83ad77cb422e8d76be1bfae  tests/portal/owner-rev4.test.ts
+fb0e60424c7e883f047e021602177aa0bbab8003b9ad61148e09bc357b7846ec  tests/portal/owner-rev5.test.ts
+7dc68a266933c2953a6f254fb52123f6c9cb0895413463d8843121567ed6ee24  tests/portal/owner-rev6.test.ts
+e40d4ce1611c305eabb1d99b681c5bce9e7c3214ec92182281f41733768fc594  tests/portal/owner-ratelimit-rpc.test.ts
+e64b575448d3146ab41a596ea73a56150e6450c9aabb9f7dc0641f1ace70ee85  docs/P2-4-0005-REV6-SECURITY-REVIEW.md
+c5216118e96fd04bda29c11ab1bdda0c5eb6efc8dbecbbf2313119cccf4b7cc8  docs/P2-4-RECOVERY-BREAK-GLASS.md
+d68b410ed23e754cf10e31c5f40f047bb9986e1a9465637a004577cf0137be9d  docs/P2-IDENTITY-VERIFICATION-POLICY-SPEC.md
+02e5516668a2834752d84cc311e571d2385899268cd031a83e12fe05701398e5  docs/P2-ISOLATED-VERIFICATION-PLAN.md
+b67821be84ee3167163749de657d25377e605e9d98a90f14ec52d7d2f205fae8  docs/P2-SHADOW-ISOLATION-PROOF.md
+89c9474629737fff1e6b425f64b0dd25ce42862b32445e85e662d7185edb13fe  docs/P2-4-0005-REV5-SPEC.md
+3a463ddc8d9aa98ac3b5059ab7f2b7dab4cad8428bd9b4ef5fe5e9dce7cbe13a  docs/P2-4-0005-REV5-SECURITY-REVIEW.md
+28e2cebf55e07679b71c7bbb7453517e3cde8c1b420e4eab9088ef98b544011e  supabase/migrations/20261108000001_foundation_identity.sql
+852f13efef9754b1882ec17ef2e3ab2833c66143233af21c396abc20b28823ee  supabase/migrations/20261108000002_staff_capabilities.sql
+e1aa9d15696913e25f5916ccc036b9c5f44d668dba95922dea87c5ac36e5fa60  supabase/migrations/20261108000003_audit_and_step_up.sql
+8a6a5003d46ecd0daa1f5149566ac452076f637a9ed38a9da5125273551fc12b  supabase/migrations/20261108000004_staff_management_rpcs.sql
+eeaeb7ef6082e5aa51074df0a3490b7eeb90a85ccb4145805a7a7e2331a747b4  supabase/migration-hashes.txt

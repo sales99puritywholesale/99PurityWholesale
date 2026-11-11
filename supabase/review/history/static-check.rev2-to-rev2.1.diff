@@ -1,0 +1,26 @@
+--- history/static-check.rev2.mjs	2026-11-07 11:31:31.690857800 +0530
++++ static-check.mjs	2026-11-07 11:32:00.204674900 +0530
+@@ -1,6 +1,12 @@
+-// Static review checks for migration drafts (rev2). Dependency-free. Reads files only; never connects to a database.
++// TEXT-PATTERN GUARDRAIL for migration drafts (rev2.1). It is NOT a SQL parser, NOT a proof of correctness and NOT a
++// database test. Dependency-free; reads files only; never connects to a database.
++// It does NOT validate (among other things): that the SQL parses; policy expression logic; trigger firing order,
++// cascade behavior, locking or concurrency; isolation levels in practice; FK action semantics; that function
++// bodies are logically correct (it only looks for required words/shapes); that approved-column limits hold for
++// aliases other than `f` or for constructs such as to_jsonb(row) / row_to_json(row) that read a row without
++// naming its columns; default-privilege effects at runtime. Passing means 'no listed pattern found', nothing more.
+ // Usage: node supabase/review/static-check.mjs [--selftest] [file.sql ...]   (default: all NNNN_*.sql next to this file)
+-// These are TEXT checks. They prove properties of the source text, not runtime behavior.
++// These are text-pattern checks only.
+ import { readFileSync, readdirSync } from 'node:fs';
+ import { dirname, join } from 'node:path';
+ import { fileURLToPath } from 'node:url';
+@@ -189,7 +195,7 @@
+       for (const x of r.failures) console.log('  - ' + x);
+       bad += r.failures.length;
+     }
+-    console.log(bad ? `STATIC CHECK FAIL (${bad})` : 'STATIC CHECK PASS (text checks only; no SQL was executed)');
++    console.log(bad ? `STATIC CHECK FAIL (${bad})` : 'STATIC CHECK PASS (text-pattern guardrail only: no SQL was parsed or executed; not a proof of correctness)');
+     process.exitCode = bad ? 1 : 0;
+   }
+ }

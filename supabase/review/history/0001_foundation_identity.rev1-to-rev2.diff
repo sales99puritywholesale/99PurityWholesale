@@ -1,0 +1,148 @@
+--- history/0001_foundation_identity.rev1.sql	2026-11-07 11:18:06.042021500 +0530
++++ 0001_foundation_identity.sql	2026-11-07 11:22:25.947757100 +0530
+@@ -1,6 +1,9 @@
+ -- =====================================================================================
+ -- 0001_foundation_identity.sql
+--- *** REVIEW DRAFT. NOT APPLIED. NOT EXECUTED. Lives in supabase/review/ on purpose. ***
++-- *** REVIEW DRAFT rev2. NOT APPLIED. NOT EXECUTED. Lives in supabase/review/ on purpose. ***
++-- rev2 changes: last-owner protection is now BEFORE (lock + immutability) plus AFTER (final-state check,
++--   catches multi-row statements and FK cascades); READ COMMITTED required by guards; TRUNCATE blocked on
++--   organization_members; self-check also verifies the guard triggers exist.
+ -- Source of truth: docs/MILESTONE-1-SCHEMA-AND-RLS.md (rev. 4), project-rules.md.
+ -- Scope: identity and organization foundation only. No staff objects (0002), no audit (0003),
+ --        no step-up (0004), no RPCs (0007). Customers get read access to their own data only.
+@@ -142,8 +145,9 @@
+ end;
+ $$;
+ 
++-- Invoker rights are enough: compares NEW and OLD only, reads no table.
+ create function private.guard_organizations() returns trigger
+-language plpgsql security definer set search_path = ''
++language plpgsql set search_path = ''
+ as $$
+ begin
+   if new.code <> old.code then
+@@ -153,16 +157,18 @@
+ end;
+ $$;
+ 
+--- Last-owner protection and identity immutability. Caller-independent (also binds service paths).
+--- Serialization: the organization row is locked FOR UPDATE before counting, so concurrent
+--- demotions/removals queue; in READ COMMITTED the later one re-counts after the earlier commits.
++-- Last-owner protection, part 1 (BEFORE row): identity immutability and serialization.
++-- The organization row is locked FOR UPDATE before the owner row changes, so concurrent demotions or
++-- removals for the same organization queue. Guards require READ COMMITTED: under a snapshot isolation
++-- level a later transaction could keep counting a stale owner set and slip through (write skew).
+ create function private.guard_organization_members() returns trigger
+ language plpgsql security definer set search_path = ''
+ as $$
+-declare
+-  v_org_status text;
+-  v_remaining  integer;
+ begin
++  if current_setting('transaction_isolation') <> 'read committed' then
++    raise exception 'organization_members changes require READ COMMITTED isolation' using errcode = '25000';
++  end if;
++
+   if tg_op = 'UPDATE' then
+     if new.organization_id <> old.organization_id or new.user_id <> old.user_id then
+       raise exception 'organization_members: organization_id and user_id are immutable' using errcode = '23514';
+@@ -171,23 +177,49 @@
+ 
+   if old.role = 'owner' and old.status = 'active'
+      and (tg_op = 'DELETE' or new.role <> 'owner' or new.status <> 'active') then
+-    select o.status into v_org_status
+-      from public.organizations o where o.id = old.organization_id for update;
+-    if v_org_status is distinct from 'closed' then
++    perform 1 from public.organizations o where o.id = old.organization_id for update;
++  end if;
++
++  if tg_op = 'DELETE' then
++    return old;
++  end if;
++  return new;
++end;
++$$;
++
++-- Last-owner protection, part 2 (AFTER row): final-state check. AFTER row triggers run when the whole
++-- statement (or the FK cascade action) has finished, so a statement that removes several owners at once
++-- is judged on its result, not row by row. Closing the organization in the same transaction is allowed.
++create function private.check_last_owner() returns trigger
++language plpgsql security definer set search_path = ''
++as $$
++declare
++  v_org_status text;
++  v_remaining  integer;
++begin
++  if old.role = 'owner' and old.status = 'active'
++     and (tg_op = 'DELETE' or new.role <> 'owner' or new.status <> 'active') then
++    select o.status into v_org_status from public.organizations o where o.id = old.organization_id;
++    if found and v_org_status is distinct from 'closed' then
+       select count(*) into v_remaining
+         from public.organization_members m
+-       where m.organization_id = old.organization_id
+-         and m.role = 'owner' and m.status = 'active' and m.id <> old.id;
++       where m.organization_id = old.organization_id and m.role = 'owner' and m.status = 'active';
+       if v_remaining = 0 then
+         raise exception 'last active owner of an organization cannot be removed or demoted' using errcode = '23514';
+       end if;
+     end if;
+   end if;
++  return null;
++end;
++$$;
+ 
+-  if tg_op = 'DELETE' then
+-    return old;
+-  end if;
+-  return new;
++-- TRUNCATE bypasses row triggers, so it is refused on tables that carry invariants.
++create function private.block_truncate() returns trigger
++language plpgsql set search_path = ''
++as $$
++begin
++  raise exception 'TRUNCATE is not permitted on %', tg_table_name using errcode = '42501';
++  return null;
+ end;
+ $$;
+ 
+@@ -202,6 +234,10 @@
+   for each row execute function private.guard_organizations();
+ create trigger organization_members_guard before update or delete on public.organization_members
+   for each row execute function private.guard_organization_members();
++create trigger organization_members_last_owner_check after update or delete on public.organization_members
++  for each row execute function private.check_last_owner();
++create trigger organization_members_no_truncate before truncate on public.organization_members
++  for each statement execute function private.block_truncate();
+ -- Assumption to confirm by test (T-0001-9): firing this trigger needs no EXECUTE/USAGE check
+ -- for supabase_auth_admin at fire time (privileges are checked at creation).
+ create trigger on_auth_user_created after insert on auth.users
+@@ -238,7 +274,7 @@
+ 
+ revoke all on function private.my_org_ids(), private.my_owner_org_ids(), private.touch_updated_at(),
+                        private.handle_new_user(), private.guard_organizations(),
+-                       private.guard_organization_members()
++                       private.guard_organization_members(), private.check_last_owner(), private.block_truncate()
+   from public, anon, authenticated, service_role;
+ grant execute on function private.my_org_ids(), private.my_owner_org_ids() to authenticated;  -- used by policies only
+ 
+@@ -271,12 +307,17 @@
+      or has_column_privilege('authenticated', 'public.profiles', 'updated_at', 'update') then
+     raise exception 'self-check: authenticated can update protected profile columns';
+   end if;
++  if (select count(*) from pg_trigger tg where not tg.tgisinternal and tg.tgname in (
++        'organization_members_guard', 'organization_members_last_owner_check',
++        'organization_members_no_truncate', 'organizations_guard', 'on_auth_user_created')) <> 5 then
++    raise exception 'self-check: expected guard triggers are missing';
++  end if;
+   if exists (
+     select 1 from pg_proc pr join pg_namespace n on n.oid = pr.pronamespace
+-    where n.nspname = 'private' and pr.prosecdef
++    where n.nspname = 'private'
+       and not coalesce((select bool_or(c like 'search_path=%') from unnest(pr.proconfig) c), false)
+   ) then
+-    raise exception 'self-check: SECURITY DEFINER function without pinned search_path in schema private';
++    raise exception 'self-check: function without pinned search_path in schema private';
+   end if;
+ end;
+ $$;
