@@ -3,6 +3,7 @@ import type { PortalNavItem } from '@/lib/portal/nav';
 import { portalCopy } from '@/lib/portal/copy';
 import { PortalSidebar } from './portal-sidebar';
 import { PortalTopbar } from './portal-topbar';
+import { isDemoMode } from '@/lib/portal/demo/config';
 
 type Props = { area: 'client' | 'admin'; items: readonly PortalNavItem[]; email: string | null; children: ReactNode };
 
@@ -15,6 +16,11 @@ export function PortalShell({ area, items, email, children }: Props) {
       </a>
       <PortalSidebar items={items} area={area} />
       <div className="flex min-w-0 flex-1 flex-col">
+        {isDemoMode() && (
+          <div role="note" className="bg-portal-warning-soft px-4 py-1.5 text-center text-xs font-medium text-portal-warning">
+            Demo mode: sample data saved on this computer. Payments, shipping and integrations are simulated.
+          </div>
+        )}
         <PortalTopbar items={items} area={area} email={email} />
         <main id="portal-content" tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-8 sm:py-10">
           {children}

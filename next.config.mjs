@@ -29,6 +29,8 @@ const PORTAL_SECURITY_HEADERS = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // portal file uploads (label artwork, signed agreements) go through server actions; the portal limit is 10 MB per file
+  experimental: { serverActions: { bodySizeLimit: '11mb' } },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   async headers() {

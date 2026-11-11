@@ -9,6 +9,9 @@ export const PORTAL_PREFIXES = ['/client', '/admin', '/login', '/auth'] as const
 /** Paths reachable WITHOUT a session (sign-in page and the auth callback). Everything else needs one. */
 export const PORTAL_PUBLIC_PATHS = ['/login', '/auth/callback'] as const;
 
+/** MFA pages (authenticator setup and code challenge): reachable only with a session (an aal1 password session is enough: the page is where aal2 is reached). */
+export const PORTAL_MFA_PATHS = ['/login/mfa', '/login/mfa/setup'] as const;
+
 const matches = (pathname: string, prefix: string) => pathname === prefix || pathname.startsWith(`${prefix}/`);
 
 export function isPortalPath(pathname: string): boolean {
@@ -17,6 +20,7 @@ export function isPortalPath(pathname: string): boolean {
 
 export const isClientPath = (pathname: string) => matches(pathname, '/client');
 export const isAdminPath = (pathname: string) => matches(pathname, '/admin');
+export const isPortalMfaPath = (pathname: string) => (PORTAL_MFA_PATHS as readonly string[]).includes(pathname);
 export const isPortalPublicPath = (pathname: string) => (PORTAL_PUBLIC_PATHS as readonly string[]).includes(pathname);
 
 /** Where a signed-in user lands by default, and where an unauthenticated visitor is sent. */

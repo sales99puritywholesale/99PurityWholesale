@@ -68,7 +68,8 @@ describe('public website is unaffected by the portal', () => {
   it('public code never imports portal code (only the shared middleware may)', () => {
     const portalImport = /from\s+['"](?:@\/(?:components\/portal|portal|lib\/portal)|(?:\.{1,2}\/)+(?:components\/portal|portal|lib\/portal))/;
     const allowed = (p: string) =>
-      p.startsWith('src/app/(portal)/') || p.startsWith('src/components/portal/') || p.startsWith('src/lib/portal/') || p.startsWith('src/portal/') || p === 'src/middleware.ts';
+      p.startsWith('src/app/(portal)/') || p.startsWith('src/components/portal/') || p.startsWith('src/lib/portal/') || p.startsWith('src/portal/') || p === 'src/middleware.ts' ||
+      p.startsWith('src/app/api/v1/') || p.startsWith('src/app/api/cron/'); // the portal-owned integration API routes (P6); src/app/api/og stays public
     const offenders = [...walk(src)].filter(isCode).map(rel).filter((p) => !allowed(p) && portalImport.test(read(p)));
     expect(offenders).toEqual([]);
   });
@@ -99,7 +100,7 @@ describe('portal pages carry no marketing or analytics code', () => {
     expect(layout).toContain("export const dynamic = 'force-dynamic'");
   });
   it('no portal file reads a service-role credential or environment secrets', () => {
-    const banned = /SERVICE_ROLE|service_role_key|SUPABASE_SECRET|process\.env\.(?!NEXT_PUBLIC_SUPABASE_URL|NEXT_PUBLIC_SUPABASE_ANON_KEY|PORTAL_ENABLED|NODE_ENV)/;
+    const banned = /SERVICE_ROLE|service_role_key|SUPABASE_SECRET|process\.env\.(?!NEXT_PUBLIC_SUPABASE_URL|NEXT_PUBLIC_SUPABASE_ANON_KEY|PORTAL_ENABLED|PORTAL_DEMO_MODE|NODE_ENV)/; // PORTAL_DEMO_MODE: a non-secret mode flag (demo mode is refused in production builds)
     const offenders = portalFiles().filter((p) => {
       const text = read(p);
       // The service-role mention in the config guard is the check that REJECTS such keys.

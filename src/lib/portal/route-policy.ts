@@ -1,4 +1,4 @@
-import { PORTAL_HOME, PORTAL_LOGIN, isAdminPath, isClientPath, isPortalPath, isPortalPublicPath } from './paths';
+import { PORTAL_HOME, PORTAL_LOGIN, isAdminPath, isClientPath, isPortalMfaPath, isPortalPath, isPortalPublicPath } from './paths';
 
 /**
  * Pure routing decision for the edge middleware. Middleware is one layer only: every server layout, page, action and route
@@ -10,7 +10,7 @@ export type RouteDecision =
   | { type: 'unavailable' } //     portal enabled but authentication is not configured (503, no details)
   | { type: 'login'; next: string } // unauthenticated visitor: send to sign-in
   | { type: 'redirect'; to: string } //  already signed in on /login
-  | { type: 'forbidden' } //       authenticated but not authorised (all of /admin in P1)
+  | { type: 'forbidden' } //       authenticated but not authorised (no longer produced by decideRoute since P3; kept for callers)
   | { type: 'allow' };
 
 export type RouteInput = {
@@ -32,12 +32,16 @@ export function decideRoute(input: RouteInput): RouteDecision {
     return { type: 'allow' };
   }
 
+  // MFA pages need a session (aal1 is enough) and nothing else.
+  if (isPortalMfaPath(pathname)) return authenticated ? { type: 'allow' } : { type: 'login', next: `${pathname}${input.search ?? ''}` };
+
   const isProtected = isClientPath(pathname) || isAdminPath(pathname);
   if (!isProtected) return { type: 'not-found' }; // e.g. /login/x, /auth/anything-else
 
   if (!authenticated) return { type: 'login', next: `${pathname}${input.search ?? ''}` };
 
-  // P1 has no staff authorization yet: /admin is denied to everyone. Do not loosen this without P2 staff tables.
-  if (isAdminPath(pathname)) return { type: 'forbidden' };
+  // P3: the edge no longer denies /admin wholesale. An authenticated visitor reaches the server, where the admin layout and EVERY admin page decide from the
+  // database (verified staff session and capability: src/lib/portal/staff-gate.ts); anyone who is not verified staff gets the access-denied page or a 404.
+  // The edge cannot read the staff context, so this layer only requires a session.
   return { type: 'allow' };
 }

@@ -5,6 +5,8 @@ import { createPortalServerClient } from '@/portal/db/server';
 import { isPortalEnabled } from './config';
 import { PORTAL_LOGIN } from './paths';
 import { safeRedirectPath } from './validation';
+import { isDemoMode } from './demo/config';
+import { getDemoPersona } from './demo/session';
 
 /**
  * Server-side authentication and authorization boundary for the portal.
@@ -25,6 +27,8 @@ export function assertPortalEnabled(): void {
 /** The verified user of this request, or null. Verified with the auth server (getUser), not read from the cookie. Cached per request. */
 export const getPortalUser = cache(async (): Promise<PortalUser | null> => {
   assertPortalEnabled();
+  // Demo mode (localhost only, never in a production build): the signed-in user is the demo persona chosen on the sign-in page.
+  if (isDemoMode()) { const p = getDemoPersona(); return p ? { id: p.id, email: p.email } : null; }
   const supabase = createPortalServerClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) return null;

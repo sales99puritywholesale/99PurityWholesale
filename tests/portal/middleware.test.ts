@@ -109,12 +109,13 @@ describe('middleware: authentication redirects', () => {
   });
 });
 
-describe('middleware: admin is denied to everyone in P1', () => {
-  it('answers 403 for a signed-in user on every admin path', async () => {
+describe('middleware: admin needs a session at the edge (P3); the server decides staff access', () => {
+  it('lets a signed-in user through to the server on admin paths (the layout and every page check the database)', async () => {
     signedIn();
-    for (const path of ['/admin', '/admin/applications', '/admin/settings']) {
+    for (const path of ['/admin', '/admin/orders', '/admin/settings']) {
       const res = await run(path);
-      expect(res.status, path).toBe(403);
+      expect(res.status, path).not.toBe(403);
+      expect(res.status, path).not.toBe(404);
     }
   });
 });
@@ -138,7 +139,7 @@ describe('middleware: portal response hardening', () => {
     expect(res.headers.get('x-middleware-request-x-nonce')).not.toBe('attacker');
     expect(res.headers.get('x-middleware-request-content-security-policy')).not.toContain('script-src *');
   });
-  it('also hardens redirect and 403 responses', async () => {
+  it('also hardens redirect and admin responses', async () => {
     const redirect = await run('/client');
     expect(redirect.headers.get('content-security-policy')).toContain("frame-ancestors 'none'");
     expect(redirect.headers.get('cache-control')).toContain('no-store');

@@ -6,6 +6,8 @@ const h = vi.hoisted(() => ({
   signInWithPassword: vi.fn(),
   signOut: vi.fn(),
   exchangeCodeForSession: vi.fn(),
+  rpc: vi.fn(),
+  aal: vi.fn(),
 }));
 
 // Next/React runtime pieces that only exist inside the framework: replaced by observable stand-ins.
@@ -20,7 +22,8 @@ vi.mock('next/navigation', () => ({
 }));
 vi.mock('@/portal/db/server', () => ({
   createPortalServerClient: () => ({
-    auth: { getUser: h.getUser, signInWithPassword: h.signInWithPassword, signOut: h.signOut, exchangeCodeForSession: h.exchangeCodeForSession },
+    auth: { getUser: h.getUser, signInWithPassword: h.signInWithPassword, signOut: h.signOut, exchangeCodeForSession: h.exchangeCodeForSession, mfa: { getAuthenticatorAssuranceLevel: h.aal } },
+    rpc: h.rpc,
   }),
 }));
 
@@ -55,6 +58,9 @@ beforeEach(() => {
   h.signInWithPassword.mockResolvedValue({ error: null });
   h.signOut.mockResolvedValue({ error: null });
   h.exchangeCodeForSession.mockResolvedValue({ error: null });
+  // a customer: no staff row, no authenticator factor (aal1 now and next): the sign-in destination is the requested page, exactly as before MFA existed
+  h.rpc.mockResolvedValue({ data: { staff_status: 'none', roles: [], session_ok: false, step_up_ok: false }, error: null });
+  h.aal.mockResolvedValue({ data: { currentLevel: 'aal1', nextLevel: 'aal1' }, error: null });
 });
 afterEach(() => vi.unstubAllEnvs());
 
@@ -112,6 +118,20 @@ describe('signInAction', () => {
     for (const next of ['https://evil.example', '//evil.example', '/%2F%2Fevil.example', 'javascript:alert(1)']) {
       expect(await thrown(() => signInAction(form({ email: 'a@b.co', password: 'pw', next })))).toBe('REDIRECT:/client');
     }
+  });
+  it('second factor routing: a verified authenticator means the challenge; an active staff member with none is sent to setup; customers and disabled staff are not', async () => {
+    h.aal.mockResolvedValue({ data: { currentLevel: 'aal1', nextLevel: 'aal2' }, error: null });
+    expect(await thrown(() => signInAction(form({ email: 'a@b.co', password: 'pw', next: '/admin' })))).toBe(`REDIRECT:/login/mfa?next=${encodeURIComponent('/admin')}`);
+    h.aal.mockResolvedValue({ data: { currentLevel: 'aal1', nextLevel: 'aal1' }, error: null });
+    h.rpc.mockResolvedValue({ data: { staff_status: 'active', roles: ['admin'], session_ok: false, step_up_ok: false }, error: null });
+    expect(await thrown(() => signInAction(form({ email: 'a@b.co', password: 'pw', next: '/admin' })))).toBe(`REDIRECT:/login/mfa/setup?next=${encodeURIComponent('/admin')}`);
+    h.rpc.mockResolvedValue({ data: { staff_status: 'disabled', roles: [], session_ok: false, step_up_ok: false }, error: null });
+    expect(await thrown(() => signInAction(form({ email: 'a@b.co', password: 'pw', next: '/admin' })))).toBe('REDIRECT:/admin');
+  });
+  it('a failing MFA or staff lookup never blocks a customer sign-in and never invents a flow', async () => {
+    h.aal.mockResolvedValue({ data: null, error: { message: 'boom' } });
+    h.rpc.mockResolvedValue({ data: null, error: { message: 'boom' } });
+    expect(await thrown(() => signInAction(form({ email: 'a@b.co', password: 'pw', next: '/client/shop' })))).toBe('REDIRECT:/client/shop');
   });
   it('rejects invalid input without contacting the auth server and never echoes the password or email', async () => {
     const msg = await thrown(() => signInAction(form({ email: 'nope', password: 'hunter2' })));

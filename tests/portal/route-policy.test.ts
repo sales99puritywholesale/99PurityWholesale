@@ -50,18 +50,18 @@ describe('decideRoute: authentication', () => {
   });
 });
 
-describe('decideRoute: admin is denied to everyone in P1', () => {
-  it.each(['/admin', '/admin/applications', '/admin/settings', '/admin/anything/else'])('%s is forbidden for an authenticated user', (pathname) => {
-    expect(d({ pathname, authenticated: true })).toEqual({ type: 'forbidden' });
+describe('decideRoute: admin needs a session at the edge; the server decides staff access (P3)', () => {
+  it.each(['/admin', '/admin/applications', '/admin/orders', '/admin/anything/else'])('%s is allowed through for an authenticated user (the admin layout and pages check the database)', (pathname) => {
+    expect(d({ pathname, authenticated: true })).toEqual({ type: 'allow' });
   });
-  it('never returns "allow" for an admin path in any state', () => {
+  it('never allows an admin path without a session, with the portal off or without configured authentication', () => {
     for (const portalEnabled of [true, false]) {
       for (const authConfigured of [true, false]) {
-        for (const authenticated of [true, false]) {
-          expect(d({ pathname: '/admin/orders', portalEnabled, authConfigured, authenticated }).type).not.toBe('allow');
-        }
+        if (portalEnabled && authConfigured) continue;
+        expect(d({ pathname: '/admin/orders', portalEnabled, authConfigured, authenticated: true }).type).not.toBe('allow');
       }
     }
+    expect(d({ pathname: '/admin/orders', authenticated: false }).type).toBe('login');
   });
 });
 

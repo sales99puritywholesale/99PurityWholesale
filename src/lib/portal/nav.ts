@@ -41,8 +41,12 @@ export const ADMIN_NAV: readonly (PortalNavItem & { key: AdminModuleKey })[] = [
   { key: 'fulfillment', label: a.fulfillment.title, href: '/admin/fulfillment' },
   { key: 'inventory', label: a.inventory.title, href: '/admin/inventory' },
   { key: 'integrations', label: a.integrations.title, href: '/admin/integrations' },
+  { key: 'commissions', label: a.commissions.title, href: '/admin/commissions' },
+  { key: 'notifications', label: a.notifications.title, href: '/admin/notifications' },
   { key: 'reports', label: a.reports.title, href: '/admin/reports' },
   { key: 'settings', label: a.settings.title, href: '/admin/settings' },
+  { key: 'staff', label: a.staff.title, href: '/admin/staff' },
+  { key: 'audit', label: a.audit.title, href: '/admin/audit' },
 ] as const;
 
 /** Exact match for the root item of an area, prefix match for the rest. */

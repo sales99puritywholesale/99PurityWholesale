@@ -26,10 +26,10 @@ describe('customer navigation', () => {
 });
 
 describe('admin navigation', () => {
-  it('has the 13 proposed modules, all under /admin', () => {
-    expect(ADMIN_NAV).toHaveLength(13);
+  it('has the 17 modules (the 13 proposed ones plus staff, audit, commissions and notifications), all under /admin', () => {
+    expect(ADMIN_NAV).toHaveLength(17);
     for (const item of ADMIN_NAV) expect(item.href === '/admin' || item.href.startsWith('/admin/')).toBe(true);
-    expect(new Set(ADMIN_NAV.map((i) => i.href)).size).toBe(13);
+    expect(new Set(ADMIN_NAV.map((i) => i.href)).size).toBe(17);
   });
   it('every item resolves to a real route file', () => {
     for (const item of ADMIN_NAV) expect(existsSync(routeFile(item.href)), item.href).toBe(true);

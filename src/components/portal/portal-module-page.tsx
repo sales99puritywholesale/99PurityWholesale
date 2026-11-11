@@ -1,5 +1,8 @@
 import { portalCopy, type AdminModuleKey, type ClientModuleKey } from '@/lib/portal/copy';
-import { requireAdminAccess, requireUser } from '@/lib/portal/auth';
+import { notFound } from 'next/navigation';
+import { requireUser } from '@/lib/portal/auth';
+import { getStaffAccessContext } from '@/lib/portal/staff-access';
+import { evaluateAdminAccess } from '@/lib/portal/permissions/evaluate';
 import { PortalPageHeader } from './portal-page-header';
 import { PortalEmptyState } from './portal-empty-state';
 import { PortalStatusPill } from './portal-status';
@@ -22,9 +25,13 @@ export async function ClientModulePage({ moduleKey, href }: { moduleKey: ClientM
   );
 }
 
-/** Admin placeholder. In P1 requireAdminAccess() always denies, so the body below is never rendered for anyone. */
+/**
+ * Admin placeholder for a module that is not implemented yet (static text only: no data, no actions). It re-checks the verified staff session itself (the database's own answer: active
+ * staff, aal2, approved authenticator), the same condition as the admin layout, because layouts do not protect child pages. Anything else answers "not found" (fail closed).
+ */
 export async function AdminModulePage({ moduleKey }: { moduleKey: AdminModuleKey }) {
-  await requireAdminAccess();
+  await requireUser('/admin');
+  if (!evaluateAdminAccess(await getStaffAccessContext()).allowed) notFound();
   const m = portalCopy.admin.modules[moduleKey];
   return (
     <>

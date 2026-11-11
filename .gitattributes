@@ -1,0 +1,6 @@
+# Line-ending rules for the M1 review package and CI harness. The SQL drafts are hashed (ci/m1/expected-sha256.txt) and the
+# shell scripts run on Linux runners: both must be LF in the repository AND in every checkout, whatever core.autocrlf says.
+supabase/review/** text eol=lf
+ci/** text eol=lf
+.github/** text eol=lf
+.gitattributes text eol=lf

@@ -49,3 +49,12 @@ env
 # Temporary scratch scripts
 scratch/
 
+
+# P2.1 local Supabase stack (written by tests/db/local-stack.mjs env; local disposable keys)
+.env.local-stack
+
+# local demo data (portal demo mode)
+/.demo-data/
+
+# local test account credentials for manual testing (never commit)
+test-accounts.local.txt

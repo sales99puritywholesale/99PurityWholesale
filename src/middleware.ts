@@ -5,7 +5,8 @@ import { isPortalPath, PORTAL_LOGIN } from './lib/portal/paths';
 import { getSupabasePublicConfig, isPortalEnabled } from './lib/portal/config';
 import { decideRoute } from './lib/portal/route-policy';
 import { buildPortalCsp, generateNonce } from './lib/portal/csp';
-import { copyCookies, updateSession } from './portal/db/middleware';
+import { copyCookies, updateSession, type SessionResult } from './portal/db/middleware';
+import { DEMO_COOKIE, isDemoMode, personaById } from './lib/portal/demo/config';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -40,16 +41,18 @@ export default async function middleware(request: NextRequest) {
 
   const portalEnabled = isPortalEnabled();
   const auth = getSupabasePublicConfig();
+  // Demo mode (localhost demonstration; isDemoMode() is false in every production build): no database session, the demo persona cookie is the session.
+  const demo = isDemoMode();
 
   // Decisions that need no session: portal off (404, fail closed), authentication not configured (503, no details).
-  const early = decideRoute({ pathname, search, portalEnabled, authConfigured: auth.ok, authenticated: false });
+  const early = decideRoute({ pathname, search, portalEnabled, authConfigured: auth.ok || demo, authenticated: false });
   if (early.type === 'not-found') return plain(404, 'Not Found');
-  if (early.type === 'unavailable' || !auth.ok) return plain(503, 'Service unavailable');
+  if (early.type === 'unavailable' || (!auth.ok && !demo)) return plain(503, 'Service unavailable');
 
   const nonce = generateNonce();
   const csp = buildPortalCsp({
     nonce,
-    supabaseOrigin: auth.config.url,
+    supabaseOrigin: auth.ok ? auth.config.url : undefined,
     isDev: process.env.NODE_ENV !== 'production',
   });
   // Always overwrite: a client can never supply its own nonce or CSP for the page render.
@@ -57,7 +60,16 @@ export default async function middleware(request: NextRequest) {
   requestHeaders.set('x-nonce', nonce);
   requestHeaders.set('content-security-policy', csp);
 
-  const session = await updateSession(request, auth.config, requestHeaders);
+  const session: SessionResult = demo || !auth.ok
+    ? {
+        authenticated: Boolean(personaById(request.cookies.get(DEMO_COOKIE)?.value)),
+        respond: (init) => {
+          const response = NextResponse.next({ request: { headers: requestHeaders } });
+          Object.entries(init?.headers ?? {}).forEach(([k, v]) => response.headers.set(k, v));
+          return response;
+        },
+      }
+    : await updateSession(request, auth.config, requestHeaders);
   const decision = decideRoute({
     pathname,
     search,
