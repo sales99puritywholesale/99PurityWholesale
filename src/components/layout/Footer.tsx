@@ -1,10 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import NextLink from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname } from '@/i18n/routing';
-import { ArrowUpRight, Globe, ShieldCheck, Mail, FlaskConical, LayoutGrid } from 'lucide-react';
+import { ArrowRight, ArrowUp, Globe } from 'lucide-react';
 import { footerStates } from '@/data/footerStates';
 
 export default function Footer() {
@@ -21,7 +20,7 @@ export default function Footer() {
         { label: t('footer.categories'), href: '/products#categories' },
         { label: t('nav.coa'), href: '/certificates-of-analysis' },
         { label: t('nav.blog'), href: '/blog' },
-      ]
+      ],
     },
     {
       title: t('footer.supportTitle'),
@@ -31,7 +30,7 @@ export default function Footer() {
         { label: t('nav.contact'), href: '/contact' },
         { label: t('nav.calculator'), href: '/peptide-calculator' },
         { label: t('footer.glossary'), href: '/glossary' },
-      ]
+      ],
     },
     {
       title: t('footer.servicesTitle'),
@@ -42,7 +41,7 @@ export default function Footer() {
         { label: t('footer.salesDist'), href: '/services#sales-distribution' },
         { label: t('footer.privateLabel'), href: '/services#private-label' },
         { label: t('footer.fulfillmentConsulting'), href: '/services#fulfillment-consulting' },
-      ]
+      ],
     },
     {
       title: t('footer.instTitle'),
@@ -53,7 +52,7 @@ export default function Footer() {
           label: name,
           href: `/locations/united-states/${slug}`,
         })),
-      ]
+      ],
     },
     {
       title: t('footer.legalTitle'),
@@ -62,93 +61,75 @@ export default function Footer() {
         { label: t('footer.terms'), href: '/terms' },
         { label: t('footer.refundPolicy'), href: '/refund-policy' },
         { label: t('footer.complianceTitle'), href: '/compliance' },
-      ]
-    }
+      ],
+    },
   ];
 
+  const pill = 'inline-flex items-center rounded-full px-5 py-[0.9rem] font-dm-sans text-[13px] font-medium transition-colors';
+
   return (
-    <footer className="relative z-20 bg-white pt-6 md:pt-10 pb-20 md:pb-10 px-4 md:px-6 overflow-hidden font-archia print:hidden">
-      <div className="max-w-[1800px] mx-auto bg-[#000000] rounded-[3rem] md:rounded-[5rem] p-8 pb-32 md:p-20 md:pb-40 relative overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.3)]">
-
-        {/* Large Branding Background Text - Refined Institutional Style */}
-        <div className="absolute top-[15%] md:top-[10%] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none opacity-[0.04] select-none">
-          <h2 className="text-[15vw] font-absans font-bold leading-none text-white whitespace-nowrap uppercase tracking-tighter">
-            99 PURITY
-          </h2>
-        </div>
-
-        {/* Top Section: Logo & Description */}
-        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start gap-12 mb-20">
-          <div className="max-w-xl">
-            <Link href="/" className="inline-block mb-8">
-              <Image
-                src="/images/99pw-logo.webp"
-                alt="99 Purity Wholesale"
-                width={400}
-                height={100}
-                className="w-auto h-20 md:h-28 object-contain"
-                priority
-              />
-            </Link>
-            <p className="text-white/70 text-sm md:text-base leading-relaxed font-medium">
-              {t('footer.desc')}
-            </p>
+    <footer className="relative z-20 overflow-hidden bg-[#F3F5FA] px-3 pb-3 pt-3 font-dm-sans print:hidden md:px-4 md:pb-4">
+      <div className="relative mx-auto max-w-[1760px] overflow-hidden rounded-[1.75rem] bg-[#0B0D10] text-white">
+        <div className="mx-auto w-full max-w-[1440px] px-6 pt-14 md:px-10 md:pt-20">
+          {/* top: wordmark + description, actions */}
+          <div className="mb-14 flex flex-col justify-between gap-10 md:mb-20 lg:flex-row lg:items-start">
+            <div className="max-w-xl">
+              <Link href="/" className="mb-6 inline-block text-2xl font-medium tracking-[-0.045em] md:text-3xl">
+                99Purity <span className="font-light text-white/50">Wholesale</span>
+              </Link>
+              <p className="text-[14px] leading-relaxed text-white/60">{t('footer.desc')}</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href="/wholesale-application" className={`group gap-3 bg-[#4FC3D0] py-2 pl-5 pr-2 text-[#0B0F14] hover:bg-[#7ad8e2] ${pill} !px-0 !py-2 !pl-5 !pr-2`}>
+                {t('footer.startNow')}
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0B0F14] text-white transition-transform duration-300 group-hover:-rotate-45">
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className={`gap-2 border border-white/25 hover:bg-white hover:text-[#0B0F14] ${pill}`}
+              >
+                {t('footer.backToTop')}
+                <ArrowUp className="h-3.5 w-3.5" />
+              </button>
+            </div>
           </div>
 
-          <div className="flex gap-4">
-            {[Globe, ShieldCheck, FlaskConical, Mail, LayoutGrid].map((Icon, i) => (
-              <div key={i} className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all cursor-pointer">
-                <Icon className="w-5 h-5" />
+          {/* link columns */}
+          <div className="mb-14 grid grid-cols-2 gap-x-6 gap-y-12 border-t border-white/10 pt-12 md:grid-cols-3 lg:grid-cols-5">
+            {footerLinks.map((column) => (
+              <div key={column.title}>
+                <h4 className="mb-6 flex items-center gap-2.5 font-dm-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+                  <span className="h-[6px] w-[6px] bg-[#4FC3D0]" />
+                  {column.title}
+                </h4>
+                <ul className="space-y-3">
+                  {column.links.map((link) => (
+                    <li key={link.label}>
+                      <Link href={link.href} className="text-[13px] text-white/70 transition-colors hover:text-[#4FC3D0]">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Main Links Grid */}
-        <div className="relative z-10 grid grid-cols-2 md:grid-cols-5 gap-10 lg:gap-16 mb-20">
-          {footerLinks.map((column) => (
-            <div key={column.title}>
-              <h4 className="text-white/30 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.3em] mb-8">
-                {column.title}
-              </h4>
-              <ul className="space-y-4">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-white/70 hover:text-white text-xs md:text-sm font-bold uppercase tracking-widest transition-colors flex items-center group"
-                    >
-                      {link.label}
-                      <ArrowUpRight className="w-3.5 h-3.5 ml-1.5 opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* Minimalist Peptides Disclaimer */}
-        <div className="relative z-10 py-10 border-t border-white/10">
-          <p className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.25em] text-white/40 mb-2 font-absans">
-            {t('footer.disclaimer')}
-          </p>
-          <p className="text-[10px] md:text-[11px] leading-relaxed text-white/30 uppercase tracking-widest font-medium">
-            {t('footer.disclaimerContent')}
-          </p>
-        </div>
-
-        {/* Bottom Bar: Copyright & Locale */}
-        <div className="relative z-10 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 mb-12 md:mb-0">
-          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 text-center md:text-left">
-            <span>{t('footer.copyright', { year: currentYear })}</span>
+          {/* disclaimer */}
+          <div className="border-t border-white/10 py-8">
+            <p className="mb-2 font-dm-mono text-[10px] uppercase tracking-[0.2em] text-white/55">{t('footer.disclaimer')}</p>
+            <p className="max-w-5xl text-[11px] leading-relaxed text-white/40">{t('footer.disclaimerContent')}</p>
           </div>
 
-          <div className="flex items-center gap-4 bg-white/15 rounded-full p-2 border border-white/20 shadow-xl backdrop-blur-md">
-            <div className="pl-3">
-              <Globe className="w-4 h-4 text-white/50" />
-            </div>
-            <div className="flex items-center gap-1">
+          {/* copyright + language */}
+          <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 py-8 md:flex-row">
+            <span className="text-center font-dm-mono text-[10px] uppercase tracking-[0.18em] text-white/40 md:text-left">{t('footer.copyright', { year: currentYear })}</span>
+
+            <div className="flex items-center gap-1 rounded-full border border-white/15 p-1">
+              <Globe className="mx-2 h-4 w-4 text-white/50" />
               {/* Plain next/link so the href is the bare path. next-intl's Link would
                   either force an /en prefix (with a `locale` prop) or inherit the current
                   locale's prefix (without one) — both wrong for the default locale. The
@@ -160,16 +141,14 @@ export default function Footer() {
                 onClick={() => {
                   document.cookie = 'NEXT_LOCALE=en;sameSite=lax;path=/;';
                 }}
-                className={`px-5 py-2.5 rounded-full text-[11px] font-bold tracking-widest transition-all ${locale === 'en' ? 'bg-white text-black shadow-lg scale-105' : 'text-white/40 hover:text-white'
-                  }`}
+                className={`rounded-full px-4 py-2 text-[11px] font-medium tracking-widest transition-colors ${locale === 'en' ? 'bg-white text-[#0B0F14]' : 'text-white/50 hover:text-white'}`}
               >
                 EN
               </NextLink>
               <Link
                 locale="es"
                 href={pathname}
-                className={`px-5 py-2.5 rounded-full text-[11px] font-bold tracking-widest transition-all ${locale === 'es' ? 'bg-white text-black shadow-lg scale-105' : 'text-white/40 hover:text-white'
-                  }`}
+                className={`rounded-full px-4 py-2 text-[11px] font-medium tracking-widest transition-colors ${locale === 'es' ? 'bg-white text-[#0B0F14]' : 'text-white/50 hover:text-white'}`}
               >
                 ES
               </Link>
@@ -177,69 +156,22 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Mobile Action Buttons (Symmetrical Side-by-Side Overlap) */}
-        <div className="md:hidden absolute bottom-0 left-4 right-4 translate-y-1/2 flex items-end gap-3">
-          {/* Back to Top - Bottom Left */}
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="bg-[#1A1A1A] border border-white/10 text-white w-[25%] pt-4 pb-12 rounded-t-[1.5rem] flex flex-col items-center justify-start shadow-2xl active:scale-95 transition-all"
-          >
-            <ArrowUpRight className="w-3.5 h-3.5 -rotate-45 mb-1" />
-            <span className="text-[6px] font-bold tracking-widest uppercase opacity-40">Top</span>
-          </button>
-          
-          {/* Start Now - Bottom Right */}
-          <Link 
-            href="/wholesale-application"
-            className="bg-[#F1FF85] text-black flex-1 pt-6 pb-12 rounded-t-[1.5rem] flex flex-col items-center justify-start shadow-xl active:scale-95 transition-all"
-          >
-            <span className="text-sm font-absans font-bold tracking-tighter uppercase">{t('footer.startNow')}</span>
-          </Link>
-        </div>
-
-        {/* Desktop Absolute Buttons (Hidden on Mobile) */}
-        <div className="hidden md:block">
-          {/* Back to Top */}
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="absolute bottom-0 right-[280px] translate-y-1/2 bg-[#1A1A1A] border border-white/10 text-white px-8 pt-8 pb-16 rounded-t-[2.5rem] flex flex-col items-center justify-start group hover:bg-white hover:text-black hover:pb-24 transition-all duration-500 shadow-2xl z-20"
-          >
-            <span className="text-[9px] font-bold tracking-[0.25em] uppercase mb-1 opacity-40 group-hover:text-black/40 transition-colors">{t('footer.welcome')}</span>
-            <span className="text-base font-absans font-bold tracking-tighter leading-none mb-3">{t('footer.backToTop')}</span>
-            <div className="w-6 h-6 rounded-full border border-current flex items-center justify-center group-hover:translate-y-[-4px] transition-transform duration-500">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m18 15-6-6-6 6" />
-              </svg>
-            </div>
-          </button>
-
-          {/* Start Now */}
-          <Link 
-            href="/wholesale-application"
-            className="absolute bottom-0 right-8 translate-y-1/2 bg-[#F1FF85] text-black px-12 pt-8 pb-16 rounded-t-[2.5rem] flex flex-col items-center justify-start group hover:pb-24 transition-all duration-500 shadow-[0_-20px_60px_rgba(241,255,133,0.15)]"
-          >
-            <span className="text-3xl font-absans font-bold tracking-tighter leading-none mb-2">{t('footer.startNow')}</span>
-            <ArrowUpRight className="w-8 h-8 transition-transform group-hover:rotate-45" />
-          </Link>
+        {/* oversized wordmark, cropped at the bottom edge like the reference */}
+        <div aria-hidden className="pointer-events-none mx-auto mt-4 h-[16vw] overflow-hidden select-none md:h-[14.2vw] lg:h-[14.2vw]">
+          <div className="whitespace-nowrap text-center font-light leading-[0.82] tracking-[-0.06em] text-white/90 text-[22vw] md:text-[19vw]">99Purity</div>
         </div>
       </div>
 
-      {/* Belk Digital Credit Section - Bottom Margin Area */}
-      <div className="max-w-[1800px] mx-auto mt-16 md:mt-16 flex flex-col md:flex-row justify-between items-center px-8 md:px-20 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.25em] text-black/50">
-        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-8 mb-4 md:mb-0 text-center md:text-left">
-          <span className="whitespace-nowrap">{t('footer.creditLab')}</span>
-          <span className="hidden md:inline opacity-20">|</span>
-          <span className="whitespace-nowrap text-black/30">{t('footer.creditUSA')}</span>
+      {/* credit */}
+      <div className="mx-auto mt-5 flex max-w-[1760px] flex-col items-center justify-between gap-2 px-4 font-dm-mono text-[10px] uppercase tracking-[0.18em] text-[#0B0F14]/50 md:flex-row md:px-8">
+        <div className="flex flex-col items-center gap-1 md:flex-row md:gap-6">
+          <span>{t('footer.creditLab')}</span>
+          <span className="hidden opacity-30 md:inline">|</span>
+          <span className="text-[#0B0F14]/35">{t('footer.creditUSA')}</span>
         </div>
-        
-        <div className="flex items-center gap-1.5 text-center md:text-right">
-          <span className="opacity-40">{t('footer.creditBy')}</span>
-          <a
-            href="https://belkdigital.com/en/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black/80 hover:text-[#d72f45] transition-colors border-b border-black/10 hover:border-[#d72f45] pb-0.5"
-          >
+        <div className="flex items-center gap-1.5">
+          <span className="opacity-60">{t('footer.creditBy')}</span>
+          <a href="https://belkdigital.com/en/" target="_blank" rel="noopener noreferrer" className="border-b border-black/15 pb-0.5 text-[#0B0F14]/80 transition-colors hover:border-[#4FC3D0] hover:text-[#0B6F7B]">
             Belk Digital
           </a>
         </div>
