@@ -147,7 +147,14 @@ function splitTextWords(element: HTMLElement) {
 // ScrollTrigger initialization function
 function initScrollReveals() {
   // 1. Kill any existing scroll triggers from previous route to prevent memory leaks/glitches
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  // Triggers owned by a page-level component (inside [data-gsap-owned], or id "keep-*") clean up
+  // through their own gsap.matchMedia/context, so they must not be killed here.
+  ScrollTrigger.getAll().forEach(trigger => {
+    const owner = trigger.trigger instanceof Element ? trigger.trigger.closest('[data-gsap-owned]') : null;
+    const keepId = typeof trigger.vars.id === 'string' && trigger.vars.id.startsWith('keep-');
+    if (owner || keepId) return;
+    trigger.kill();
+  });
 
   // 2. Split-text slide-in reveals (.reveal-text)
   const textElements = document.querySelectorAll('.reveal-text');

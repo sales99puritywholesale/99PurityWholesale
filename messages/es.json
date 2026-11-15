@@ -350,6 +350,46 @@
       "whatsapp": "Solicitar Precios por WhatsApp",
       "email": "Consulta Mayorista por Correo",
       "msg": "Hola, me gustaría solicitar precios de péptidos al por mayor."
+    },
+    "Experience": {
+      "scroll": "Desplazar",
+      "illustrative": "Cromatograma ilustrativo",
+      "disclaimer": "Solo para uso en investigación de laboratorio. Suministrado a profesionales con licencia.",
+      "manifesto": "Cada lote se sintetiza en suelo estadounidense, se verifica de forma independiente por HPLC y LC-MS, y se documenta con un COA específico del lote antes de enviarse. Suministro creado para laboratorios, instalaciones de composición y distribuidores con licencia.",
+      "manifestoHighlights": [
+        "estadounidense",
+        "HPLC",
+        "LC-MS",
+        "COA",
+        "licencia"
+      ],
+      "pipelineTitle": "De la síntesis a su muelle",
+      "pipelineEyebrow": "El Proceso 99",
+      "steps": [
+        {
+          "title": "Síntesis en EE. UU.",
+          "desc": "Cada lote se sintetiza en suelo estadounidense. Sin materias primas importadas ni compuestos reempaquetados."
+        },
+        {
+          "title": "Pruebas Independientes",
+          "desc": "Freedom Diagnostic ejecuta HPLC de fase inversa y LC-MS en cada lote."
+        },
+        {
+          "title": "COA por Lote",
+          "desc": "Un informe vinculado a su número de lote, descargable antes y después de la compra."
+        },
+        {
+          "title": "Envío Nacional",
+          "desc": "Despacho prioritario nacional en 2 a 4 días hábiles a cualquier estado de EE. UU."
+        }
+      ],
+      "spec": "Especificación de pureza",
+      "specValue": "≥99.0%",
+      "hover": "Pase el cursor o toque para explorar",
+      "drag": "Desplácese para explorar",
+      "catalog": "Catálogo",
+      "next": "Siguiente",
+      "contactLabel": "Mesa mayorista"
     }
   },
   "Search": {

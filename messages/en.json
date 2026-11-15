@@ -350,6 +350,46 @@
       "whatsapp": "Request Pricing on WhatsApp",
       "email": "Email Wholesale Inquiry",
       "msg": "Hi, I'd like to request wholesale peptide pricing."
+    },
+    "Experience": {
+      "scroll": "Scroll",
+      "illustrative": "Illustrative chromatogram",
+      "disclaimer": "For laboratory research use only. Supplied to licensed professionals.",
+      "manifesto": "Every batch is synthesized on U.S. soil, independently verified by HPLC and LC-MS, and documented with a batch-matched COA before it ships. Supply built for licensed laboratories, compounding facilities and distributors.",
+      "manifestoHighlights": [
+        "U.S.",
+        "HPLC",
+        "LC-MS",
+        "COA",
+        "licensed"
+      ],
+      "pipelineTitle": "From synthesis to your dock",
+      "pipelineEyebrow": "The 99 Process",
+      "steps": [
+        {
+          "title": "U.S. Synthesis",
+          "desc": "Every batch synthesized on U.S. soil. No imported raws, no repackaged overseas compounds."
+        },
+        {
+          "title": "Independent Testing",
+          "desc": "Freedom Diagnostic runs reversed-phase HPLC and LC-MS on every batch."
+        },
+        {
+          "title": "Batch-Matched COA",
+          "desc": "A report tied to your lot number, downloadable before and after purchase."
+        },
+        {
+          "title": "Domestic Dispatch",
+          "desc": "Priority domestic fulfillment in 2 to 4 business days to any U.S. state."
+        }
+      ],
+      "spec": "Purity specification",
+      "specValue": "≥99.0%",
+      "hover": "Hover or tap to explore",
+      "drag": "Scroll to explore",
+      "catalog": "Catalog",
+      "next": "Next",
+      "contactLabel": "Wholesale desk"
     }
   },
   "Search": {
