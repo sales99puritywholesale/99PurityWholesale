@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, useRouter, usePathname } from '@/i18n/routing';
 import { Menu, X, Search, Globe, ChevronDown, Check, Command, FlaskConical, ShieldCheck, Newspaper, Info, Phone, LayoutGrid, ArrowRight } from 'lucide-react';
@@ -74,18 +73,9 @@ export default function Header() {
               href="/" 
               className="relative z-[70] flex items-center gap-4 transition-all hover:scale-[1.02] group/logo"
             >
-              <div className="relative">
-                <Image 
-                  src="/images/99pw-strokes-logo.webp"
-                  alt="99 Purity Wholesale"
-                  width={200}
-                  height={50}
-                  sizes="(max-width: 768px) 140px, 200px"
-                  className="w-auto h-8 md:h-14 object-contain"
-                  priority
-                />
-                <div className="absolute inset-0 bg-brand-accent/5 blur-2xl rounded-full opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500" />
-              </div>
+              <span className="font-dm-sans text-base md:text-[1.3rem] font-medium tracking-[-0.045em] text-[#0B0F14] whitespace-nowrap">
+                99Purity <span className="font-light text-black/50">Wholesale</span>
+              </span>
             </Link>
           </div>
 

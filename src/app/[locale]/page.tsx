@@ -1,18 +1,14 @@
+import React from 'react';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
-import { ArrowRight, ArrowUpRight, Download, Zap, Microscope, ShieldCheck, Award, Star, FlaskConical, Globe, Truck, Quote, type LucideIcon } from 'lucide-react';
+import { Plus, ArrowUpRight, Download } from 'lucide-react';
 import productsData from '@/data/products.json';
-import GlobalCTA from '@/components/layout/GlobalCTA';
-import FaqSection from '@/components/shared/FaqSection';
+import FaqSchema from '@/components/seo/FaqSchema';
 import HomeHero from '@/components/home/HomeHero';
-import Marquee from '@/components/home/Marquee';
-import Manifesto from '@/components/home/Manifesto';
-import CountUp from '@/components/home/CountUp';
-import ProductShowcase from '@/components/home/ProductShowcase';
-import QualityPipeline from '@/components/home/QualityPipeline';
-import FxCard from '@/components/home/FxCard';
-import ScrollProgress from '@/components/home/ScrollProgress';
+import Parallax from '@/components/home/Parallax';
 import { RevealGroup, SplitHeading } from '@/components/home/Reveal';
+import { Eyebrow, PillButton, ArrowDot, Photo, h2, card } from '@/components/home/ui';
+import { HOME_IMAGES } from '@/components/home/home-images';
 
 type BestSellerItem = { name: string; spec: string; desc: string };
 type TierItem = { name: string; label: string; kits: string; description: string };
@@ -20,15 +16,12 @@ type TestimonialItem = { quote: string; role: string; location: string };
 type ServiceItem = { title: string; desc: string };
 type BlogItem = { slug: string; title: string; desc: string; tag: string };
 type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string };
 type TierKey = 'starter' | 'tier1' | 'tier2' | 'tier3';
 type ServiceKey = 'dropshipping' | 'privateLabel' | 'launch' | 'web';
 
 const WHATSAPP = 'https://wa.me/18433307365';
-
-const eyebrowDark = 'font-dm-mono text-[10px] uppercase tracking-[0.32em] text-[#4FC3D0]';
-const eyebrowLight = 'font-dm-mono text-[10px] uppercase tracking-[0.32em] text-[#090C11]/50';
-const h2Base = 'font-absans font-bold uppercase leading-[0.96] tracking-tighter text-[clamp(2rem,4.4vw,4.6rem)]';
+const wrap = 'mx-auto w-full max-w-[1440px] px-5 md:px-10';
+const section = 'py-20 md:py-28';
 
 const BEST_SELLER_SLUGS = ['semaglutide', 'tirzepatide', 'retatrutide', 'bpc-157', 'tb-500', 'ipamorelin', 'cjc-1295-ipam', 'nad', 'epithalon'];
 const BEST_SELLER_CATS = ['metabolic-research', 'metabolic-research', 'metabolic-research', 'recovery-research', 'recovery-research', 'growth-factor-research', 'growth-factor-research', 'cellular-health-research', 'metabolic-research'];
@@ -43,20 +36,8 @@ const BEST_SELLER_IMAGES: Record<string, string> = {
   nad: '/product-images/nad-plus-500mg-1.webp',
   epithalon: '/product-images/EPITHALON 10mg.webp',
 };
-
-const CATEGORIES: Array<{ id: string; icon: LucideIcon }> = [
-  { id: 'metabolic-research', icon: Zap },
-  { id: 'cognitive-function', icon: Microscope },
-  { id: 'sleep-cycle-investigation', icon: ShieldCheck },
-  { id: 'growth-factor-research', icon: Award },
-  { id: 'recovery-research', icon: Star },
-  { id: 'cellular-health-research', icon: FlaskConical },
-  { id: 'aminos', icon: Globe },
-  { id: 'essentials', icon: Truck },
-];
-
+const CATEGORY_IDS = ['metabolic-research', 'cognitive-function', 'sleep-cycle-investigation', 'growth-factor-research', 'recovery-research', 'cellular-health-research', 'aminos', 'essentials'];
 const TIER_KEYS: TierKey[] = ['starter', 'tier1', 'tier2', 'tier3'];
-const TIER_FILL = [25, 50, 75, 100];
 const SERVICE_KEYS: ServiceKey[] = ['dropshipping', 'privateLabel', 'launch', 'web'];
 const QUALITY_DOWNLOADS = [
   { key: 'bpc', name: 'BPC-157' },
@@ -64,10 +45,17 @@ const QUALITY_DOWNLOADS = [
   { key: 'tirz', name: 'Tirzepatide' },
 ] as const;
 
-function splitLast(text: string) {
-  const parts = text.trim().split(/\s+/);
-  const accent = parts.length > 1 ? parts[parts.length - 1] : '';
-  return { lead: parts.slice(0, parts.length > 1 ? -1 : undefined).join(' '), accent };
+function renderAnswer(text: string) {
+  return text.split(/(\[[^\]]+\]\([^)]+\))/g).map((seg, i) => {
+    const m = seg.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!m) return <React.Fragment key={i}>{seg}</React.Fragment>;
+    const external = m[2].startsWith('http');
+    return (
+      <a key={i} href={m[2]} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="underline underline-offset-2">
+        {m[1]}
+      </a>
+    );
+  });
 }
 
 export async function generateMetadata(props: any) {
@@ -77,9 +65,7 @@ export async function generateMetadata(props: any) {
   return {
     title: t('homeTitle'),
     description: t('homeDesc'),
-    alternates: {
-      canonical: `https://99puritywholesale.com${locale === 'en' ? '/' : `/${locale}`}`,
-    },
+    alternates: { canonical: `https://99puritywholesale.com${locale === 'en' ? '/' : `/${locale}`}` },
   };
 }
 
@@ -87,61 +73,28 @@ export default async function HomePage({ params }: { params: { locale: string } 
   const t = await getTranslations({ locale: params.locale, namespace: 'Index' });
   const pt = await getTranslations({ locale: params.locale, namespace: 'ProductsIndex' });
 
-  const bestSellers = t.raw('BestSellers.items') as BestSellerItem[];
-  const showcaseItems = bestSellers.slice(0, 9).map((p, i) => ({
-    slug: BEST_SELLER_SLUGS[i],
-    name: p.name,
-    spec: p.spec,
-    desc: p.desc,
-    img: BEST_SELLER_IMAGES[BEST_SELLER_SLUGS[i]],
-    category: pt(`categories.${BEST_SELLER_CATS[i]}.name`),
-  }));
-  const showcaseTitle = splitLast(t('BestSellers.title'));
-
-  const marqueeItems = [
-    ...bestSellers.map((p) => p.name),
-    t('Hero.badges.purity'),
-    t('Hero.badges.tested'),
-    t('Hero.badges.usMade'),
-    t('Hero.badges.b2b'),
-  ];
-
-  const heroRing = [t('Hero.badges.b2b'), t('Hero.badges.usMade'), t('Hero.badges.purity')].join(' • ').toUpperCase() + ' • ';
-
+  const bestSellers = (t.raw('BestSellers.items') as BestSellerItem[]).slice(0, 8);
   const tiers = t.raw('Tiers.items') as Record<TierKey, TierItem>;
   const services = t.raw('Services.items') as Record<ServiceKey, ServiceItem>;
   const testimonials = t.raw('Testimonials.items') as TestimonialItem[];
   const blogItems = t.raw('Blog.items') as BlogItem[];
-  const steps = t.raw('Experience.steps') as StepItem[];
+  const faqItems = t.raw('FAQ.items') as FaqItem[];
   const scaleLines = t('Services.scaleTitle').split(/<br\s*\/?>/i).map((s) => s.trim());
 
-  const stats: Array<{ id: 'compounds' | 'purity' | 'clients' | 'coverage'; node: React.ReactNode }> = [
-    { id: 'compounds', node: <CountUp value={50} suffix="+" /> },
-    { id: 'purity', node: <CountUp value={99} suffix="%+" /> },
-    { id: 'clients', node: <span>COA</span> },
-    { id: 'coverage', node: <CountUp value={50} /> },
-  ];
-
   return (
-    <div data-gsap-owned className="relative overflow-x-clip bg-[#090C11] text-[#EDF2F7] selection:bg-[#4FC3D0]/30">
+    <div data-gsap-owned className="relative overflow-x-clip bg-[#F3F5FA] font-dm-sans text-[#0B0F14] selection:bg-[#4FC3D0]/30">
       <noscript>
-        <style>{'.hero-in{opacity:1!important}.hero-word{opacity:1!important}.hero-img-wrap{clip-path:none!important}'}</style>
+        <style>{'.hero-in,.hero-word{opacity:1!important}.hero-img-wrap{clip-path:none!important}'}</style>
       </noscript>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebSite',
-            name: '99 Purity Wholesale',
-            url: 'https://99puritywholesale.com',
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: '99 Purity Wholesale', url: 'https://99puritywholesale.com' }) }}
       />
-      <ScrollProgress />
+      <FaqSchema items={faqItems} />
 
       {/* 01 — HERO */}
       <HomeHero
+        image={HOME_IMAGES.hero}
         badge={t('Hero.authorized')}
         title={t('Hero.title')}
         subtitle={t('Hero.subtitle')}
@@ -150,424 +103,359 @@ export default async function HomePage({ params }: { params: { locale: string } 
         secondaryCta={t('Hero.secondaryCta')}
         secondaryHref="/products"
         imageAlt={t('Hero.badge')}
-        ringText={heroRing}
-        chips={[
-          { value: '≥99%', label: t('StatsBar.purity.label') },
-          { value: 'HPLC · MS', label: t('Hero.badges.tested') },
-          { value: 'COA', label: t('StatsBar.clients.sub') },
+        facts={[
+          { value: '99%+', label: t('Hero.badges.purity') },
+          { value: 'HPLC / MS', label: t('Hero.badges.tested') },
         ]}
-        stats={[
-          { value: '99%+', label: t('Hero.badges.purity'), icon: 'purity' },
-          { value: 'HPLC / MS', label: t('Hero.badges.tested'), icon: 'tested' },
-          { value: t('Hero.badges.usMade'), label: t('Hero.badges.b2b'), icon: 'b2b' },
-          { value: t('Hero.badges.states'), label: t('StatsBar.coverage.sub'), icon: 'origin' },
-        ]}
-        scrollLabel={t('Experience.scroll')}
-        disclaimer={t('Experience.disclaimer')}
       />
 
-      {/* 02 — MARQUEE */}
-      <div className="relative z-10 border-y border-[#090C11]/10 bg-[#4FC3D0] py-5 text-[#090C11] md:py-6">
-        <Marquee items={marqueeItems} itemClassName="font-absans text-xl font-bold uppercase tracking-tight md:text-3xl" />
-      </div>
-
-      {/* 03 — MANIFESTO + SPEC SHEET */}
-      <section className="relative bg-[#090C11] px-6 pb-24 pt-28 md:pb-32 md:pt-44 lg:px-12">
-        <div aria-hidden className="home-grid-bg pointer-events-none absolute inset-0 opacity-60" />
-        <div className="relative mx-auto max-w-[1500px]">
-          <div className="mb-10 flex items-center gap-3 md:mb-14">
-            <span className="h-px w-10 bg-[#4FC3D0]/60" />
-            <span className={eyebrowDark}>{t('Differentiators.institutionalStandard')}</span>
+      {/* 02 — INTRO + NUMBERED POINTS */}
+      <section className={section}>
+        <div className={wrap}>
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow className="mb-6 justify-center">{t('Differentiators.institutionalStandard')}</Eyebrow>
+            <SplitHeading text={t('Differentiators.lab.title')} className={`${h2} mb-6`} />
+            <p className="mx-auto mb-8 max-w-xl text-[15px] leading-relaxed text-[#0B0F14]/60">{t('Differentiators.lab.description')}</p>
+            <PillButton href="/products">{t('Hero.secondaryCta')}</PillButton>
           </div>
-          <Manifesto
-            text={t('Experience.manifesto')}
-            highlights={t.raw('Experience.manifestoHighlights') as string[]}
-            className="max-w-[1250px] font-absans text-[clamp(1.75rem,3.9vw,4rem)] font-bold leading-[1.08] tracking-tight"
-          />
 
-          <RevealGroup className="mt-20 grid grid-cols-2 border-t border-white/10 lg:mt-28 lg:grid-cols-4">
-            {stats.map((s, i) => (
-              <div key={s.id} data-reveal className={`border-b border-white/10 py-9 pr-4 lg:py-12 ${i % 2 === 1 ? 'pl-6 border-l' : ''} ${i >= 2 ? 'lg:border-l lg:pl-8' : ''} ${i === 1 ? 'lg:border-l lg:pl-8' : ''}`}>
-                <div className="font-dm-mono text-[10px] uppercase tracking-[0.28em] text-[#EDF2F7]/40">{t(`StatsBar.${s.id}.label`)}</div>
-                <div className="mt-4 font-absans text-[clamp(2.6rem,5.4vw,5.6rem)] font-bold leading-none tracking-tight">{s.node}</div>
-                <div className="mt-4 font-dm-mono text-[9px] uppercase tracking-[0.22em] text-[#4FC3D0]">{t(`StatsBar.${s.id}.sub`)}</div>
+          <RevealGroup className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-10 sm:grid-cols-3 md:mt-24">
+            {(['purity', 'clients', 'coverage'] as const).map((k, i) => (
+              <div key={k} data-reveal>
+                <div className="mb-4 font-dm-mono text-[10px] uppercase tracking-[0.2em] text-[#0B0F14]/45">{t(`StatsBar.${k}.label`)}</div>
+                <div className="mb-3 font-light leading-none tracking-[-0.05em] text-[clamp(2.4rem,4vw,3.4rem)]">
+                  0{i + 1}
+                  <span className="ml-0.5 align-top text-sm text-[#4FC3D0]">&bull;</span>
+                </div>
+                <p className="max-w-[16rem] text-[13px] leading-relaxed text-[#0B0F14]/55">{t(`StatsBar.${k}.sub`)}</p>
               </div>
             ))}
           </RevealGroup>
+        </div>
+      </section>
 
-          <RevealGroup className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3 lg:mt-20">
-            {(['lab', 'coa', 'support'] as const).map((k, i) => (
-              <div key={k} data-reveal>
-                <FxCard tilt={5} className="group h-full rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-8 transition-colors duration-500 hover:border-[#4FC3D0]/40 lg:p-10">
-                  <div className="relative z-10">
-                    <div className="mb-14 flex items-center justify-between">
-                      <span className="font-dm-mono text-[10px] tracking-[0.3em] text-[#EDF2F7]/35">{String(i + 1).padStart(2, '0')}</span>
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[#EDF2F7]/50 transition-all duration-500 group-hover:rotate-45 group-hover:border-[#4FC3D0] group-hover:bg-[#4FC3D0] group-hover:text-[#090C11]">
-                        <ArrowUpRight className="h-4 w-4" />
+      {/* 03 — FOUR POINTS */}
+      <section className="pb-20 md:pb-28">
+        <div className={wrap}>
+          <div className="mb-10 md:mb-14">
+            <Eyebrow className="mb-5">{t('Quality.technicalStandard')}</Eyebrow>
+            <SplitHeading text={t('Quality.title')} className={`${h2} max-w-3xl`} />
+          </div>
+          <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {(['lab', 'coa', 'pricing', 'support'] as const).map((k, i) => (
+              <div key={k} data-reveal className={`${card} flex min-h-[260px] flex-col justify-between p-6 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.07)]`}>
+                <div className="flex items-start justify-between">
+                  <span className="font-dm-mono text-[10px] tracking-[0.2em] text-[#0B0F14]/40">0{i + 1}</span>
+                  <span className="h-2 w-2 bg-[#4FC3D0]" />
+                </div>
+                <div>
+                  <h3 className="mb-3 text-xl font-normal leading-tight tracking-[-0.03em]">{t(`Differentiators.${k}.title`)}</h3>
+                  <p className="text-[13px] leading-relaxed text-[#0B0F14]/55">{t(`Differentiators.${k}.description`)}</p>
+                </div>
+              </div>
+            ))}
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 04 — CATALOG (best sellers) */}
+      <section className="pb-20 md:pb-28">
+        <div className={wrap}>
+          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
+            <div>
+              <Eyebrow className="mb-5">{t('BestSellers.badge')}</Eyebrow>
+              <SplitHeading text={t('BestSellers.title')} className={`${h2} max-w-3xl`} />
+            </div>
+            <div className="max-w-sm">
+              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('BestSellers.subtitle')}</p>
+              <PillButton href="/products">{t('BestSellers.browseAll', { count: productsData.length })}</PillButton>
+            </div>
+          </div>
+
+          <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {bestSellers.map((p, i) => {
+              const slug = BEST_SELLER_SLUGS[i];
+              return (
+                <Link key={slug} data-reveal href={`/products/${slug}`} className={`${card} group overflow-hidden p-2 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.08)]`}>
+                  <div className="relative aspect-[4/4.6] overflow-hidden rounded-[0.9rem] bg-[#e6eaf0]">
+                    <div className="absolute inset-0 transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
+                      <Photo src={BEST_SELLER_IMAGES[slug]} alt={`${p.name} research peptide, wholesale`} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" position="50% 60%" />
+                    </div>
+                    <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 font-dm-mono text-[9px] uppercase tracking-[0.14em] backdrop-blur">{pt(`categories.${BEST_SELLER_CATS[i]}.name`)}</span>
+                  </div>
+                  <div className="p-4 pb-3">
+                    <h3 className="mb-2 text-lg font-normal tracking-[-0.03em]">{p.name}</h3>
+                    <p className="mb-5 line-clamp-2 text-[13px] leading-relaxed text-[#0B0F14]/55">{p.desc}</p>
+                    <div className="flex items-center justify-between border-t border-[#E6EAF1] pt-3 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/50">
+                      <span>{p.spec}</span>
+                      <span className="flex items-center gap-1.5 text-[#0B0F14]">
+                        {t('BestSellers.viewSpecs')}
+                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-45" />
                       </span>
                     </div>
-                    <h3 className="mb-3 font-absans text-2xl font-bold uppercase tracking-tight lg:text-3xl">{t(`Differentiators.${k}.title`)}</h3>
-                    <p className="font-archia text-sm leading-relaxed text-[#EDF2F7]/50">{t(`Differentiators.${k}.description`)}</p>
                   </div>
-                </FxCard>
-              </div>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* 04 — PINNED HORIZONTAL PRODUCT SHOWCASE */}
-      <ProductShowcase
-        eyebrow={t('BestSellers.badge')}
-        titleLead={showcaseTitle.lead}
-        titleAccent={showcaseTitle.accent}
-        subtitle={t('BestSellers.subtitle')}
-        items={showcaseItems}
-        labels={{
-          viewSpecs: t('BestSellers.viewSpecs'),
-          technicalGrade: t('BestSellers.technicalGrade'),
-          verifiedPurity: t('BestSellers.verifiedPurity'),
-          browseAll: t('BestSellers.browseAll', { count: productsData.length }),
-          hint: t('Experience.drag'),
-        }}
-      />
-
-      {/* 05 — CATEGORY BENTO */}
-      <section className="relative bg-[#090C11] px-6 py-24 md:py-40 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-14 flex flex-col justify-between gap-8 lg:mb-20 lg:flex-row lg:items-end">
-            <div className="max-w-4xl">
-              <div className="mb-6 flex items-center gap-3">
-                <span className="h-px w-10 bg-[#4FC3D0]/60" />
-                <span className={eyebrowDark}>{t('Categories.badge')}</span>
-              </div>
-              <SplitHeading text={t('Categories.title')} className={h2Base} accentWords={['Compounds', 'Compuestos']} accentClassName="text-[#4FC3D0]" />
-            </div>
-            <div className="max-w-md">
-              <p className="mb-8 font-archia text-base leading-relaxed text-[#EDF2F7]/50">{t('Categories.subtitle')}</p>
-              <Link href="/products" className="group inline-flex items-center gap-4 rounded-full border border-white/15 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.28em] transition-all hover:border-[#4FC3D0] hover:bg-[#4FC3D0] hover:text-[#090C11]">
-                {t('Categories.cta')}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-
-          <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-            {CATEGORIES.map((cat, i) => {
-              const Icon = cat.icon;
-              const featured = i === 0;
-              return (
-                <div key={cat.id} data-reveal className={featured ? 'sm:col-span-2' : ''}>
-                  <FxCard className={`group h-full rounded-[1.75rem] border border-white/10 bg-white/[0.025] transition-colors duration-500 hover:border-[#4FC3D0]/45 ${featured ? 'min-h-[340px]' : 'min-h-[300px]'}`}>
-                    <Link href={`/products#${cat.id}`} className="relative z-10 flex h-full min-h-[inherit] flex-col justify-between p-8 lg:p-9">
-                      <div className="flex items-start justify-between">
-                        <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-[#4FC3D0] transition-all duration-500 group-hover:scale-110 group-hover:bg-[#4FC3D0] group-hover:text-[#090C11]">
-                          <Icon className="h-5 w-5" />
-                        </span>
-                        <span className="font-dm-mono text-[10px] tracking-[0.3em] text-[#EDF2F7]/30">{String(i + 1).padStart(2, '0')}</span>
-                      </div>
-                      <div>
-                        <h4 className={`mb-3 font-absans font-bold leading-[1.02] tracking-tight ${featured ? 'text-3xl lg:text-4xl' : 'text-2xl'}`}>{pt(`categories.${cat.id}.name`)}</h4>
-                        <p className={`mb-6 font-archia text-sm leading-relaxed text-[#EDF2F7]/45 transition-colors group-hover:text-[#EDF2F7]/70 ${featured ? 'max-w-md' : 'line-clamp-3'}`}>{pt(`categories.${cat.id}.desc`)}</p>
-                        <span className="flex items-center gap-3 font-dm-mono text-[9px] uppercase tracking-[0.24em] text-[#EDF2F7]/40 transition-colors group-hover:text-[#4FC3D0]">
-                          <span className="h-px w-6 bg-current transition-all duration-500 group-hover:w-12" />
-                          {t('Categories.exploreSeries')}
-                        </span>
-                      </div>
-                    </Link>
-                  </FxCard>
-                </div>
+                </Link>
               );
             })}
-
-            <div data-reveal className="sm:col-span-2 lg:col-span-3">
-              <Link href="/products" className="group relative flex h-full min-h-[300px] flex-col justify-between overflow-hidden rounded-[1.75rem] bg-[#4FC3D0] p-8 text-[#090C11] lg:p-9">
-                <span aria-hidden className="pointer-events-none absolute -right-10 -top-16 font-goku text-[16rem] font-bold leading-none text-[#090C11]/[0.07] transition-transform duration-700 group-hover:scale-110">99</span>
-                <FlaskConical className="relative h-9 w-9" />
-                <div className="relative">
-                  <h4 className="mb-3 font-absans text-3xl font-bold uppercase leading-none tracking-tighter lg:text-5xl">{t('Categories.fullCatalog')}</h4>
-                  <p className="mb-8 max-w-md font-archia text-sm leading-relaxed text-[#090C11]/70">{t('Categories.fullCatalogDesc')}</p>
-                  <span className="inline-flex items-center gap-4 rounded-full bg-[#090C11] px-7 py-4 text-[10px] font-bold uppercase tracking-[0.26em] text-white transition-all duration-500 group-hover:gap-7">
-                    {t('Categories.accessCatalog')}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </Link>
-            </div>
           </RevealGroup>
         </div>
       </section>
 
-      {/* 06 — QUALITY: PINNED, SCROLL-DRAWN CHROMATOGRAM */}
-      <section className="relative">
-        <QualityPipeline
-          eyebrow={t('Experience.pipelineEyebrow')}
-          title={t('Quality.title')}
-          description={t('Quality.description')}
-          cta={t('Quality.cta')}
-          ctaHref="/certificates-of-analysis"
-          caption={t('Experience.pipelineTitle')}
-          illustrative={t('Experience.illustrative')}
-          specLabel={t('Experience.spec')}
-          specValue={t('Experience.specValue')}
-          steps={steps}
-        />
-        <div className="relative bg-[#070A0F] px-6 pb-24 lg:px-12 lg:pb-32">
-          <RevealGroup className="mx-auto grid max-w-[1500px] grid-cols-1 gap-4 md:grid-cols-3 lg:gap-5">
-            {QUALITY_DOWNLOADS.map((d) => (
-              <a
-                key={d.key}
-                data-reveal
-                href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to request the batch COA report for ${d.name}.`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative flex items-center justify-between gap-4 overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-6 transition-colors duration-500 hover:border-[#4FC3D0]/50 lg:p-8"
-              >
-                <span className="absolute inset-0 -translate-x-full bg-[#4FC3D0]/[0.07] transition-transform duration-700 ease-out group-hover:translate-x-0" />
-                <span className="relative">
-                  <span className="mb-2 block font-dm-mono text-[9px] uppercase tracking-[0.28em] text-[#4FC3D0]">{t('Quality.batchReport')}</span>
-                  <span className="block font-absans text-lg font-bold uppercase leading-tight tracking-tight sm:text-xl">{t(`Quality.downloads.${d.key}`)}</span>
-                </span>
-                <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 transition-all duration-500 group-hover:border-[#4FC3D0] group-hover:bg-[#4FC3D0] group-hover:text-[#090C11]">
-                  <Download className="h-5 w-5" />
-                </span>
-              </a>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* 07 — WHOLESALE TIERS */}
-      <section id="wholesale-tiers" className="relative bg-[#EDF2F7] px-6 py-24 text-[#090C11] md:py-40 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mx-auto mb-16 max-w-4xl text-center lg:mb-24">
-            <div className="mb-6 flex items-center justify-center gap-3">
-              <span className="h-px w-10 bg-[#090C11]/25" />
-              <span className={eyebrowLight}>{t('Tiers.badge')}</span>
-              <span className="h-px w-10 bg-[#090C11]/25" />
+      {/* 05 — TIERS (dark panel) */}
+      <section id="wholesale-tiers" className="px-3 md:px-4">
+        <div className="mx-auto max-w-[1760px] rounded-[1.75rem] bg-[#0B0D10] py-16 text-white md:py-24">
+          <div className={`${wrap} grid gap-12 lg:grid-cols-12`}>
+            <div className="lg:col-span-4">
+              <Eyebrow light className="mb-5">{t('Tiers.badge')}</Eyebrow>
+              <SplitHeading text={t('Tiers.title')} className={`${h2} mb-6 !text-white`} />
+              <p className="mb-6 max-w-sm text-[13px] leading-relaxed text-white/55">{t('Tiers.description')}</p>
+              <p className="font-dm-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-white/35">{t('Tiers.onRequests')}</p>
             </div>
-            <SplitHeading text={t('Tiers.title')} className={h2Base} />
-            <p className="mx-auto mt-8 max-w-2xl font-archia text-base leading-relaxed text-[#090C11]/55">{t('Tiers.description')}</p>
-          </div>
-
-          <RevealGroup className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {TIER_KEYS.map((key, i) => {
-              const tier = tiers[key];
-              const premium = i >= 2;
-              return (
-                <div key={key} data-reveal className="h-full [perspective:1000px]">
-                  <FxCard
-                    tilt={6}
-                    spot={premium ? 'rgba(79,195,208,0.22)' : 'rgba(27,127,140,0.14)'}
-                    className={`group flex h-full flex-col rounded-[2rem] border p-8 transition-shadow duration-500 lg:p-9 ${
-                      premium ? 'border-white/10 bg-[#090C11] text-white hover:shadow-[0_40px_90px_rgba(9,12,17,0.4)]' : 'border-[#090C11]/10 bg-white hover:shadow-[0_40px_90px_rgba(9,12,17,0.1)]'
-                    }`}
-                  >
-                    <div className="relative z-10 flex h-full flex-col">
-                      <div className="mb-10 flex items-start justify-between">
-                        <span className={`font-dm-mono text-[10px] uppercase tracking-[0.28em] ${premium ? 'text-white/40' : 'text-[#090C11]/45'}`}>{tier.label}</span>
-                        {i === 3 && <span className="rounded-full border border-[#4FC3D0]/50 bg-[#4FC3D0]/10 px-3 py-1 font-dm-mono text-[9px] uppercase tracking-[0.2em] text-[#4FC3D0]">{t('Tiers.bestValue')}</span>}
-                      </div>
-                      <div className="mb-2 font-absans text-5xl font-bold uppercase leading-none tracking-tighter">{tier.name}</div>
-                      <div className={`mb-6 font-dm-mono text-xs uppercase tracking-[0.2em] ${premium ? 'text-[#4FC3D0]' : 'text-[#1B7F8C]'}`}>{tier.kits}</div>
-                      <div className={`mb-8 h-1 w-full overflow-hidden rounded-full ${premium ? 'bg-white/10' : 'bg-[#090C11]/10'}`}>
-                        <div className={`h-full rounded-full ${premium ? 'bg-[#4FC3D0]' : 'bg-[#1B7F8C]'}`} style={{ width: `${TIER_FILL[i]}%` }} />
-                      </div>
-                      <p className={`flex-grow font-archia text-sm leading-relaxed ${premium ? 'text-white/50' : 'text-[#090C11]/55'}`}>{tier.description}</p>
-                      <a
-                        href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to learn about wholesale tier ${tier.name} pricing.`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`group/btn mt-10 flex items-center justify-between rounded-full px-6 py-4 text-[10px] font-bold uppercase tracking-[0.24em] transition-all duration-300 ${
-                          premium ? 'bg-[#4FC3D0] text-[#090C11] hover:bg-white' : 'bg-[#090C11] text-white hover:bg-[#1B7F8C]'
-                        }`}
-                      >
-                        {t('Tiers.getPricng')}
-                        <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-45" />
-                      </a>
+            <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-8">
+              {TIER_KEYS.map((k, i) => {
+                const tier = tiers[k];
+                return (
+                  <div key={k} data-reveal className="flex min-h-[290px] flex-col rounded-[1.1rem] bg-white p-6 text-[#0B0F14]">
+                    <div className="mb-8 flex items-start justify-between">
+                      <span className="font-dm-mono text-[10px] uppercase tracking-[0.18em] text-[#0B0F14]/45">{tier.label}</span>
+                      {i === 3 ? <span className="rounded-full bg-[#4FC3D0]/20 px-2.5 py-1 font-dm-mono text-[9px] uppercase tracking-[0.14em] text-[#0B6F7B]">{t('Tiers.bestValue')}</span> : <span className="h-2 w-2 bg-[#4FC3D0]" />}
                     </div>
-                  </FxCard>
-                </div>
-              );
-            })}
-          </RevealGroup>
-          <p className="mx-auto mt-12 max-w-3xl text-center font-dm-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-[#090C11]/40">{t('Tiers.onRequests')}</p>
+                    <div className="mb-1 text-3xl font-light tracking-[-0.04em]">{tier.name}</div>
+                    <div className="mb-4 font-dm-mono text-[11px] uppercase tracking-[0.14em] text-[#0B6F7B]">{tier.kits}</div>
+                    <p className="mb-6 flex-grow text-[13px] leading-relaxed text-[#0B0F14]/55">{tier.description}</p>
+                    <a
+                      href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to learn about wholesale tier ${tier.name} pricing.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between border-t border-[#E6EAF1] pt-4 text-[13px] font-medium"
+                    >
+                      {t('Tiers.getPricng')}
+                      <ArrowDot />
+                    </a>
+                  </div>
+                );
+              })}
+            </RevealGroup>
+          </div>
         </div>
       </section>
 
-      {/* 08 — TESTIMONIALS */}
-      <section id="testimonials" className="relative bg-[#090C11] px-6 py-24 md:py-40 lg:px-12">
-        <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[60rem] -translate-x-1/2 rounded-full bg-[#4FC3D0]/[0.07] blur-[140px]" />
-        <div className="relative mx-auto max-w-[1500px]">
-          <div className="mb-14 max-w-4xl lg:mb-20">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="h-px w-10 bg-[#4FC3D0]/60" />
-              <span className={eyebrowDark}>{t('Testimonials.badge')}</span>
+      {/* 06 — DOCUMENTATION PANEL */}
+      <section className="px-3 pt-3 md:px-4">
+        <div className="relative mx-auto max-w-[1760px]">
+          <Parallax className="h-[680px] rounded-[1.75rem] bg-[#12171d] md:h-[720px]" amount={6}>
+            <Photo src={HOME_IMAGES.documentation} alt={t('Quality.title')} sizes="100vw" />
+          </Parallax>
+          <RevealGroup className="absolute inset-x-4 bottom-4 md:inset-x-auto md:bottom-10 md:left-10">
+            <div data-reveal className="w-full max-w-[520px] rounded-[1.25rem] bg-white/95 p-7 shadow-[0_30px_80px_rgba(11,15,20,0.2)] backdrop-blur md:p-9">
+              <Eyebrow className="mb-5">{t('Quality.batchReport')}</Eyebrow>
+              <h2 className={`${h2} mb-5 !text-[clamp(1.9rem,3.2vw,2.9rem)]`}>{t('Quality.verification')}</h2>
+              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Quality.description')}</p>
+              <ul className="mb-7 divide-y divide-[#E6EAF1] border-y border-[#E6EAF1]">
+                {QUALITY_DOWNLOADS.map((d) => (
+                  <li key={d.key}>
+                    <a
+                      href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to request the batch COA report for ${d.name}.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-4 py-3 text-[13px]"
+                    >
+                      <span>{t(`Quality.downloads.${d.key}`)}</span>
+                      <Download className="h-4 w-4 text-[#0B0F14]/50 transition-colors group-hover:text-[#0B6F7B]" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <PillButton href="/certificates-of-analysis">{t('Quality.cta')}</PillButton>
             </div>
-            <SplitHeading text={t('Testimonials.title')} className={h2Base} />
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 07 — CATEGORY ROWS */}
+      <section className={section}>
+        <div className={wrap}>
+          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
+            <div>
+              <Eyebrow className="mb-5">{t('Categories.badge')}</Eyebrow>
+              <SplitHeading text={t('Categories.title')} className={`${h2} max-w-3xl`} />
+            </div>
+            <div className="max-w-sm">
+              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Categories.subtitle')}</p>
+              <PillButton href="/products">{t('Categories.cta')}</PillButton>
+            </div>
+          </div>
+          <RevealGroup className={`${card} divide-y divide-[#E6EAF1] px-2 md:px-4`}>
+            {CATEGORY_IDS.map((id, i) => (
+              <Link key={id} data-reveal href={`/products#${id}`} className="group grid grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-1 px-2 py-5 transition-colors hover:bg-[#F3F5FA] md:grid-cols-[3rem_minmax(0,1fr)_minmax(0,1.4fr)_auto] md:gap-x-8 md:px-3">
+                <span className="font-dm-mono text-[10px] tracking-[0.2em] text-[#0B0F14]/40">0{i + 1}</span>
+                <span className="text-lg font-normal tracking-[-0.03em] md:text-xl">{pt(`categories.${id}.name`)}</span>
+                <span className="col-span-2 col-start-2 line-clamp-2 text-[13px] leading-relaxed text-[#0B0F14]/55 md:col-span-1 md:col-start-auto">{pt(`categories.${id}.desc`)}</span>
+                <ArrowDot className="row-span-2 md:row-span-1" />
+              </Link>
+            ))}
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 08 — SERVICES */}
+      <section className="pb-20 md:pb-28">
+        <div className={wrap}>
+          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
+            <div>
+              <Eyebrow className="mb-5">{t('Services.badge')}</Eyebrow>
+              <SplitHeading text={t('Services.title')} className={`${h2} max-w-3xl`} />
+            </div>
+            <div className="max-w-sm">
+              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Services.description')}</p>
+              <PillButton href="/services">{t('Services.cta')}</PillButton>
+            </div>
           </div>
 
-          <RevealGroup className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {SERVICE_KEYS.map((k) => {
+              const s = services[k];
+              const benefits = t.raw(`Services.benefits.${k}`) as string[];
+              return (
+                <Link key={k} data-reveal href="/services" className={`${card} group overflow-hidden p-2 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.08)]`}>
+                  <Parallax className="aspect-[4/3.4] rounded-[0.9rem] bg-[#dfe5ec]" amount={5}>
+                    <Photo src={HOME_IMAGES.services[k]} alt={s.title} sizes="(max-width: 640px) 100vw, 25vw" />
+                  </Parallax>
+                  <div className="p-4">
+                    <h3 className="mb-2 text-lg font-normal leading-tight tracking-[-0.03em]">{s.title}</h3>
+                    <p className="mb-4 text-[13px] leading-relaxed text-[#0B0F14]/55">{s.desc}</p>
+                    <ul className="space-y-1.5 border-t border-[#E6EAF1] pt-3">
+                      {benefits.map((b) => (
+                        <li key={b} className="flex items-center gap-2 font-dm-mono text-[10px] uppercase tracking-[0.12em] text-[#0B0F14]/50">
+                          <span className="h-1 w-1 bg-[#4FC3D0]" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Link>
+              );
+            })}
+          </RevealGroup>
+
+          <RevealGroup className="mt-3">
+            <div data-reveal className={`${card} grid items-center gap-8 p-7 md:p-10 lg:grid-cols-2`}>
+              <div>
+                <h3 className={`${h2} mb-4 !text-[clamp(1.8rem,3.2vw,2.8rem)]`}>
+                  {scaleLines.map((line, i) => (
+                    <span key={i} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </h3>
+                <p className="max-w-md text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Services.scaleSubtitle')}</p>
+              </div>
+              <div className="flex flex-wrap gap-3 lg:justify-end">
+                <PillButton href="/services">{t('Services.guide')}</PillButton>
+                <PillButton href="/wholesale-application" variant="outline">{t('Services.wholesaleApp')}</PillButton>
+              </div>
+            </div>
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 09 — TESTIMONIALS */}
+      <section id="testimonials" className="pb-20 md:pb-28">
+        <div className={wrap}>
+          <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
+            <Eyebrow className="mb-5 justify-center">{t('Testimonials.badge')}</Eyebrow>
+            <SplitHeading text={t('Testimonials.title')} className={h2} />
+          </div>
+          <RevealGroup className="grid grid-cols-1 gap-3 md:grid-cols-3">
             {testimonials.map((test, i) => (
-              <div key={i} data-reveal className="h-full">
-                <FxCard tilt={4} className="group flex h-full min-h-[420px] flex-col rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 transition-colors duration-500 hover:border-[#4FC3D0]/40 lg:p-11">
-                  <div className="relative z-10 flex h-full flex-col">
-                    <Quote className="mb-8 h-10 w-10 text-[#4FC3D0]/70 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
-                    <p className="flex-grow font-archia text-lg leading-relaxed text-[#EDF2F7]/85 md:text-xl">&ldquo;{test.quote}&rdquo;</p>
-                    <div className="mt-10 border-t border-white/10 pt-6">
-                      <h4 className="mb-2 font-absans text-lg font-bold uppercase tracking-tight">{test.role}</h4>
-                      <div className="flex items-center gap-3 font-dm-mono text-[10px] uppercase tracking-[0.2em]">
-                        <span className="text-[#4FC3D0]">{test.location}</span>
-                        <span className="h-1 w-1 rounded-full bg-white/25" />
-                        <span className="text-[#EDF2F7]/40">{t('Testimonials.verifiedClient')}</span>
-                      </div>
-                    </div>
-                  </div>
-                </FxCard>
-              </div>
+              <figure key={i} data-reveal className={`${card} flex min-h-[340px] flex-col justify-between p-7`}>
+                <div className="mb-8 flex items-center justify-between">
+                  <span className="font-dm-mono text-[10px] tracking-[0.2em] text-[#0B0F14]/40">0{i + 1}</span>
+                  <span className="font-dm-mono text-[9px] uppercase tracking-[0.14em] text-[#0B6F7B]">{t('Testimonials.verifiedClient')}</span>
+                </div>
+                <blockquote className="mb-8 flex-grow text-[17px] font-light leading-relaxed tracking-[-0.02em]">&ldquo;{test.quote}&rdquo;</blockquote>
+                <figcaption className="border-t border-[#E6EAF1] pt-4">
+                  <div className="text-[13px] font-medium">{test.role}</div>
+                  <div className="mt-1 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/45">{test.location}</div>
+                </figcaption>
+              </figure>
             ))}
           </RevealGroup>
-
-          <div className="mt-16 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 border-t border-white/10 pt-10 lg:justify-between">
-            {(t.raw('Testimonials.institutionalTrust') as string[]).map((badge) => (
-              <span key={badge} className="flex items-center gap-3 font-dm-mono text-[10px] uppercase tracking-[0.26em] text-[#EDF2F7]/45">
-                <span className="h-1.5 w-1.5 rotate-45 bg-[#4FC3D0]" />
-                {badge}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+            {(t.raw('Testimonials.institutionalTrust') as string[]).map((b) => (
+              <span key={b} className="flex items-center gap-2.5 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/50">
+                <span className="h-[6px] w-[6px] bg-[#4FC3D0]" />
+                {b}
               </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 09 — PARTNER SERVICES */}
-      <section className="relative bg-[#EDF2F7] px-6 py-24 text-[#090C11] md:py-40 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-14 flex flex-col justify-between gap-8 lg:mb-20 lg:flex-row lg:items-end">
-            <div className="max-w-4xl">
-              <div className="mb-6 flex items-center gap-3">
-                <span className="h-px w-10 bg-[#090C11]/25" />
-                <span className={eyebrowLight}>{t('Services.badge')}</span>
-              </div>
-              <SplitHeading text={t('Services.title')} className={h2Base} />
-            </div>
-            <p className="max-w-md border-l-2 border-[#4FC3D0] pl-6 font-archia text-base leading-relaxed text-[#090C11]/60">{t('Services.description')}</p>
-          </div>
-
-          <RevealGroup className="border-t border-[#090C11]/15">
-            {SERVICE_KEYS.map((key, i) => {
-              const s = services[key];
-              const benefits = t.raw(`Services.benefits.${key}`) as string[];
-              return (
-                <Link
-                  key={key}
-                  data-reveal
-                  href="/services"
-                  className="group relative grid grid-cols-12 items-center gap-x-4 gap-y-5 overflow-hidden border-b border-[#090C11]/15 px-1 py-9 transition-all duration-500 hover:px-6 lg:py-12"
-                >
-                  <span className="absolute inset-0 origin-bottom scale-y-0 bg-[#090C11] transition-transform duration-500 ease-out group-hover:scale-y-100" />
-                  <span className="relative col-span-2 font-dm-mono text-xs tracking-[0.3em] text-[#090C11]/40 transition-colors duration-500 group-hover:text-[#4FC3D0] lg:col-span-1">{String(i + 1).padStart(2, '0')}</span>
-                  <h4 className="relative col-span-10 font-absans text-[clamp(1.6rem,3.2vw,3.2rem)] font-bold uppercase leading-none tracking-tighter transition-colors duration-500 group-hover:text-white lg:col-span-5">{s.title}</h4>
-                  <div className="relative col-span-12 transition-colors duration-500 lg:col-span-5">
-                    <p className="mb-4 max-w-md font-archia text-sm leading-relaxed text-[#090C11]/55 transition-colors duration-500 group-hover:text-white/60">{s.desc}</p>
-                    <ul className="flex flex-wrap gap-2">
-                      {benefits.map((b) => (
-                        <li key={b} className="rounded-full border border-[#090C11]/15 px-3 py-1 font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#090C11]/50 transition-colors duration-500 group-hover:border-white/20 group-hover:text-white/60">
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <span className="relative col-span-12 hidden h-12 w-12 items-center justify-center justify-self-end rounded-full border border-[#090C11]/20 transition-all duration-500 group-hover:rotate-45 group-hover:border-[#4FC3D0] group-hover:bg-[#4FC3D0] group-hover:text-[#090C11] lg:col-span-1 lg:flex">
-                    <ArrowUpRight className="h-5 w-5" />
-                  </span>
-                </Link>
-              );
-            })}
-          </RevealGroup>
-
-          <RevealGroup className="mt-16 lg:mt-24">
-            <div data-reveal className="relative overflow-hidden rounded-[2.5rem] bg-[#090C11] p-8 text-white md:p-16 lg:p-20">
-              <svg aria-hidden viewBox="0 0 400 400" fill="none" className="home-spin pointer-events-none absolute -right-24 top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 opacity-[0.12]">
-                <circle cx="200" cy="200" r="180" stroke="#4FC3D0" strokeWidth="1" strokeDasharray="10 10" />
-                <circle cx="200" cy="200" r="140" stroke="white" strokeWidth="0.5" />
-                <circle cx="200" cy="200" r="100" stroke="#4FC3D0" strokeWidth="2" strokeDasharray="5 5" />
-              </svg>
-              <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-                <div>
-                  <h3 className="mb-6 font-absans text-[clamp(2.2rem,4.8vw,5rem)] font-bold uppercase leading-[0.95] tracking-tighter">
-                    {scaleLines.map((line, i) => (
-                      <span key={i} className={`block ${i > 0 ? 'text-[#4FC3D0]' : ''}`}>
-                        {line}
-                      </span>
-                    ))}
-                  </h3>
-                  <p className="max-w-md font-archia text-base leading-relaxed text-white/50">{t('Services.scaleSubtitle')}</p>
-                </div>
-                <div className="flex flex-col gap-4 sm:flex-row lg:justify-end">
-                  <Link href="/services" className="group flex items-center justify-center gap-4 rounded-full bg-[#4FC3D0] px-9 py-5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#090C11] transition-all hover:bg-white">
-                    {t('Services.guide')}
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                  <Link href="/wholesale-application" className="group flex items-center justify-center gap-4 rounded-full border border-white/20 px-9 py-5 text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:border-white hover:bg-white hover:text-[#090C11]">
-                    {t('Services.wholesaleApp')}
-                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </RevealGroup>
-        </div>
-      </section>
-
       {/* 10 — INSIGHTS */}
-      <section className="relative bg-[#090C11] px-6 py-24 md:py-40 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-14 flex flex-col justify-between gap-8 lg:mb-20 lg:flex-row lg:items-end">
-            <div className="max-w-4xl">
-              <div className="mb-6 flex items-center gap-3">
-                <span className="h-px w-10 bg-[#4FC3D0]/60" />
-                <span className={eyebrowDark}>{t('Blog.badge')}</span>
-              </div>
-              <SplitHeading text={t('Blog.title')} className={h2Base} />
+      <section className="pb-20 md:pb-28">
+        <div className={wrap}>
+          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
+            <div>
+              <Eyebrow className="mb-5">{t('Blog.badge')}</Eyebrow>
+              <SplitHeading text={t('Blog.title')} className={`${h2} max-w-3xl`} />
             </div>
-            <Link href="/blog" className="group inline-flex items-center gap-4 self-start rounded-full border border-white/15 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.28em] transition-all hover:border-[#4FC3D0] hover:bg-[#4FC3D0] hover:text-[#090C11] lg:self-auto">
-              {t('Blog.cta')}
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
-            </Link>
+            <PillButton href="/blog">{t('Blog.cta')}</PillButton>
           </div>
-
-          <RevealGroup className="border-t border-white/10">
+          <RevealGroup className={`${card} divide-y divide-[#E6EAF1] px-2 md:px-4`}>
             {blogItems.map((post, i) => (
-              <Link key={post.slug} data-reveal href={`/blog/${post.slug}`} className="group relative grid grid-cols-12 items-center gap-x-4 gap-y-4 border-b border-white/10 py-8 transition-all duration-500 hover:pl-4 lg:py-11">
-                <span className="col-span-2 font-absans text-4xl font-bold text-white/15 transition-colors duration-500 group-hover:text-[#4FC3D0] lg:col-span-1 lg:text-5xl">{String(i + 1).padStart(2, '0')}</span>
-                <div className="col-span-10 lg:col-span-7">
-                  <h3 className="mb-2 font-absans text-xl font-bold leading-tight tracking-tight lg:text-3xl">{post.title}</h3>
-                  <p className="line-clamp-2 max-w-2xl font-archia text-sm leading-relaxed text-[#EDF2F7]/45">{post.desc}</p>
+              <Link key={post.slug} data-reveal href={`/blog/${post.slug}`} className="group grid grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-2 px-2 py-6 transition-colors hover:bg-[#F3F5FA] md:grid-cols-[3rem_minmax(0,1fr)_auto_auto] md:gap-x-8 md:px-3">
+                <span className="font-dm-mono text-[10px] tracking-[0.2em] text-[#0B0F14]/40">0{i + 1}</span>
+                <div>
+                  <h3 className="mb-1 text-lg font-normal leading-snug tracking-[-0.03em] md:text-xl">{post.title}</h3>
+                  <p className="line-clamp-2 max-w-2xl text-[13px] leading-relaxed text-[#0B0F14]/55">{post.desc}</p>
                 </div>
-                <div className="col-span-9 col-start-3 flex items-center gap-3 font-dm-mono text-[10px] uppercase tracking-[0.22em] text-[#EDF2F7]/45 lg:col-span-4 lg:col-start-auto lg:justify-end">
-                  <span className="rounded-full border border-white/15 px-3 py-1">{post.tag}</span>
-                  <span className="hidden transition-colors duration-500 group-hover:text-[#4FC3D0] sm:inline">{t('Blog.readMore')}</span>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 transition-all duration-500 group-hover:rotate-45 group-hover:border-[#4FC3D0] group-hover:bg-[#4FC3D0] group-hover:text-[#090C11]">
-                    <ArrowUpRight className="h-4 w-4" />
-                  </span>
-                </div>
+                <span className="hidden rounded-full border border-[#E6EAF1] px-3 py-1 font-dm-mono text-[9px] uppercase tracking-[0.14em] text-[#0B0F14]/55 md:block">{post.tag}</span>
+                <ArrowDot />
               </Link>
             ))}
           </RevealGroup>
         </div>
       </section>
 
-      <FaqSection title={t('FAQ.title')} subtitle={t('FAQ.subtitle')} items={t.raw('FAQ.items') as FaqItem[]} eyebrow="(FAQ)" theme="light" />
+      {/* 11 — FAQ */}
+      <section className="pb-20 md:pb-28">
+        <div className={`${wrap} grid gap-10 lg:grid-cols-12`}>
+          <div className="lg:col-span-4">
+            <Eyebrow className="mb-5">{t('FAQ.badge')}</Eyebrow>
+            <SplitHeading text={t('FAQ.title')} className={`${h2} mb-5`} />
+            <p className="max-w-xs text-[13px] leading-relaxed text-[#0B0F14]/60">{t('FAQ.subtitle')}</p>
+          </div>
+          <div className="lg:col-span-8">
+            <div className="space-y-2">
+              {faqItems.map((f, i) => (
+                <details key={i} className={`${card} group px-6 py-5 open:shadow-[0_18px_50px_rgba(11,15,20,0.06)]`}>
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[15px] font-normal tracking-[-0.02em] [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <Plus className="h-4 w-4 shrink-0 transition-transform duration-300 group-open:rotate-45" />
+                  </summary>
+                  <p className="mt-4 max-w-2xl text-[13px] leading-relaxed text-[#0B0F14]/60">{renderAnswer(f.a)}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <GlobalCTA
-        badge={t('FinalCta.badge')}
-        title={t('FinalCta.title')}
-        subtitle={t('FinalCta.subtitle')}
-        primaryCtaText={t('FinalCta.whatsapp')}
-        primaryCtaHref={`${WHATSAPP}?text=${encodeURIComponent(t('FinalCta.msg'))}`}
-        secondaryCtaText={t('FinalCta.email')}
-        secondaryCtaHref="mailto:sales@99puritywholesale.com"
-      />
+      {/* 12 — FINAL CTA */}
+      <section className="px-3 pb-3 md:px-4 md:pb-4">
+        <div className="relative mx-auto max-w-[1760px] overflow-hidden rounded-[1.75rem] bg-[#0B0D10] px-6 py-20 text-center text-white md:py-28">
+          <Eyebrow light className="mb-6 justify-center">{t('FinalCta.badge')}</Eyebrow>
+          <h2 className={`${h2} mx-auto mb-6 max-w-4xl !text-white`}>{t('FinalCta.title')}</h2>
+          <p className="mx-auto mb-9 max-w-xl text-[14px] leading-relaxed text-white/55">{t('FinalCta.subtitle')}</p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <PillButton href={`${WHATSAPP}?text=${encodeURIComponent(t('FinalCta.msg'))}`} external variant="teal">{t('FinalCta.whatsapp')}</PillButton>
+            <a href="mailto:sales@99puritywholesale.com" className="inline-flex items-center rounded-full border border-white/25 px-5 py-[0.9rem] text-[13px] font-medium transition-colors hover:bg-white hover:text-[#0B0F14]">
+              {t('FinalCta.email')}
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
