@@ -505,6 +505,19 @@
         "primetime": "Storm-lit hero and a dark product grid",
         "vlr": "Cream and serif, with a full COA library"
       }
+    },
+    "Proof": {
+      "eyebrow": "Proof · SEO + GEO",
+      "title": "Found on Google. Growing every month.",
+      "description": "Straight from our own Google Search Console and Google Analytics, with the dates shown on every figure.",
+      "gscTab90": "Search Console · 3 months",
+      "gscTab28": "Search Console · 28 days",
+      "gaTab": "Analytics · 28 days",
+      "gscName": "Google Search Console",
+      "gaName": "Google Analytics",
+      "badge": "Our own site data",
+      "source": "Source: our own Google Search Console and Google Analytics accounts.",
+      "note": "Figures and date ranges are as reported by Google. Chart lines are redrawn from the dashboards. Past results do not guarantee future results."
     }
   },
   "Search": {

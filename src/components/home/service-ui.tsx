@@ -135,16 +135,16 @@ const seo = (
           <Search className="h-2 w-2" strokeWidth={3} />
         </span>
         <span className="text-[9px] font-medium">Search Console</span>
-        <span className="ml-auto text-[7px] text-[#0B0F14]/45">Last 28 days</span>
+        <span className="ml-auto text-[7px] text-[#0B0F14]/45">18 Oct to 13 Nov</span>
       </div>
       <div className="px-2.5 pt-2">
         <div className="mb-1.5 text-[8px] font-medium text-[#0B0F14]/70">Performance</div>
         <div className="grid grid-cols-4 gap-1">
           {[
-            ['Clicks', '1.2K', '#1A73E8', true],
-            ['Impr.', '48K', '#5E35B1', true],
-            ['CTR', '2.5%', '', false],
-            ['Pos.', '8.4', '', false],
+            ['Clicks', '3.21K', '#1A73E8', true],
+            ['Impr.', '149K', '#5E35B1', true],
+            ['CTR', '2.2%', '', false],
+            ['Pos.', '11.1', '', false],
           ].map(([l, v, c, on]) => (
             <div key={l as string} data-u="" className="rounded-md px-1.5 py-1" style={{ background: on ? (c as string) : '#F1F3F4', color: on ? '#fff' : '#0B0F14' }}>
               <div className="text-[6.5px] opacity-80">{l}</div>
@@ -159,17 +159,6 @@ const seo = (
           <path {...draw} d={line([30, 36, 34, 44, 52, 48, 60, 66, 62, 74, 80], 220, 62, 100)} fill="none" stroke="#5E35B1" strokeWidth="1.6" strokeLinecap="round" />
           <path {...draw} d={line([18, 22, 26, 24, 34, 38, 36, 46, 50, 56, 62], 220, 62, 100)} fill="none" stroke="#1A73E8" strokeWidth="1.8" strokeLinecap="round" />
         </svg>
-        <div className="mt-1 space-y-[3px] text-[7px]">
-          {[
-            ['wholesale research peptides', '312'],
-            ['bulk peptide supplier usa', '204'],
-          ].map(([q, c]) => (
-            <div key={q} data-s="" className="flex items-center justify-between rounded bg-[#F1F3F4] px-1.5 py-[3px]">
-              <span className="truncate">{q}</span>
-              <span className="font-medium text-[#1A73E8]">{c}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </Win>
     {/* Google Analytics */}
@@ -186,10 +175,10 @@ const seo = (
       <div className="px-2.5 pt-2">
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-[7px] text-[#0B0F14]/50">Users</div>
-            <div className="text-[17px] font-medium leading-none">3.4K</div>
+            <div className="text-[7px] text-[#0B0F14]/50">Active users</div>
+            <div className="text-[17px] font-medium leading-none">7.1K</div>
           </div>
-          <span className="rounded bg-[#E6F4EA] px-1 py-[1px] text-[7px] font-medium text-[#188038]">▲ 12%</span>
+          <span className="rounded bg-[#E6F4EA] px-1 py-[1px] text-[7px] font-medium text-[#188038]">▲ 6.7%</span>
         </div>
         <svg viewBox="0 0 220 56" className="mt-1.5 h-[52px] w-full" aria-hidden>
           <defs>
@@ -203,22 +192,15 @@ const seo = (
         </svg>
         <div className="mt-1.5 grid grid-cols-3 gap-1 text-[7px]">
           {[
-            ['Sessions', '5.1K'],
-            ['Engaged', '62%'],
-            ['Events', '21K'],
+            ['Sessions', '9.9K'],
+            ['Views', '22K'],
+            ['New users', '6.8K'],
           ].map(([l, v]) => (
             <div key={l} data-u="" className="rounded border border-[#0B0F14]/10 px-1.5 py-1">
               <div className="text-[#0B0F14]/50">{l}</div>
               <div className="text-[10px] font-medium">{v}</div>
             </div>
           ))}
-        </div>
-        <div className="mt-1.5 flex items-center gap-1 text-[7px] text-[#0B0F14]/55">
-          <span className="relative flex h-1.5 w-1.5">
-            <span data-pulse="" className="absolute inline-flex h-full w-full rounded-full bg-[#188038]" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#188038]" />
-          </span>
-          18 users in last 30 minutes
         </div>
       </div>
     </Win>
@@ -229,8 +211,7 @@ const seo = (
         </span>
       ))}
     </div>
-    <Sample className="bottom-0.5 left-3" />
-  </>
+      </>
 );
 
 /* ------------------------------------------------------------------ Payments */

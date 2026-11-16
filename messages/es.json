@@ -505,6 +505,19 @@
         "primetime": "Héroe con tormenta y una cuadrícula de productos oscura",
         "vlr": "Crema y serif, con una biblioteca completa de COA"
       }
+    },
+    "Proof": {
+      "eyebrow": "Prueba · SEO + GEO",
+      "title": "Visibles en Google. Creciendo cada mes.",
+      "description": "Directo de nuestro propio Google Search Console y Google Analytics, con las fechas en cada cifra.",
+      "gscTab90": "Search Console · 3 meses",
+      "gscTab28": "Search Console · 28 días",
+      "gaTab": "Analytics · 28 días",
+      "gscName": "Google Search Console",
+      "gaName": "Google Analytics",
+      "badge": "Datos de nuestro propio sitio",
+      "source": "Fuente: nuestras propias cuentas de Google Search Console y Google Analytics.",
+      "note": "Las cifras y fechas son las reportadas por Google. Las líneas del gráfico se redibujaron a partir de los paneles. Los resultados pasados no garantizan resultados futuros."
     }
   },
   "Search": {

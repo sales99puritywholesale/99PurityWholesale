@@ -8,6 +8,7 @@ import HomeHero from '@/components/home/HomeHero';
 import Parallax from '@/components/home/Parallax';
 import ServicesAtlas from '@/components/home/ServicesAtlas';
 import PlanBar from '@/components/plan/PlanBar';
+import Proof from '@/components/home/Proof';
 import WhyUs from '@/components/home/WhyUs';
 import Highlights from '@/components/home/Highlights';
 import { HIGHLIGHT_MEDIA } from '@/components/home/highlights-media';
@@ -165,6 +166,11 @@ export default async function HomePage({ params }: { params: { locale: string } 
             </div>
           </RevealGroup>
         </div>
+      </section>
+
+      {/* 02b — PROOF (real search data) */}
+      <section className="pb-20 md:pb-28">
+        <Proof labels={{ eyebrow: t('Proof.eyebrow'), title: t('Proof.title'), description: t('Proof.description'), gscTab90: t('Proof.gscTab90'), gscTab28: t('Proof.gscTab28'), gaTab: t('Proof.gaTab'), gscName: t('Proof.gscName'), gaName: t('Proof.gaName'), badge: t('Proof.badge'), source: t('Proof.source'), note: t('Proof.note'), lang: params.locale === 'es' ? 'es' : 'en' }} />
       </section>
 
       {/* 03 — INTRO + NUMBERED POINTS */}
