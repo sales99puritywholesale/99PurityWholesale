@@ -29,7 +29,6 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
   const flat = groups.flatMap((g) => g.items.map((it) => ({ ...it, group: g.label })));
   const [active, setActive] = useState(0);
   const root = useRef<HTMLDivElement>(null);
-  const firstRun = useRef(true);
 
   // touch / small screens: the row crossing the middle of the viewport becomes active
   useIsoLayoutEffect(() => {
@@ -115,37 +114,40 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
     const mm = gsap.matchMedia();
 
     mm.add(MOTION_OK, () => {
-      const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+      const wrap = panel.querySelector<HTMLElement>('[data-art-wrap]');
+
+      // the copy builds in once
+      gsap.fromTo(q('[data-txt]'), { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.07, ease: 'power3.out', delay: 0.1 });
+
+      // the illustration loops: build in -> hold -> soft fade out -> build in again
+      const tl = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 0.35, defaults: { ease: 'power3.out' } });
+      if (wrap) tl.fromTo(wrap, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: 'none' }, 0);
       tl.fromTo(q('[data-d]'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1, stagger: 0.07, ease: 'power2.inOut' }, 0)
         .fromTo(q('[data-r]'), { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 0.8, stagger: 0.08 }, 0.1)
         .fromTo(q('[data-p]'), { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.7, stagger: 0.06, ease: 'back.out(2)' }, 0.15)
         .fromTo(q('[data-s]'), { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, stagger: 0.1 }, 0.1)
         .fromTo(q('[data-sr]'), { x: 40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, stagger: 0.1 }, 0.2)
         .fromTo(q('[data-t]'), { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.7, stagger: 0.06 }, 0.25)
-        .fromTo(q('[data-u]'), { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.07 }, 0.2)
-        .fromTo(q('[data-txt]'), { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.07 }, 0.1);
+        .fromTo(q('[data-u]'), { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.07 }, 0.2);
+      if (wrap) tl.to(wrap, { autoAlpha: 0, duration: 0.55, ease: 'power2.in' }, '+=3');
 
-      // idle loops, started once the build-in has landed
-      tl.add(() => {
-        q('[data-pulse]').forEach((n, i) => {
-          gsap.to(n, { scale: 1.2, opacity: 0.35, transformOrigin: '50% 50%', duration: 1.2, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: i * 0.18 });
-        });
-        q('[data-float]').forEach((n) => {
-          gsap.to(n, { y: -8, duration: 1.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-        });
-      }, 0.9);
+      // continuous idle motion (pulses, floating parcel)
+      q('[data-pulse]').forEach((n, i) => {
+        gsap.to(n, { scale: 1.2, opacity: 0.35, transformOrigin: '50% 50%', duration: 1.2, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: i * 0.18 });
+      });
+      q('[data-float]').forEach((n) => {
+        gsap.to(n, { y: -8, duration: 1.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+      });
 
-      if (firstRun.current) {
-        firstRun.current = false;
-        ScrollTrigger.create({ trigger: el, start: 'top 75%', once: true, onEnter: () => tl.play() });
-      } else {
-        tl.play();
-      }
+      // only run while the section is on screen
+      const st = ScrollTrigger.create({ trigger: el, start: 'top 85%', end: 'bottom 10%', onToggle: (self) => (self.isActive ? tl.play() : tl.pause()) });
+      if (st.isActive) tl.play();
     });
 
     return () => {
       mm.revert();
       clearInline(panel.querySelectorAll('[data-d],[data-r],[data-p],[data-s],[data-sr],[data-t],[data-pulse],[data-float],[data-u],[data-txt]'), 'transform,opacity,visibility,strokeDashoffset');
+      clearInline(panel.querySelectorAll('[data-art-wrap]'), 'opacity,visibility');
     };
   }, [active]);
 
