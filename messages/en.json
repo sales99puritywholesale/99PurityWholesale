@@ -490,6 +490,13 @@
       "online": "Online now",
       "lot": "Lot 2417",
       "verified": "Verified"
+    },
+    "Highlights": {
+      "eyebrow": "Highlights",
+      "title": "Made, tested and shipped in the U.S.",
+      "description": "A closer look at the lab, the paperwork and the packing bench behind every order.",
+      "prev": "Previous",
+      "next": "Next"
     }
   },
   "Search": {

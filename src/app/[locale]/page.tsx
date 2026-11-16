@@ -8,6 +8,8 @@ import HomeHero from '@/components/home/HomeHero';
 import Parallax from '@/components/home/Parallax';
 import ServicesAtlas from '@/components/home/ServicesAtlas';
 import WhyUs from '@/components/home/WhyUs';
+import Highlights from '@/components/home/Highlights';
+import { HIGHLIGHT_MEDIA } from '@/components/home/highlights-media';
 import { RevealGroup, SplitHeading } from '@/components/home/Reveal';
 import { Eyebrow, PillButton, ArrowDot, Photo, h2, card } from '@/components/home/ui';
 import { HOME_IMAGES } from '@/components/home/home-images';
@@ -209,7 +211,26 @@ export default async function HomePage({ params }: { params: { locale: string } 
         />
       </section>
 
-      {/* 05 — CATALOG (best sellers) */}
+      {/* 05 — HIGHLIGHTS (carousel) */}
+      <section className="pb-20 md:pb-28">
+        <Highlights
+          eyebrow={t('Highlights.eyebrow')}
+          title={t('Highlights.title')}
+          description={t('Highlights.description')}
+          labels={{ prev: t('Highlights.prev'), next: t('Highlights.next'), learn: t('ServicesAtlas.learn') }}
+          slides={HIGHLIGHT_MEDIA.map((m) => {
+            const text = {
+              lab: { tag: t('Hero.badges.usMade'), title: t('Differentiators.lab.title'), desc: t('Differentiators.lab.description'), href: '/about' },
+              coa: { tag: t('Quality.batchReport'), title: t('Differentiators.coa.title'), desc: t('Differentiators.coa.description'), href: '/certificates-of-analysis' },
+              shipping: { tag: t('Hero.badges.shipping'), title: t('StatsBar.coverage.label'), desc: t('Differentiators.shippingDesc'), href: '/locations' },
+              private: { tag: t('Services.badge'), title: t('ServicesAtlas.items.privateLabel.name'), desc: t('ServicesAtlas.items.privateLabel.desc'), href: '/services' },
+            }[m.key];
+            return { key: m.key, image: m.image, video: m.video, detail: m.detail, ...text };
+          })}
+        />
+      </section>
+
+      {/* 06 — CATALOG (best sellers) */}
       <section className="pb-20 md:pb-28">
         <div className={wrap}>
           <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
@@ -252,7 +273,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 06 — TIERS (dark panel) */}
+      {/* 07 — TIERS (dark panel) */}
       <section id="wholesale-tiers" className="px-3 md:px-4">
         <div className="mx-auto max-w-[1760px] rounded-[1.75rem] bg-[#0B0D10] py-16 text-white md:py-24">
           <div className={`${wrap} grid gap-12 lg:grid-cols-12`}>
@@ -291,7 +312,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 07 — DOCUMENTATION PANEL */}
+      {/* 08 — DOCUMENTATION PANEL */}
       <section className="px-3 pt-3 md:px-4">
         <div className="relative mx-auto max-w-[1760px]">
           <Parallax className="h-[680px] rounded-[1.75rem] bg-[#12171d] md:h-[720px]" amount={6}>
@@ -323,7 +344,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 08 — CATEGORY ROWS */}
+      {/* 09 — CATEGORY ROWS */}
       <section className={section}>
         <div className={wrap}>
           <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
@@ -349,7 +370,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 09 — TESTIMONIALS */}
+      {/* 10 — TESTIMONIALS */}
       <section id="testimonials" className="pb-20 md:pb-28">
         <div className={wrap}>
           <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
@@ -382,7 +403,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 10 — INSIGHTS */}
+      {/* 11 — INSIGHTS */}
       <section className="pb-20 md:pb-28">
         <div className={wrap}>
           <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
@@ -408,7 +429,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 11 — FAQ */}
+      {/* 12 — FAQ */}
       <section className="pb-20 md:pb-28">
         <div className={`${wrap} grid gap-10 lg:grid-cols-12`}>
           <div className="lg:col-span-4">
@@ -432,7 +453,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 12 — FINAL CTA */}
+      {/* 13 — FINAL CTA */}
       <section className="px-3 pb-3 md:px-4 md:pb-4">
         <div className="relative mx-auto max-w-[1760px] overflow-hidden rounded-[1.75rem] bg-[#0B0D10] px-6 py-20 text-center text-white md:py-28">
           <Eyebrow light className="mb-6 justify-center">{t('FinalCta.badge')}</Eyebrow>

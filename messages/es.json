@@ -490,6 +490,13 @@
       "online": "En línea",
       "lot": "Lote 2417",
       "verified": "Verificado"
+    },
+    "Highlights": {
+      "eyebrow": "Destacados",
+      "title": "Fabricado, verificado y enviado en EE. UU.",
+      "description": "Una mirada de cerca al laboratorio, la documentación y la mesa de empaque detrás de cada pedido.",
+      "prev": "Anterior",
+      "next": "Siguiente"
     }
   },
   "Search": {
