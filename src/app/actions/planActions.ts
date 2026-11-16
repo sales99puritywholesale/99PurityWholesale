@@ -2,7 +2,9 @@
 
 import { headers } from 'next/headers';
 import { Resend } from 'resend';
-import { BUILD_OPTIONS, EN_LABELS, PLAN_SERVICES, SITE_OPTIONS, TIMELINE_OPTIONS, VOLUME_OPTIONS } from '@/components/plan/plan-config';
+import { BUILD_OPTIONS, EN_LABELS, PLAN_SERVICES, PLAN_WHATSAPP, SITE_OPTIONS, TIMELINE_OPTIONS, VOLUME_OPTIONS } from '@/components/plan/plan-config';
+import { teamEmail, visitorEmail } from '@/lib/emails/plan-email';
+import { ES_LABELS } from '@/components/plan/plan-labels-es';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const notificationEmails = (process.env.NOTIFICATION_EMAIL || 'sales@99puritywholesale.com,kylefbelk@gmail.com')
@@ -75,37 +77,36 @@ export async function submitPlan(input: PlanPayload): Promise<PlanResult> {
     }
 
     const L = EN_LABELS;
-    const rows: Array<[string, string]> = [
-      ['Name', name],
-      ['Business', business || '-'],
-      ['Email', email || '-'],
-      ['WhatsApp / phone', phone || '-'],
-      ['Building', build ? L.build[build] : '-'],
-      ['Services', services.length ? services.map((s) => L.services[s]).join(', ') : '-'],
-      ['Store today', site ? L.site[site] : '-'],
-      ['Expected volume', volume ? L.volume[volume] : '-'],
-      ['Start', timeline ? L.timeline[timeline] : '-'],
-      ['Notes', notes || '-'],
-      ['Language', locale],
-    ];
-
-    const html = `<div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#0B0F14">
-      <h2 style="margin:0 0 16px">New plan request</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:14px">
-        ${rows.map(([k, v]) => `<tr><td style="padding:8px 12px 8px 0;border-bottom:1px solid #e6eaf1;color:#687582;width:150px;vertical-align:top">${k}</td><td style="padding:8px 0;border-bottom:1px solid #e6eaf1">${esc(v).replace(/\n/g, '<br>')}</td></tr>`).join('')}
-      </table>
-      <p style="font-size:12px;color:#687582;margin-top:16px">Submitted via the "Get a plan" quiz on 99puritywholesale.com</p></div>`;
+    const summary = {
+      name, business, email, phone, notes, locale: locale as 'en' | 'es',
+      building: build ? L.build[build] : '',
+      services: services.map((x) => L.services[x]),
+      site: site ? L.site[site] : '',
+      volume: volume ? L.volume[volume] : '',
+      timeline: timeline ? L.timeline[timeline] : '',
+    };
 
     const res = await resend.emails.send({
       from: `99 Purity Wholesale Leads <${senderEmail}>`,
       to: notificationEmails,
       ...(emailOk(email) ? { replyTo: email } : {}),
       subject: `New plan request - ${name}${services.length ? ` (${services.length} services)` : ''}`,
-      html,
+      html: teamEmail(summary, PLAN_WHATSAPP),
     });
     if (res.error) {
       console.error('Resend plan email error:', res.error);
       return { success: false, error: 'send' };
+    }
+    // Confirmation to the visitor. Best effort: a failure here never fails the request.
+    if (emailOk(email)) {
+      try {
+        const X = locale === 'es' ? ES_LABELS : L;
+        const c = visitorEmail(summary, { building: build ? X.build[build] : '', services: services.map((x) => X.services[x]), site: site ? X.site[site] : '', volume: volume ? X.volume[volume] : '', timeline: timeline ? X.timeline[timeline] : '' }, PLAN_WHATSAPP);
+        const r2 = await resend.emails.send({ from: `99 Purity Wholesale <${senderEmail}>`, to: [email], replyTo: notificationEmails[0], subject: c.subject, html: c.html });
+        if (r2.error) console.error('Resend visitor confirmation error:', r2.error);
+      } catch (err) {
+        console.error('Visitor confirmation failed:', err);
+      }
     }
     return { success: true };
   } catch (e) {
