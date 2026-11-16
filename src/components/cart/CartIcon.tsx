@@ -25,7 +25,7 @@ export default function CartIcon() {
         onClick={() => dispatch({ type: 'OPEN_DRAWER' })}
         aria-label="View Inquiry Cart"
         title="View Inquiry Cart"
-        className="flex items-center gap-3 px-4 py-2 rounded-full hover:bg-black/[0.03] transition-all duration-300 active:scale-95"
+        className="flex items-center gap-2.5 px-3 py-1.5 rounded-full hover:bg-black/[0.03] transition-all duration-300 active:scale-95"
       >
         <span className="sr-only">View Inquiry Cart</span>
         <div className="relative">
@@ -56,7 +56,7 @@ export default function CartIcon() {
           )}
         </div>
         
-        <div className="hidden sm:flex xl:hidden 2xl:flex flex-col items-start leading-tight whitespace-nowrap">
+        <div className="hidden sm:flex xl:hidden min-[1700px]:flex flex-col items-start leading-tight whitespace-nowrap">
           <span className="text-[12px] font-bold uppercase tracking-tight text-black/80">{t('cart.title')}</span>
           <span className="text-[8px] text-black/30 font-medium uppercase tracking-[0.15em]">{t('cart.registered')}</span>
         </div>

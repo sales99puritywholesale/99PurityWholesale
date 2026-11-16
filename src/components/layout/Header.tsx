@@ -67,33 +67,33 @@ export default function Header() {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 w-full z-[60] px-3 md:px-6 py-4 md:py-5 print:hidden transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? 'translate-y-0' : '-translate-y-[120%]'}`}
+        className={`fixed top-0 left-0 w-full z-[60] px-3 md:px-6 py-2.5 md:py-3 print:hidden transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? 'translate-y-0' : '-translate-y-[120%]'}`}
       >
-        <div className="max-w-[1650px] mx-auto bg-white rounded-full shadow-[0_20px_60px_rgba(0,0,0,0.1)] border border-black/5 p-1.5 md:p-2 flex justify-between items-center min-h-[60px] md:min-h-[78px]">
+        <div className="max-w-[1650px] mx-auto bg-white rounded-full shadow-[0_20px_60px_rgba(0,0,0,0.1)] border border-black/5 p-1 md:p-1.5 flex justify-between items-center min-h-[48px] md:min-h-[56px]">
           {/* Logo Section */}
-          <div className="flex-1 flex justify-start items-center pl-4 md:pl-8">
+          <div className="flex-1 flex justify-start items-center pl-4 md:pl-6">
             <Link 
               href="/" 
               className="relative z-[70] flex items-center gap-4 transition-all hover:scale-[1.02] group/logo"
             >
-              <span className="font-dm-sans text-base md:text-[1.3rem] font-medium tracking-[-0.045em] text-[#0B0F14] whitespace-nowrap">
+              <span className="font-dm-sans text-base md:text-[1.1rem] font-medium tracking-[-0.045em] text-[#0B0F14] whitespace-nowrap">
                 99Purity <span className="font-light text-black/50">Wholesale</span>
               </span>
             </Link>
           </div>
 
           {/* Desktop Nav - Centered */}
-          <nav className="hidden xl:flex items-center gap-3 min-[1440px]:gap-4 2xl:gap-7 flex-auto justify-center px-2 min-[1440px]:px-3 2xl:px-6">
+          <nav className="hidden xl:flex items-center gap-3 min-[1440px]:gap-4 min-[1700px]:gap-6 flex-auto justify-center px-2">
             <Link 
               href="/products" 
-              className="text-[11px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-widest whitespace-nowrap"
+              className="text-[10px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-[0.12em] whitespace-nowrap"
             >
               {t('nav.products')}
               <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
             </Link>
 
             <div className="relative group/cat">
-              <button className="flex items-center gap-1.5 text-[11px] font-bold text-black/70 hover:text-black transition-colors py-1 uppercase tracking-widest">
+              <button className="flex items-center gap-1.5 text-[10px] font-bold text-black/70 hover:text-black transition-colors py-1 uppercase tracking-[0.12em]">
                 {t('nav.categories')}
                 <ChevronDown className="w-3.5 h-3.5 text-black/20 group-hover/cat:text-black transition-all group-hover/cat:rotate-180" />
               </button>
@@ -137,7 +137,7 @@ export default function Header() {
 
             <Link 
               href="/about" 
-              className="text-[11px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-widest whitespace-nowrap"
+              className="text-[10px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-[0.12em] whitespace-nowrap"
             >
               {t('nav.about')}
               <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
@@ -145,7 +145,7 @@ export default function Header() {
 
             <Link 
               href="/services" 
-              className="text-[11px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-widest whitespace-nowrap"
+              className="text-[10px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-[0.12em] whitespace-nowrap"
             >
               {t('nav.services')}
               <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
@@ -153,7 +153,7 @@ export default function Header() {
 
             <Link 
               href="/certificates-of-analysis" 
-              className="text-[11px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-widest whitespace-nowrap"
+              className="text-[10px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-[0.12em] whitespace-nowrap"
             >
               {t('nav.coa')}
               <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
@@ -161,7 +161,7 @@ export default function Header() {
 
             <Link 
               href="/peptide-calculator" 
-              className="text-[11px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-widest whitespace-nowrap"
+              className="text-[10px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-[0.12em] whitespace-nowrap"
             >
               {t('nav.calculator')}
               <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
@@ -169,7 +169,7 @@ export default function Header() {
 
             <Link 
               href="/blog" 
-              className="text-[11px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-widest whitespace-nowrap"
+              className="text-[10px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-[0.12em] whitespace-nowrap"
             >
               {t('nav.blog')}
               <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
@@ -225,7 +225,7 @@ export default function Header() {
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search Catalog"
                 title="Search Catalog"
-                className="p-2 md:p-3.5 rounded-full bg-black/[0.03] hover:bg-black/[0.08] transition-colors text-black/70 active:scale-95"
+                className="p-2 md:p-2.5 rounded-full bg-black/[0.03] hover:bg-black/[0.08] transition-colors text-black/70 active:scale-95"
               >
                 <Search className="w-5 md:w-5.5 h-5 md:h-5.5" aria-hidden="true" />
                 <span className="sr-only">Search Catalog</span>
@@ -269,21 +269,21 @@ export default function Header() {
             <button
               type="button"
               onClick={() => openPlan()}
-              className="hidden xl:flex items-center justify-center px-4 min-[1440px]:px-5 2xl:px-7 self-stretch bg-[#4FC3D0] text-[#090C11] rounded-full text-[13px] font-bold hover:bg-[#6fd2dd] transition-all active:scale-95 uppercase tracking-[0.14em] whitespace-nowrap"
+              className="hidden xl:flex items-center justify-center px-4 min-[1440px]:px-5 self-stretch bg-[#4FC3D0] text-[#090C11] rounded-full text-[11px] font-bold hover:bg-[#6fd2dd] transition-all active:scale-95 uppercase tracking-[0.12em] whitespace-nowrap"
             >
               {tp('cta')}
             </button>
 
             <Link 
               href="/contact" 
-              className="hidden xl:flex items-center justify-center px-4 min-[1440px]:px-6 2xl:px-9 self-stretch bg-[#090C11] text-white rounded-full text-[14px] font-bold hover:bg-black transition-all shadow-xl active:scale-95 uppercase tracking-[0.2em]"
+              className="hidden xl:flex items-center justify-center px-4 min-[1440px]:px-5 self-stretch bg-[#090C11] text-white rounded-full text-[11px] font-bold hover:bg-black transition-all active:scale-95 uppercase tracking-[0.12em]"
             >
               Contact
             </Link>
 
             {/* Mobile Toggle */}
             <button 
-              className="xl:hidden p-2 md:p-3 rounded-full bg-black/5 text-black transition-transform active:scale-90"
+              className="xl:hidden p-2 rounded-full bg-black/5 text-black transition-transform active:scale-90"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Navigation Menu"
               title="Toggle Navigation Menu"
