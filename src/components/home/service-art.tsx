@@ -7,10 +7,10 @@ import type { ReactNode } from 'react';
  *   data-r  rises from its baseline    data-s / data-sr  slides in from left / right
  *   data-t  wipes in like a text line  data-pulse / data-float  idle loops
  */
-const T = '#4FC3D0';
-const W = 'rgba(237,242,247,0.72)';
-const D = 'rgba(237,242,247,0.2)';
-const F = 'rgba(237,242,247,0.06)';
+const T = '#2BB0C0';
+const W = 'rgba(11,15,20,0.62)';
+const D = 'rgba(11,15,20,0.16)';
+const F = 'rgba(11,15,20,0.035)';
 const INK = '#0B0D10';
 
 const line = (c = W, w = 1.6) => ({ fill: 'none', stroke: c, strokeWidth: w, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const });
@@ -83,7 +83,7 @@ const brand = (
     <path {...draw} d="M296 104L200 146V240L296 198Z" {...line(W, 1.8)} fill={F} />
     <circle data-p="" cx="200" cy="104" r="14" fill={T} />
     <path data-p="" d="M194 104H206M200 98V110" stroke={INK} strokeWidth="2" strokeLinecap="round" />
-    {[T, '#EDF2F7', '#1B7F8C'].map((c, i) => (
+    {[T, '#0B0F14', '#1B7F8C'].map((c, i) => (
       <circle key={c} data-p="" cx="52" cy={70 + i * 42} r="15" fill={c} stroke={W} strokeWidth="1" />
     ))}
     <text data-sr="" x="318" y="84" fontSize="40" fill={W} fontWeight="300">
@@ -120,7 +120,7 @@ const fulfillment = (
 const dropshipping = (
   <>
     <path {...draw} d="M46 152L92 118L138 152V216H46Z" {...line(W, 1.8)} fill={F} />
-    <rect data-p="" x="80" y="180" width="24" height="36" rx="3" fill="rgba(237,242,247,0.18)" />
+    <rect data-p="" x="80" y="180" width="24" height="36" rx="3" fill="rgba(11,15,20,0.18)" />
     <path {...draw} d="M262 152L308 118L354 152V216H262Z" {...line(T, 2)} fill="rgba(79,195,208,0.1)" />
     <rect data-p="" x="296" y="180" width="24" height="36" rx="3" fill={T} />
     <path {...draw} d="M150 176C185 104 215 104 250 176" {...line(T, 2)} />
@@ -201,10 +201,10 @@ const redesign = (
   <>
     <g data-s="">
       <rect x="36" y="56" width="152" height="172" rx="12" fill={F} stroke={D} strokeWidth="1.4" strokeDasharray="5 5" />
-      <rect x="52" y="74" width="120" height="44" rx="6" fill="rgba(237,242,247,0.08)" />
-      <rect x="52" y="130" width="90" height="7" rx="3.5" fill="rgba(237,242,247,0.14)" />
-      <rect x="52" y="146" width="120" height="7" rx="3.5" fill="rgba(237,242,247,0.1)" />
-      <rect x="52" y="190" width="56" height="20" rx="4" fill="rgba(237,242,247,0.1)" />
+      <rect x="52" y="74" width="120" height="44" rx="6" fill="rgba(11,15,20,0.08)" />
+      <rect x="52" y="130" width="90" height="7" rx="3.5" fill="rgba(11,15,20,0.14)" />
+      <rect x="52" y="146" width="120" height="7" rx="3.5" fill="rgba(11,15,20,0.1)" />
+      <rect x="52" y="190" width="56" height="20" rx="4" fill="rgba(11,15,20,0.1)" />
     </g>
     <g data-sr="">
       <rect x="212" y="56" width="152" height="172" rx="12" fill="rgba(79,195,208,0.08)" stroke={T} strokeWidth="1.8" />
@@ -224,7 +224,7 @@ const privateLabel = (
     <path {...draw} d="M178 68V82H222V68" {...line(W, 1.8)} />
     <rect {...draw} x="148" y="82" width="104" height="158" rx="16" {...line(T, 2.2)} fill={F} />
     <rect data-r="" x="150" y="170" width="100" height="68" rx="12" fill="rgba(79,195,208,0.22)" />
-    <rect data-p="" x="156" y="106" width="88" height="76" rx="6" fill="rgba(237,242,247,0.94)" />
+    <rect data-p="" x="156" y="106" width="88" height="76" rx="6" fill="#fff" stroke={W} strokeWidth="1.2" />
     <rect data-t="" x="168" y="120" width="64" height="7" rx="3" fill={INK} opacity="0.85" />
     <rect data-t="" x="168" y="134" width="42" height="5" rx="2.5" fill={INK} opacity="0.4" />
     <rect data-p="" x="156" y="160" width="88" height="16" fill={T} />

@@ -142,16 +142,16 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
     <div ref={root} className="svc-art lg:grid lg:grid-cols-12 lg:gap-14">
       {/* ---------- stage ---------- */}
       <div className="sticky top-[84px] z-20 -mx-1 mb-6 px-1 lg:static lg:top-auto lg:z-auto lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:mx-0 lg:mb-0 lg:px-0">
-        <div data-stage className="overflow-hidden rounded-[1.5rem] bg-[#0B0D10] text-white shadow-[0_30px_80px_rgba(11,15,20,0.18)] lg:sticky lg:top-28 lg:rounded-[1.75rem]">
+        <div data-stage className="overflow-hidden rounded-[1.5rem] border border-[#E6EAF1] bg-white text-[#0B0F14] shadow-[0_24px_60px_rgba(11,15,20,0.07)] lg:sticky lg:top-28 lg:rounded-[1.75rem]">
           <div className="relative">
-            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(237,242,247,0.08)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,#000_40%,transparent_90%)]" />
-            <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#4FC3D0]/15 blur-[90px]" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(11,15,20,0.09)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,#000_40%,transparent_90%)]" />
+            <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#4FC3D0]/20 blur-[90px]" />
 
-            <div className="relative flex items-center justify-between px-5 pt-4 font-dm-mono text-[10px] uppercase tracking-[0.2em] text-white/50 md:px-7 md:pt-6">
+            <div className="relative flex items-center justify-between px-5 pt-4 font-dm-mono text-[10px] uppercase tracking-[0.2em] text-[#0B0F14]/50 md:px-7 md:pt-6">
               <span>
-                <span className="text-[#4FC3D0]">{String(active + 1).padStart(2, '0')}</span> / {total}
+                <span className="text-[#0B6F7B]">{String(active + 1).padStart(2, '0')}</span> / {total}
               </span>
-              <span className="rounded-full border border-white/15 px-3 py-1">{flat[active].group}</span>
+              <span className="rounded-full border border-[#E6EAF1] px-3 py-1">{flat[active].group}</span>
             </div>
 
             <div className="relative grid px-3 pb-2 pt-1 md:px-6">
@@ -174,25 +174,25 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
           </div>
 
           {/* copy: desktop only (on mobile the selected row expands in the list) */}
-          <div className="relative grid border-t border-white/10 px-7 pb-8 pt-6 max-lg:hidden">
+          <div className="relative grid border-t border-[#E6EAF1] px-7 pb-8 pt-6 max-lg:hidden">
             {flat.map((it, i) => (
               <div key={it.key} data-panel={i} data-on={i === active} aria-hidden={i !== active} className="invisible col-start-1 row-start-1 opacity-0 transition-[opacity,visibility] duration-500 data-[on=true]:visible data-[on=true]:opacity-100">
                 <h3 data-txt className="mb-3 font-dm-sans text-[1.7rem] font-light leading-tight tracking-[-0.035em]">
                   {it.name}
                 </h3>
-                <p data-txt className="mb-5 max-w-lg text-[13.5px] leading-relaxed text-white/60">
+                <p data-txt className="mb-5 max-w-lg text-[13.5px] leading-relaxed text-[#0B0F14]/60">
                   {it.desc}
                 </p>
                 <ul className="mb-6 space-y-2">
                   {it.points.map((p) => (
-                    <li key={p} data-txt className="flex items-center gap-3 text-[13px] text-white/80">
+                    <li key={p} data-txt className="flex items-center gap-3 text-[13px] text-[#0B0F14]/80">
                       <span className="h-[6px] w-[6px] shrink-0 bg-[#4FC3D0]" />
                       {p}
                     </li>
                   ))}
                 </ul>
                 <div data-txt>
-                  <PillButton href={href} variant="teal">
+                  <PillButton href={href} variant="dark">
                     {labels.learn}
                   </PillButton>
                 </div>
