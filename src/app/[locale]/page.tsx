@@ -6,6 +6,7 @@ import productsData from '@/data/products.json';
 import FaqSchema from '@/components/seo/FaqSchema';
 import HomeHero from '@/components/home/HomeHero';
 import Parallax from '@/components/home/Parallax';
+import ServicesAtlas from '@/components/home/ServicesAtlas';
 import { RevealGroup, SplitHeading } from '@/components/home/Reveal';
 import { Eyebrow, PillButton, ArrowDot, Photo, h2, card } from '@/components/home/ui';
 import { HOME_IMAGES } from '@/components/home/home-images';
@@ -13,11 +14,9 @@ import { HOME_IMAGES } from '@/components/home/home-images';
 type BestSellerItem = { name: string; spec: string; desc: string };
 type TierItem = { name: string; label: string; kits: string; description: string };
 type TestimonialItem = { quote: string; role: string; location: string };
-type ServiceItem = { title: string; desc: string };
 type BlogItem = { slug: string; title: string; desc: string; tag: string };
 type FaqItem = { q: string; a: string };
 type TierKey = 'starter' | 'tier1' | 'tier2' | 'tier3';
-type ServiceKey = 'dropshipping' | 'privateLabel' | 'launch' | 'web';
 
 const WHATSAPP = 'https://wa.me/18433307365';
 const wrap = 'mx-auto w-full max-w-[1440px] px-5 md:px-10';
@@ -38,7 +37,11 @@ const BEST_SELLER_IMAGES: Record<string, string> = {
 };
 const CATEGORY_IDS = ['metabolic-research', 'cognitive-function', 'sleep-cycle-investigation', 'growth-factor-research', 'recovery-research', 'cellular-health-research', 'aminos', 'essentials'];
 const TIER_KEYS: TierKey[] = ['starter', 'tier1', 'tier2', 'tier3'];
-const SERVICE_KEYS: ServiceKey[] = ['dropshipping', 'privateLabel', 'launch', 'web'];
+const ATLAS_GROUPS = [
+  { key: 'grow', items: ['metaAds', 'seo', 'email', 'brand'] },
+  { key: 'operate', items: ['fulfillment', 'dropshipping', 'support', 'payments'] },
+  { key: 'build', items: ['web', 'redesign', 'privateLabel', 'compliance'] },
+];
 const QUALITY_DOWNLOADS = [
   { key: 'bpc', name: 'BPC-157' },
   { key: 'sema', name: 'Semaglutide' },
@@ -75,7 +78,6 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
   const bestSellers = (t.raw('BestSellers.items') as BestSellerItem[]).slice(0, 8);
   const tiers = t.raw('Tiers.items') as Record<TierKey, TierItem>;
-  const services = t.raw('Services.items') as Record<ServiceKey, ServiceItem>;
   const testimonials = t.raw('Testimonials.items') as TestimonialItem[];
   const blogItems = t.raw('Blog.items') as BlogItem[];
   const faqItems = t.raw('FAQ.items') as FaqItem[];
@@ -312,33 +314,23 @@ export default async function HomePage({ params }: { params: { locale: string } 
             </div>
           </div>
 
-          <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {SERVICE_KEYS.map((k) => {
-              const s = services[k];
-              const benefits = t.raw(`Services.benefits.${k}`) as string[];
-              return (
-                <Link key={k} data-reveal href="/services" className={`${card} group overflow-hidden p-2 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.08)]`}>
-                  <Parallax className="aspect-[4/3.4] rounded-[0.9rem] bg-[#dfe5ec]" amount={5}>
-                    <Photo src={HOME_IMAGES.services[k]} alt={s.title} sizes="(max-width: 640px) 100vw, 25vw" />
-                  </Parallax>
-                  <div className="p-4">
-                    <h3 className="mb-2 text-lg font-normal leading-tight tracking-[-0.03em]">{s.title}</h3>
-                    <p className="mb-4 text-[13px] leading-relaxed text-[#0B0F14]/55">{s.desc}</p>
-                    <ul className="space-y-1.5 border-t border-[#E6EAF1] pt-3">
-                      {benefits.map((b) => (
-                        <li key={b} className="flex items-center gap-2 font-dm-mono text-[10px] uppercase tracking-[0.12em] text-[#0B0F14]/50">
-                          <span className="h-1 w-1 bg-[#4FC3D0]" />
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Link>
-              );
-            })}
-          </RevealGroup>
+          <ServicesAtlas
+            href="/services"
+            labels={{ hint: t('ServicesAtlas.hint'), learn: t('ServicesAtlas.learn'), of: t('ServicesAtlas.of') }}
+            groups={ATLAS_GROUPS.map((g) => ({
+              key: g.key,
+              label: t(`ServicesAtlas.groups.${g.key}`),
+              items: g.items.map((key) => ({
+                key,
+                name: t(`ServicesAtlas.items.${key}.name`),
+                short: t(`ServicesAtlas.items.${key}.short`),
+                desc: t(`ServicesAtlas.items.${key}.desc`),
+                points: t.raw(`ServicesAtlas.items.${key}.points`) as string[],
+              })),
+            }))}
+          />
 
-          <RevealGroup className="mt-3">
+          <RevealGroup className="mt-16 md:mt-24">
             <div data-reveal className={`${card} grid items-center gap-8 p-7 md:p-10 lg:grid-cols-2`}>
               <div>
                 <h3 className={`${h2} mb-4 !text-[clamp(1.8rem,3.2vw,2.8rem)]`}>

@@ -350,6 +350,138 @@
       "whatsapp": "Request Pricing on WhatsApp",
       "email": "Email Wholesale Inquiry",
       "msg": "Hi, I'd like to request wholesale peptide pricing."
+    },
+    "ServicesAtlas": {
+      "hint": "Hover, tap or scroll to explore",
+      "learn": "Learn more",
+      "of": "of",
+      "groups": {
+        "grow": "Grow",
+        "operate": "Operate",
+        "build": "Build & Protect"
+      },
+      "items": {
+        "metaAds": {
+          "name": "Meta Ads",
+          "short": "Paid social, done right",
+          "desc": "Policy-aware ad creative and campaign management for research-supply brands, built around the platform rules and your audience.",
+          "points": [
+            "Policy-aware ad copy and creative",
+            "Audience and creative testing",
+            "Clear, transparent reporting"
+          ]
+        },
+        "seo": {
+          "name": "SEO / GEO / AEO",
+          "short": "Found in search and AI answers",
+          "desc": "Technical and content optimization so your brand is discoverable in search engines, generative search and answer engines.",
+          "points": [
+            "Technical and on-page SEO",
+            "Generative and answer-engine optimization",
+            "Compliant content strategy"
+          ]
+        },
+        "email": {
+          "name": "Email & SMS Marketing",
+          "short": "Lifecycle messaging",
+          "desc": "Reorder reminders, product-line updates and documentation follow-ups sent to your verified customers on the right schedule.",
+          "points": [
+            "Automated lifecycle flows",
+            "List segmentation",
+            "Opt-in and consent handling"
+          ]
+        },
+        "brand": {
+          "name": "Brand & Packaging Design",
+          "short": "A look that earns trust",
+          "desc": "Identity, label and box design that reads as professional and laboratory-grade, with research-use wording built in.",
+          "points": [
+            "Logo and visual identity",
+            "Label and box design",
+            "Brand guidelines"
+          ]
+        },
+        "fulfillment": {
+          "name": "Fulfillment",
+          "short": "Pick, pack, ship",
+          "desc": "Priority domestic fulfillment under your brand, with every order tied to its batch and lot documentation.",
+          "points": [
+            "2 to 4 business days to any U.S. state",
+            "Batch and lot tracking",
+            "Branded packaging"
+          ]
+        },
+        "dropshipping": {
+          "name": "Dropshipping",
+          "short": "No stock to hold",
+          "desc": "Sell without holding inventory. We fulfill direct to your customers under your brand.",
+          "points": [
+            "Direct-to-customer fulfillment",
+            "Inventory risk management",
+            "Order status updates"
+          ]
+        },
+        "support": {
+          "name": "Customer Support",
+          "short": "A team behind your brand",
+          "desc": "Trained support that answers for your business: order questions, documentation requests and escalations.",
+          "points": [
+            "Email and chat handling",
+            "Order and COA requests",
+            "Escalation playbooks"
+          ]
+        },
+        "payments": {
+          "name": "Payment Processing",
+          "short": "Get paid, securely",
+          "desc": "Guidance and setup for payment processing on your storefront, with secure checkout and clean reconciliation.",
+          "points": [
+            "Gateway and merchant guidance",
+            "Secure checkout setup",
+            "Reconciliation support"
+          ]
+        },
+        "web": {
+          "name": "Website Development",
+          "short": "Fast, compliant storefronts",
+          "desc": "Custom B2B websites built for speed, search and research-use compliance from day one.",
+          "points": [
+            "Research-use compliance built in",
+            "Fast, mobile-first builds",
+            "Analytics and SEO setup"
+          ]
+        },
+        "redesign": {
+          "name": "Website Redesign",
+          "short": "Modernize without losing rankings",
+          "desc": "Refresh an existing site with better UX and conversion, while protecting the search visibility you have already earned.",
+          "points": [
+            "UX and conversion audit",
+            "Redirect and ranking protection",
+            "Brand refresh"
+          ]
+        },
+        "privateLabel": {
+          "name": "Private Label",
+          "short": "Your brand, our purity",
+          "desc": "Your brand on our 99%+ purity products. MOQ-based, with laboratory documentation for every batch.",
+          "points": [
+            "Custom branding and packaging",
+            "Laboratory certification",
+            "Design and identity support"
+          ]
+        },
+        "compliance": {
+          "name": "Compliance Consulting",
+          "short": "Stay on the right side",
+          "desc": "Practical review of your site, ads and packaging wording against research-use standards before you publish.",
+          "points": [
+            "Wording and disclaimer review",
+            "Ad and listing policy checks",
+            "Documentation checklists"
+          ]
+        }
+      }
     }
   },
   "Search": {

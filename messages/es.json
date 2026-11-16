@@ -350,6 +350,138 @@
       "whatsapp": "Solicitar Precios por WhatsApp",
       "email": "Consulta Mayorista por Correo",
       "msg": "Hola, me gustaría solicitar precios de péptidos al por mayor."
+    },
+    "ServicesAtlas": {
+      "hint": "Pase el cursor, toque o desplácese para explorar",
+      "learn": "Más información",
+      "of": "de",
+      "groups": {
+        "grow": "Crecer",
+        "operate": "Operar",
+        "build": "Construir y Proteger"
+      },
+      "items": {
+        "metaAds": {
+          "name": "Meta Ads",
+          "short": "Redes sociales de pago, bien hechas",
+          "desc": "Creatividades y gestión de campañas que respetan las políticas, pensadas para marcas de suministro de investigación.",
+          "points": [
+            "Textos y creatividades acordes a las políticas",
+            "Pruebas de audiencias y creatividades",
+            "Informes claros y transparentes"
+          ]
+        },
+        "seo": {
+          "name": "SEO / GEO / AEO",
+          "short": "Visible en buscadores y respuestas de IA",
+          "desc": "Optimización técnica y de contenido para que su marca aparezca en buscadores, búsqueda generativa y motores de respuestas.",
+          "points": [
+            "SEO técnico y on-page",
+            "Optimización generativa y de motores de respuesta",
+            "Estrategia de contenido conforme"
+          ]
+        },
+        "email": {
+          "name": "Email y SMS Marketing",
+          "short": "Mensajes durante todo el ciclo",
+          "desc": "Recordatorios de recompra, novedades de línea y seguimientos de documentación para sus clientes verificados, en el momento justo.",
+          "points": [
+            "Flujos automatizados",
+            "Segmentación de listas",
+            "Gestión de consentimiento"
+          ]
+        },
+        "brand": {
+          "name": "Diseño de Marca y Empaque",
+          "short": "Una imagen que genera confianza",
+          "desc": "Identidad, etiquetas y cajas con aspecto profesional y de laboratorio, con el texto de uso en investigación incluido.",
+          "points": [
+            "Logotipo e identidad visual",
+            "Diseño de etiquetas y cajas",
+            "Guía de marca"
+          ]
+        },
+        "fulfillment": {
+          "name": "Cumplimiento de Pedidos",
+          "short": "Preparar, empacar, enviar",
+          "desc": "Despacho nacional prioritario bajo su marca, con cada pedido vinculado a la documentación de su lote.",
+          "points": [
+            "2 a 4 días hábiles a cualquier estado de EE. UU.",
+            "Seguimiento de lote",
+            "Empaque con su marca"
+          ]
+        },
+        "dropshipping": {
+          "name": "Dropshipping",
+          "short": "Sin inventario que mantener",
+          "desc": "Venda sin almacenar inventario. Enviamos directo a sus clientes bajo su marca.",
+          "points": [
+            "Envío directo al cliente",
+            "Gestión del riesgo de inventario",
+            "Actualizaciones del estado del pedido"
+          ]
+        },
+        "support": {
+          "name": "Atención al Cliente",
+          "short": "Un equipo detrás de su marca",
+          "desc": "Soporte capacitado que responde por su negocio: consultas de pedidos, solicitudes de documentación y escalaciones.",
+          "points": [
+            "Gestión de correo y chat",
+            "Solicitudes de pedidos y COA",
+            "Protocolos de escalación"
+          ]
+        },
+        "payments": {
+          "name": "Procesamiento de Pagos",
+          "short": "Cobre de forma segura",
+          "desc": "Orientación y configuración del procesamiento de pagos de su tienda, con pago seguro y conciliación ordenada.",
+          "points": [
+            "Orientación sobre pasarelas y comercios",
+            "Configuración de pago seguro",
+            "Apoyo en conciliación"
+          ]
+        },
+        "web": {
+          "name": "Desarrollo Web",
+          "short": "Tiendas rápidas y conformes",
+          "desc": "Sitios B2B a medida, creados para velocidad, búsqueda y cumplimiento de uso en investigación desde el primer día.",
+          "points": [
+            "Cumplimiento de uso en investigación integrado",
+            "Desarrollos rápidos y móviles",
+            "Analítica y SEO configurados"
+          ]
+        },
+        "redesign": {
+          "name": "Rediseño Web",
+          "short": "Modernice sin perder posiciones",
+          "desc": "Renueve un sitio existente con mejor UX y conversión, protegiendo la visibilidad en buscadores que ya ganó.",
+          "points": [
+            "Auditoría de UX y conversión",
+            "Protección de redirecciones y posicionamiento",
+            "Renovación de marca"
+          ]
+        },
+        "privateLabel": {
+          "name": "Marca Privada",
+          "short": "Su marca, nuestra pureza",
+          "desc": "Su marca sobre nuestros productos de pureza 99%+. Según MOQ, con documentación de laboratorio por lote.",
+          "points": [
+            "Marca y empaque personalizados",
+            "Certificación de laboratorio",
+            "Apoyo de diseño e identidad"
+          ]
+        },
+        "compliance": {
+          "name": "Consultoría de Cumplimiento",
+          "short": "Manténgase del lado correcto",
+          "desc": "Revisión práctica de su sitio, anuncios y empaques frente a los estándares de uso en investigación antes de publicar.",
+          "points": [
+            "Revisión de textos y descargos",
+            "Revisión de políticas de anuncios",
+            "Listas de documentación"
+          ]
+        }
+      }
     }
   },
   "Search": {

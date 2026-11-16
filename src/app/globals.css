@@ -155,3 +155,6 @@ h1, h2, h3, h4, h5, h6 {
   .hero-in, .hero-word { opacity: 1; }
   .hero-img-wrap { clip-path: none; }
 }
+
+/* Services atlas: SVG shapes animate around their own box */
+.svc-art svg * { transform-box: fill-box; }
