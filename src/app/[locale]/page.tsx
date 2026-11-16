@@ -112,194 +112,8 @@ export default async function HomePage({ params }: { params: { locale: string } 
         ]}
       />
 
-      {/* 02 — INTRO + NUMBERED POINTS */}
-      <section className={section}>
-        <div className={wrap}>
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow className="mb-6 justify-center">{t('Differentiators.institutionalStandard')}</Eyebrow>
-            <SplitHeading text={t('Differentiators.lab.title')} className={`${h2} mb-6`} />
-            <p className="mx-auto mb-8 max-w-xl text-[15px] leading-relaxed text-[#0B0F14]/60">{t('Differentiators.lab.description')}</p>
-            <PillButton href="/products">{t('Hero.secondaryCta')}</PillButton>
-          </div>
-
-          <RevealGroup className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-10 sm:grid-cols-3 md:mt-24">
-            {(['purity', 'clients', 'coverage'] as const).map((k, i) => (
-              <div key={k} data-reveal>
-                <div className="mb-4 font-dm-mono text-[10px] uppercase tracking-[0.2em] text-[#0B0F14]/45">{t(`StatsBar.${k}.label`)}</div>
-                <div className="mb-3 font-light leading-none tracking-[-0.05em] text-[clamp(2.4rem,4vw,3.4rem)]">
-                  0{i + 1}
-                  <span className="ml-0.5 align-top text-sm text-[#4FC3D0]">&bull;</span>
-                </div>
-                <p className="max-w-[16rem] text-[13px] leading-relaxed text-[#0B0F14]/55">{t(`StatsBar.${k}.sub`)}</p>
-              </div>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* 03 — WHY BRANDS CHOOSE US (looping scenes) */}
-      <section className="pb-20 md:pb-28">
-        <WhyUs
-          eyebrow={t('WhyUs.eyebrow')}
-          title={t('WhyUs.title')}
-          items={(['lab', 'coa', 'pricing', 'support'] as const).map((k) => ({ key: k, title: t(`Differentiators.${k}.title`), desc: t(`Differentiators.${k}.description`) }))}
-          labels={{
-            usMade: t('Hero.badges.usMade'),
-            tested: t('Hero.badges.tested'),
-            purity: t('StatsBar.purity.label'),
-            coa: t('Quality.batchReport'),
-            lot: t('WhyUs.lot'),
-            verified: t('WhyUs.verified'),
-            tiers: TIER_KEYS.map((k) => ({ name: tiers[k].name, kits: tiers[k].kits })),
-            ask: t('Hero.primaryCta'),
-            reply: t('WhyUs.reply'),
-            online: t('WhyUs.online'),
-          }}
-        />
-      </section>
-
-      {/* 04 — CATALOG (best sellers) */}
-      <section className="pb-20 md:pb-28">
-        <div className={wrap}>
-          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
-            <div>
-              <Eyebrow className="mb-5">{t('BestSellers.badge')}</Eyebrow>
-              <SplitHeading text={t('BestSellers.title')} className={`${h2} max-w-3xl`} />
-            </div>
-            <div className="max-w-sm">
-              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('BestSellers.subtitle')}</p>
-              <PillButton href="/products">{t('BestSellers.browseAll', { count: productsData.length })}</PillButton>
-            </div>
-          </div>
-
-          <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {bestSellers.map((p, i) => {
-              const slug = BEST_SELLER_SLUGS[i];
-              return (
-                <Link key={slug} data-reveal href={`/products/${slug}`} className={`${card} group overflow-hidden p-2 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.08)]`}>
-                  <div className="relative aspect-[4/4.6] overflow-hidden rounded-[0.9rem] bg-[#e6eaf0]">
-                    <div className="absolute inset-0 transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
-                      <Photo src={BEST_SELLER_IMAGES[slug]} alt={`${p.name} research peptide, wholesale`} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" position="50% 60%" />
-                    </div>
-                    <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 font-dm-mono text-[9px] uppercase tracking-[0.14em] backdrop-blur">{pt(`categories.${BEST_SELLER_CATS[i]}.name`)}</span>
-                  </div>
-                  <div className="p-4 pb-3">
-                    <h3 className="mb-2 text-lg font-normal tracking-[-0.03em]">{p.name}</h3>
-                    <p className="mb-5 line-clamp-2 text-[13px] leading-relaxed text-[#0B0F14]/55">{p.desc}</p>
-                    <div className="flex items-center justify-between border-t border-[#E6EAF1] pt-3 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/50">
-                      <span>{p.spec}</span>
-                      <span className="flex items-center gap-1.5 text-[#0B0F14]">
-                        {t('BestSellers.viewSpecs')}
-                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-45" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* 05 — TIERS (dark panel) */}
-      <section id="wholesale-tiers" className="px-3 md:px-4">
-        <div className="mx-auto max-w-[1760px] rounded-[1.75rem] bg-[#0B0D10] py-16 text-white md:py-24">
-          <div className={`${wrap} grid gap-12 lg:grid-cols-12`}>
-            <div className="lg:col-span-4">
-              <Eyebrow light className="mb-5">{t('Tiers.badge')}</Eyebrow>
-              <SplitHeading text={t('Tiers.title')} className={`${h2} mb-6 !text-white`} />
-              <p className="mb-6 max-w-sm text-[13px] leading-relaxed text-white/55">{t('Tiers.description')}</p>
-              <p className="font-dm-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-white/35">{t('Tiers.onRequests')}</p>
-            </div>
-            <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-8">
-              {TIER_KEYS.map((k, i) => {
-                const tier = tiers[k];
-                return (
-                  <div key={k} data-reveal className="flex min-h-[290px] flex-col rounded-[1.1rem] bg-white p-6 text-[#0B0F14]">
-                    <div className="mb-8 flex items-start justify-between">
-                      <span className="font-dm-mono text-[10px] uppercase tracking-[0.18em] text-[#0B0F14]/45">{tier.label}</span>
-                      {i === 3 ? <span className="rounded-full bg-[#4FC3D0]/20 px-2.5 py-1 font-dm-mono text-[9px] uppercase tracking-[0.14em] text-[#0B6F7B]">{t('Tiers.bestValue')}</span> : <span className="h-2 w-2 bg-[#4FC3D0]" />}
-                    </div>
-                    <div className="mb-1 text-3xl font-light tracking-[-0.04em]">{tier.name}</div>
-                    <div className="mb-4 font-dm-mono text-[11px] uppercase tracking-[0.14em] text-[#0B6F7B]">{tier.kits}</div>
-                    <p className="mb-6 flex-grow text-[13px] leading-relaxed text-[#0B0F14]/55">{tier.description}</p>
-                    <a
-                      href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to learn about wholesale tier ${tier.name} pricing.`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center justify-between border-t border-[#E6EAF1] pt-4 text-[13px] font-medium"
-                    >
-                      {t('Tiers.getPricng')}
-                      <ArrowDot />
-                    </a>
-                  </div>
-                );
-              })}
-            </RevealGroup>
-          </div>
-        </div>
-      </section>
-
-      {/* 06 — DOCUMENTATION PANEL */}
-      <section className="px-3 pt-3 md:px-4">
-        <div className="relative mx-auto max-w-[1760px]">
-          <Parallax className="h-[680px] rounded-[1.75rem] bg-[#12171d] md:h-[720px]" amount={6}>
-            <Photo src={HOME_IMAGES.documentation} alt={t('Quality.title')} sizes="100vw" />
-          </Parallax>
-          <RevealGroup className="absolute inset-x-4 bottom-4 md:inset-x-auto md:bottom-10 md:left-10">
-            <div data-reveal className="w-full max-w-[520px] rounded-[1.25rem] bg-white/95 p-7 shadow-[0_30px_80px_rgba(11,15,20,0.2)] backdrop-blur md:p-9">
-              <Eyebrow className="mb-5">{t('Quality.batchReport')}</Eyebrow>
-              <h2 className={`${h2} mb-5 !text-[clamp(1.9rem,3.2vw,2.9rem)]`}>{t('Quality.verification')}</h2>
-              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Quality.description')}</p>
-              <ul className="mb-7 divide-y divide-[#E6EAF1] border-y border-[#E6EAF1]">
-                {QUALITY_DOWNLOADS.map((d) => (
-                  <li key={d.key}>
-                    <a
-                      href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to request the batch COA report for ${d.name}.`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center justify-between gap-4 py-3 text-[13px]"
-                    >
-                      <span>{t(`Quality.downloads.${d.key}`)}</span>
-                      <Download className="h-4 w-4 text-[#0B0F14]/50 transition-colors group-hover:text-[#0B6F7B]" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <PillButton href="/certificates-of-analysis">{t('Quality.cta')}</PillButton>
-            </div>
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* 07 — CATEGORY ROWS */}
-      <section className={section}>
-        <div className={wrap}>
-          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
-            <div>
-              <Eyebrow className="mb-5">{t('Categories.badge')}</Eyebrow>
-              <SplitHeading text={t('Categories.title')} className={`${h2} max-w-3xl`} />
-            </div>
-            <div className="max-w-sm">
-              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Categories.subtitle')}</p>
-              <PillButton href="/products">{t('Categories.cta')}</PillButton>
-            </div>
-          </div>
-          <RevealGroup className={`${card} divide-y divide-[#E6EAF1] px-2 md:px-4`}>
-            {CATEGORY_IDS.map((id, i) => (
-              <Link key={id} data-reveal href={`/products#${id}`} className="group grid grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-1 px-2 py-5 transition-colors hover:bg-[#F3F5FA] md:grid-cols-[3rem_minmax(0,1fr)_minmax(0,1.4fr)_auto] md:gap-x-8 md:px-3">
-                <span className="font-dm-mono text-[10px] tracking-[0.2em] text-[#0B0F14]/40">0{i + 1}</span>
-                <span className="text-lg font-normal tracking-[-0.03em] md:text-xl">{pt(`categories.${id}.name`)}</span>
-                <span className="col-span-2 col-start-2 line-clamp-2 text-[13px] leading-relaxed text-[#0B0F14]/55 md:col-span-1 md:col-start-auto">{pt(`categories.${id}.desc`)}</span>
-                <ArrowDot className="row-span-2 md:row-span-1" />
-              </Link>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* 08 — SERVICES */}
-      <section className="pb-20 md:pb-28">
+      {/* 02 — PARTNER SERVICES (animated atlas) */}
+      <section className="py-20 md:py-28">
         <div className={wrap}>
           <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
             <div>
@@ -345,6 +159,192 @@ export default async function HomePage({ params }: { params: { locale: string } 
                 <PillButton href="/wholesale-application" variant="outline">{t('Services.wholesaleApp')}</PillButton>
               </div>
             </div>
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 03 — INTRO + NUMBERED POINTS */}
+      <section className={section}>
+        <div className={wrap}>
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow className="mb-6 justify-center">{t('Differentiators.institutionalStandard')}</Eyebrow>
+            <SplitHeading text={t('Differentiators.lab.title')} className={`${h2} mb-6`} />
+            <p className="mx-auto mb-8 max-w-xl text-[15px] leading-relaxed text-[#0B0F14]/60">{t('Differentiators.lab.description')}</p>
+            <PillButton href="/products">{t('Hero.secondaryCta')}</PillButton>
+          </div>
+
+          <RevealGroup className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-10 sm:grid-cols-3 md:mt-24">
+            {(['purity', 'clients', 'coverage'] as const).map((k, i) => (
+              <div key={k} data-reveal>
+                <div className="mb-4 font-dm-mono text-[10px] uppercase tracking-[0.2em] text-[#0B0F14]/45">{t(`StatsBar.${k}.label`)}</div>
+                <div className="mb-3 font-light leading-none tracking-[-0.05em] text-[clamp(2.4rem,4vw,3.4rem)]">
+                  0{i + 1}
+                  <span className="ml-0.5 align-top text-sm text-[#4FC3D0]">&bull;</span>
+                </div>
+                <p className="max-w-[16rem] text-[13px] leading-relaxed text-[#0B0F14]/55">{t(`StatsBar.${k}.sub`)}</p>
+              </div>
+            ))}
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 04 — WHY BRANDS CHOOSE US (looping scenes) */}
+      <section className="pb-20 md:pb-28">
+        <WhyUs
+          eyebrow={t('WhyUs.eyebrow')}
+          title={t('WhyUs.title')}
+          items={(['lab', 'coa', 'pricing', 'support'] as const).map((k) => ({ key: k, title: t(`Differentiators.${k}.title`), desc: t(`Differentiators.${k}.description`) }))}
+          labels={{
+            usMade: t('Hero.badges.usMade'),
+            tested: t('Hero.badges.tested'),
+            purity: t('StatsBar.purity.label'),
+            coa: t('Quality.batchReport'),
+            lot: t('WhyUs.lot'),
+            verified: t('WhyUs.verified'),
+            tiers: TIER_KEYS.map((k) => ({ name: tiers[k].name, kits: tiers[k].kits })),
+            ask: t('Hero.primaryCta'),
+            reply: t('WhyUs.reply'),
+            online: t('WhyUs.online'),
+          }}
+        />
+      </section>
+
+      {/* 05 — CATALOG (best sellers) */}
+      <section className="pb-20 md:pb-28">
+        <div className={wrap}>
+          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
+            <div>
+              <Eyebrow className="mb-5">{t('BestSellers.badge')}</Eyebrow>
+              <SplitHeading text={t('BestSellers.title')} className={`${h2} max-w-3xl`} />
+            </div>
+            <div className="max-w-sm">
+              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('BestSellers.subtitle')}</p>
+              <PillButton href="/products">{t('BestSellers.browseAll', { count: productsData.length })}</PillButton>
+            </div>
+          </div>
+
+          <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {bestSellers.map((p, i) => {
+              const slug = BEST_SELLER_SLUGS[i];
+              return (
+                <Link key={slug} data-reveal href={`/products/${slug}`} className={`${card} group overflow-hidden p-2 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.08)]`}>
+                  <div className="relative aspect-[4/4.6] overflow-hidden rounded-[0.9rem] bg-[#e6eaf0]">
+                    <div className="absolute inset-0 transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
+                      <Photo src={BEST_SELLER_IMAGES[slug]} alt={`${p.name} research peptide, wholesale`} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" position="50% 60%" />
+                    </div>
+                    <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 font-dm-mono text-[9px] uppercase tracking-[0.14em] backdrop-blur">{pt(`categories.${BEST_SELLER_CATS[i]}.name`)}</span>
+                  </div>
+                  <div className="p-4 pb-3">
+                    <h3 className="mb-2 text-lg font-normal tracking-[-0.03em]">{p.name}</h3>
+                    <p className="mb-5 line-clamp-2 text-[13px] leading-relaxed text-[#0B0F14]/55">{p.desc}</p>
+                    <div className="flex items-center justify-between border-t border-[#E6EAF1] pt-3 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/50">
+                      <span>{p.spec}</span>
+                      <span className="flex items-center gap-1.5 text-[#0B0F14]">
+                        {t('BestSellers.viewSpecs')}
+                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-45" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 06 — TIERS (dark panel) */}
+      <section id="wholesale-tiers" className="px-3 md:px-4">
+        <div className="mx-auto max-w-[1760px] rounded-[1.75rem] bg-[#0B0D10] py-16 text-white md:py-24">
+          <div className={`${wrap} grid gap-12 lg:grid-cols-12`}>
+            <div className="lg:col-span-4">
+              <Eyebrow light className="mb-5">{t('Tiers.badge')}</Eyebrow>
+              <SplitHeading text={t('Tiers.title')} className={`${h2} mb-6 !text-white`} />
+              <p className="mb-6 max-w-sm text-[13px] leading-relaxed text-white/55">{t('Tiers.description')}</p>
+              <p className="font-dm-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-white/35">{t('Tiers.onRequests')}</p>
+            </div>
+            <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-8">
+              {TIER_KEYS.map((k, i) => {
+                const tier = tiers[k];
+                return (
+                  <div key={k} data-reveal className="flex min-h-[290px] flex-col rounded-[1.1rem] bg-white p-6 text-[#0B0F14]">
+                    <div className="mb-8 flex items-start justify-between">
+                      <span className="font-dm-mono text-[10px] uppercase tracking-[0.18em] text-[#0B0F14]/45">{tier.label}</span>
+                      {i === 3 ? <span className="rounded-full bg-[#4FC3D0]/20 px-2.5 py-1 font-dm-mono text-[9px] uppercase tracking-[0.14em] text-[#0B6F7B]">{t('Tiers.bestValue')}</span> : <span className="h-2 w-2 bg-[#4FC3D0]" />}
+                    </div>
+                    <div className="mb-1 text-3xl font-light tracking-[-0.04em]">{tier.name}</div>
+                    <div className="mb-4 font-dm-mono text-[11px] uppercase tracking-[0.14em] text-[#0B6F7B]">{tier.kits}</div>
+                    <p className="mb-6 flex-grow text-[13px] leading-relaxed text-[#0B0F14]/55">{tier.description}</p>
+                    <a
+                      href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to learn about wholesale tier ${tier.name} pricing.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between border-t border-[#E6EAF1] pt-4 text-[13px] font-medium"
+                    >
+                      {t('Tiers.getPricng')}
+                      <ArrowDot />
+                    </a>
+                  </div>
+                );
+              })}
+            </RevealGroup>
+          </div>
+        </div>
+      </section>
+
+      {/* 07 — DOCUMENTATION PANEL */}
+      <section className="px-3 pt-3 md:px-4">
+        <div className="relative mx-auto max-w-[1760px]">
+          <Parallax className="h-[680px] rounded-[1.75rem] bg-[#12171d] md:h-[720px]" amount={6}>
+            <Photo src={HOME_IMAGES.documentation} alt={t('Quality.title')} sizes="100vw" />
+          </Parallax>
+          <RevealGroup className="absolute inset-x-4 bottom-4 md:inset-x-auto md:bottom-10 md:left-10">
+            <div data-reveal className="w-full max-w-[520px] rounded-[1.25rem] bg-white/95 p-7 shadow-[0_30px_80px_rgba(11,15,20,0.2)] backdrop-blur md:p-9">
+              <Eyebrow className="mb-5">{t('Quality.batchReport')}</Eyebrow>
+              <h2 className={`${h2} mb-5 !text-[clamp(1.9rem,3.2vw,2.9rem)]`}>{t('Quality.verification')}</h2>
+              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Quality.description')}</p>
+              <ul className="mb-7 divide-y divide-[#E6EAF1] border-y border-[#E6EAF1]">
+                {QUALITY_DOWNLOADS.map((d) => (
+                  <li key={d.key}>
+                    <a
+                      href={`${WHATSAPP}?text=${encodeURIComponent(`Hi, I'd like to request the batch COA report for ${d.name}.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-4 py-3 text-[13px]"
+                    >
+                      <span>{t(`Quality.downloads.${d.key}`)}</span>
+                      <Download className="h-4 w-4 text-[#0B0F14]/50 transition-colors group-hover:text-[#0B6F7B]" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <PillButton href="/certificates-of-analysis">{t('Quality.cta')}</PillButton>
+            </div>
+          </RevealGroup>
+        </div>
+      </section>
+
+      {/* 08 — CATEGORY ROWS */}
+      <section className={section}>
+        <div className={wrap}>
+          <div className="mb-10 flex flex-col justify-between gap-6 md:mb-14 lg:flex-row lg:items-end">
+            <div>
+              <Eyebrow className="mb-5">{t('Categories.badge')}</Eyebrow>
+              <SplitHeading text={t('Categories.title')} className={`${h2} max-w-3xl`} />
+            </div>
+            <div className="max-w-sm">
+              <p className="mb-6 text-[13px] leading-relaxed text-[#0B0F14]/60">{t('Categories.subtitle')}</p>
+              <PillButton href="/products">{t('Categories.cta')}</PillButton>
+            </div>
+          </div>
+          <RevealGroup className={`${card} divide-y divide-[#E6EAF1] px-2 md:px-4`}>
+            {CATEGORY_IDS.map((id, i) => (
+              <Link key={id} data-reveal href={`/products#${id}`} className="group grid grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-1 px-2 py-5 transition-colors hover:bg-[#F3F5FA] md:grid-cols-[3rem_minmax(0,1fr)_minmax(0,1.4fr)_auto] md:gap-x-8 md:px-3">
+                <span className="font-dm-mono text-[10px] tracking-[0.2em] text-[#0B0F14]/40">0{i + 1}</span>
+                <span className="text-lg font-normal tracking-[-0.03em] md:text-xl">{pt(`categories.${id}.name`)}</span>
+                <span className="col-span-2 col-start-2 line-clamp-2 text-[13px] leading-relaxed text-[#0B0F14]/55 md:col-span-1 md:col-start-auto">{pt(`categories.${id}.desc`)}</span>
+                <ArrowDot className="row-span-2 md:row-span-1" />
+              </Link>
+            ))}
           </RevealGroup>
         </div>
       </section>
