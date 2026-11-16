@@ -482,6 +482,14 @@
           ]
         }
       }
+    },
+    "WhyUs": {
+      "eyebrow": "The difference",
+      "title": "Why brands choose us",
+      "reply": "Quote on its way.",
+      "online": "Online now",
+      "lot": "Lot 2417",
+      "verified": "Verified"
     }
   },
   "Search": {

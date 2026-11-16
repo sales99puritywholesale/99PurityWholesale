@@ -482,6 +482,14 @@
           ]
         }
       }
+    },
+    "WhyUs": {
+      "eyebrow": "La diferencia",
+      "title": "Por qué las marcas nos eligen",
+      "reply": "Cotización en camino.",
+      "online": "En línea",
+      "lot": "Lote 2417",
+      "verified": "Verificado"
     }
   },
   "Search": {

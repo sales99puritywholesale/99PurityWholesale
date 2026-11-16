@@ -7,6 +7,7 @@ import FaqSchema from '@/components/seo/FaqSchema';
 import HomeHero from '@/components/home/HomeHero';
 import Parallax from '@/components/home/Parallax';
 import ServicesAtlas from '@/components/home/ServicesAtlas';
+import WhyUs from '@/components/home/WhyUs';
 import { RevealGroup, SplitHeading } from '@/components/home/Reveal';
 import { Eyebrow, PillButton, ArrowDot, Photo, h2, card } from '@/components/home/ui';
 import { HOME_IMAGES } from '@/components/home/home-images';
@@ -136,28 +137,25 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </div>
       </section>
 
-      {/* 03 — FOUR POINTS */}
+      {/* 03 — WHY BRANDS CHOOSE US (looping scenes) */}
       <section className="pb-20 md:pb-28">
-        <div className={wrap}>
-          <div className="mb-10 md:mb-14">
-            <Eyebrow className="mb-5">{t('Quality.technicalStandard')}</Eyebrow>
-            <SplitHeading text={t('Quality.title')} className={`${h2} max-w-3xl`} />
-          </div>
-          <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {(['lab', 'coa', 'pricing', 'support'] as const).map((k, i) => (
-              <div key={k} data-reveal className={`${card} flex min-h-[260px] flex-col justify-between p-6 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.07)]`}>
-                <div className="flex items-start justify-between">
-                  <span className="font-dm-mono text-[10px] tracking-[0.2em] text-[#0B0F14]/40">0{i + 1}</span>
-                  <span className="h-2 w-2 bg-[#4FC3D0]" />
-                </div>
-                <div>
-                  <h3 className="mb-3 text-xl font-normal leading-tight tracking-[-0.03em]">{t(`Differentiators.${k}.title`)}</h3>
-                  <p className="text-[13px] leading-relaxed text-[#0B0F14]/55">{t(`Differentiators.${k}.description`)}</p>
-                </div>
-              </div>
-            ))}
-          </RevealGroup>
-        </div>
+        <WhyUs
+          eyebrow={t('WhyUs.eyebrow')}
+          title={t('WhyUs.title')}
+          items={(['lab', 'coa', 'pricing', 'support'] as const).map((k) => ({ key: k, title: t(`Differentiators.${k}.title`), desc: t(`Differentiators.${k}.description`) }))}
+          labels={{
+            usMade: t('Hero.badges.usMade'),
+            tested: t('Hero.badges.tested'),
+            purity: t('StatsBar.purity.label'),
+            coa: t('Quality.batchReport'),
+            lot: t('WhyUs.lot'),
+            verified: t('WhyUs.verified'),
+            tiers: TIER_KEYS.map((k) => ({ name: tiers[k].name, kits: tiers[k].kits })),
+            ask: t('Hero.primaryCta'),
+            reply: t('WhyUs.reply'),
+            online: t('WhyUs.online'),
+          }}
+        />
       </section>
 
       {/* 04 — CATALOG (best sellers) */}
