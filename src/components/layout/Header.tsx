@@ -7,9 +7,12 @@ import { Menu, X, Search, Globe, ChevronDown, Check, Command, FlaskConical, Shie
 import GlobalSearch from '@/components/search/GlobalSearch';
 import CartIcon from '@/components/cart/CartIcon';
 import { useNestedSmoothScroll } from '@/hooks/useNestedSmoothScroll';
+import { usePlan } from '@/components/plan/PlanContext';
 
 export default function Header() {
   const t = useTranslations('Layout');
+  const tp = useTranslations('Plan');
+  const { openPlan } = usePlan();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -80,7 +83,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Nav - Centered */}
-          <nav className="hidden xl:flex items-center gap-6 2xl:gap-8 flex-auto justify-center px-6">
+          <nav className="hidden xl:flex items-center gap-3 min-[1440px]:gap-4 2xl:gap-7 flex-auto justify-center px-2 min-[1440px]:px-3 2xl:px-6">
             <Link 
               href="/products" 
               className="text-[11px] font-bold text-black/70 hover:text-black transition-colors relative group py-1 uppercase tracking-widest whitespace-nowrap"
@@ -263,9 +266,17 @@ export default function Header() {
 
             <CartIcon />
 
+            <button
+              type="button"
+              onClick={() => openPlan()}
+              className="hidden xl:flex items-center justify-center px-4 min-[1440px]:px-5 2xl:px-7 self-stretch bg-[#4FC3D0] text-[#090C11] rounded-full text-[13px] font-bold hover:bg-[#6fd2dd] transition-all active:scale-95 uppercase tracking-[0.14em] whitespace-nowrap"
+            >
+              {tp('cta')}
+            </button>
+
             <Link 
               href="/contact" 
-              className="hidden xl:flex items-center justify-center px-12 self-stretch bg-[#090C11] text-white rounded-full text-[14px] font-bold hover:bg-black transition-all shadow-xl active:scale-95 uppercase tracking-[0.2em]"
+              className="hidden xl:flex items-center justify-center px-4 min-[1440px]:px-6 2xl:px-9 self-stretch bg-[#090C11] text-white rounded-full text-[14px] font-bold hover:bg-black transition-all shadow-xl active:scale-95 uppercase tracking-[0.2em]"
             >
               Contact
             </Link>
@@ -375,6 +386,17 @@ export default function Header() {
 
           {/* Section 3: Contact & Locale */}
           <div className="mt-auto pt-8 border-t border-black/[0.05]">
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                openPlan();
+              }}
+              className="flex items-center justify-center gap-3 w-full p-5 bg-[#4FC3D0] text-[#090C11] rounded-2xl font-bold text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all mb-3"
+            >
+              {tp('cta')}
+              <ArrowRight className="w-4 h-4" />
+            </button>
             <Link 
               href="/contact"
               className="flex items-center justify-center gap-3 w-full p-5 bg-black text-white rounded-2xl font-bold text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all mb-8"

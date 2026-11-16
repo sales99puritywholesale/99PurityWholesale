@@ -2438,5 +2438,159 @@
     "procureMsg": "Hi, I am looking to order bacteriostatic water and laboratory supplies.",
     "warningTitle": "Research Use Only",
     "warningText": "This tool is provided solely for laboratory calculations and in vitro assay design by certified scientific professionals. All compounds are intended strictly for research purposes and must not be administered to humans or animals."
+  },
+  "Plan": {
+    "cta": "Get a plan",
+    "title": "Your plan",
+    "aboutMinute": "about a minute",
+    "close": "Close",
+    "back": "Back",
+    "next": "Continue",
+    "skip": "Skip",
+    "send": "Send my plan",
+    "questions": "Questions first?",
+    "whatsappUs": "WhatsApp us",
+    "add": "Add to plan",
+    "added": "Added to plan",
+    "remove": "Remove",
+    "bar": {
+      "label": "Your plan",
+      "empty": "Pick what you need",
+      "hint": "Nothing yet. Tap Add to plan on a service, or answer the quiz.",
+      "count": "{count} selected",
+      "send": "Send my plan",
+      "clear": "Clear"
+    },
+    "steps": {
+      "build": {
+        "title": "What are you building?",
+        "sub": "Pick the closest one.",
+        "options": {
+          "launch": {
+            "t": "Launch a new peptide brand",
+            "d": "From nothing to taking orders"
+          },
+          "scale": {
+            "t": "Scale a peptide brand I already run",
+            "d": "Better site, payments, traffic, ads, email and SMS, or fulfillment"
+          },
+          "other": {
+            "t": "A brand in another industry",
+            "d": "Website, search, payments or ads"
+          },
+          "payments": {
+            "t": "I just need payment processing",
+            "d": "Any industry"
+          }
+        }
+      },
+      "services": {
+        "title": "What do you need help with?",
+        "sub": "Pick as many as you like."
+      },
+      "site": {
+        "title": "Where is your store today?",
+        "sub": "Pick the closest one.",
+        "options": {
+          "none": {
+            "t": "No website yet",
+            "d": "Starting from scratch"
+          },
+          "platform": {
+            "t": "A template or marketplace store",
+            "d": "WooCommerce, Shopify or similar"
+          },
+          "custom": {
+            "t": "A custom site that works",
+            "d": "We would improve and grow it"
+          },
+          "redesign": {
+            "t": "A site that needs a redesign",
+            "d": "Slow, dated or hard to update"
+          }
+        }
+      },
+      "volume": {
+        "title": "How much do you expect to order?",
+        "sub": "Wholesale tiers are volume based.",
+        "options": {
+          "starter": {
+            "t": "1 to 9 kits",
+            "d": "Start tier"
+          },
+          "tier1": {
+            "t": "10 to 19 kits",
+            "d": "Tier 1"
+          },
+          "tier2": {
+            "t": "20 to 39 kits",
+            "d": "Tier 2"
+          },
+          "tier3": {
+            "t": "40+ kits",
+            "d": "Tier 3"
+          },
+          "unsure": {
+            "t": "Not sure yet",
+            "d": "We can size it together"
+          }
+        }
+      },
+      "timeline": {
+        "title": "When do you want to start?",
+        "sub": "Pick the closest one.",
+        "options": {
+          "asap": {
+            "t": "As soon as possible",
+            "d": "Ready to move now"
+          },
+          "weeks": {
+            "t": "In 2 to 4 weeks",
+            "d": "Planning the launch"
+          },
+          "months": {
+            "t": "In 1 to 3 months",
+            "d": "Still preparing"
+          },
+          "exploring": {
+            "t": "Just exploring",
+            "d": "Gathering information"
+          }
+        }
+      },
+      "notes": {
+        "title": "Anything we should know?",
+        "sub": "Optional. A line or two is plenty.",
+        "placeholder": "Your products, your goals, or a question…"
+      },
+      "contact": {
+        "title": "Where should we send your plan?",
+        "sub": "We reply on WhatsApp or email, usually within one business day.",
+        "name": "Your name",
+        "business": "Business name (optional)",
+        "email": "Email",
+        "phone": "WhatsApp / phone",
+        "errName": "Please add your name.",
+        "errContact": "Add an email or a WhatsApp number so we can reply."
+      }
+    },
+    "result": {
+      "title": "Your plan is ready",
+      "sub": "Nothing is sent until you tap a button below.",
+      "whatsapp": "Send on WhatsApp",
+      "email": "Email it to us",
+      "again": "Start over",
+      "noServices": "No services selected yet",
+      "summary": "Summary",
+      "building": "Building",
+      "services": "Services",
+      "site": "Store today",
+      "volume": "Expected volume",
+      "timeline": "Start",
+      "notes": "Notes"
+    },
+    "services": {
+      "supply": "Wholesale supply"
+    }
   }
 }

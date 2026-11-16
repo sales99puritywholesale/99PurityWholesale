@@ -1,11 +1,13 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Check } from 'lucide-react';
 import { registerGsap, useIsoLayoutEffect, clearInline, MOTION_OK, FINE_POINTER } from './gsap-setup';
 import { SERVICE_ART } from './service-art';
 import { SERVICE_UI } from './service-ui';
 import { PillButton } from './ui';
+import AddToPlanButton from '@/components/plan/AddToPlanButton';
+import { usePlan } from '@/components/plan/PlanContext';
 
 export interface AtlasItem {
   key: string;
@@ -28,6 +30,7 @@ export interface AtlasGroup {
 export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasGroup[]; labels: { hint: string; learn: string; of: string }; href: string }) {
   const flat = groups.flatMap((g) => g.items.map((it) => ({ ...it, group: g.label })));
   const [active, setActive] = useState(0);
+  const { hasService } = usePlan();
   const root = useRef<HTMLDivElement>(null);
 
   // touch / small screens: the row crossing the middle of the viewport becomes active
@@ -215,10 +218,11 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
                     </li>
                   ))}
                 </ul>
-                <div data-txt>
+                <div data-txt className="flex flex-wrap items-center gap-3">
                   <PillButton href={href} variant="dark">
                     {labels.learn}
                   </PillButton>
+                  <AddToPlanButton serviceKey={it.key} />
                 </div>
               </div>
             ))}
@@ -254,6 +258,11 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
                       >
                         <span className={`w-6 shrink-0 font-dm-mono text-[10px] tracking-[0.2em] transition-colors duration-300 ${on ? 'text-[#0B6F7B]' : 'text-[#0B0F14]/35'}`}>{String(i + 1).padStart(2, '0')}</span>
                         <span className={`font-dm-sans text-[clamp(1.3rem,2.3vw,1.9rem)] font-light leading-tight tracking-[-0.035em] transition-all duration-500 ${on ? 'translate-x-2 text-[#0B0F14]' : 'text-[#0B0F14]/35 group-hover:text-[#0B0F14]/70'}`}>{it.name}</span>
+                        {hasService(it.key) && (
+                          <span aria-hidden className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#2BB0C0] text-white">
+                            <Check className="h-2.5 w-2.5" strokeWidth={3.5} />
+                          </span>
+                        )}
                         <span className={`ml-auto hidden text-[12px] transition-opacity duration-300 sm:block ${on ? 'text-[#0B0F14]/55 opacity-100' : 'opacity-0'}`}>{it.short}</span>
                         <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-500 ${on ? 'rotate-0 bg-[#4FC3D0] text-[#0B0F14]' : '-rotate-45 bg-[#0B0F14]/[0.06] text-[#0B0F14]/40'}`}>
                           <ArrowUpRight className="h-4 w-4" />
@@ -273,6 +282,7 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
                                 </li>
                               ))}
                             </ul>
+                            <AddToPlanButton serviceKey={it.key} size="sm" className="mt-4" />
                           </div>
                         </div>
                       </div>

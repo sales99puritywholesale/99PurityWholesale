@@ -2429,5 +2429,159 @@
         }
       ]
     }
+  },
+  "Plan": {
+    "cta": "Obtener plan",
+    "title": "Su plan",
+    "aboutMinute": "cerca de un minuto",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Continuar",
+    "skip": "Omitir",
+    "send": "Enviar mi plan",
+    "questions": "¿Preguntas primero?",
+    "whatsappUs": "Escríbanos por WhatsApp",
+    "add": "Añadir al plan",
+    "added": "Añadido al plan",
+    "remove": "Quitar",
+    "bar": {
+      "label": "Su plan",
+      "empty": "Elija lo que necesita",
+      "hint": "Aún nada. Toque Añadir al plan en un servicio, o responda el cuestionario.",
+      "count": "{count} seleccionados",
+      "send": "Enviar mi plan",
+      "clear": "Borrar"
+    },
+    "steps": {
+      "build": {
+        "title": "¿Qué está construyendo?",
+        "sub": "Elija la opción más cercana.",
+        "options": {
+          "launch": {
+            "t": "Lanzar una nueva marca de péptidos",
+            "d": "De cero a recibir pedidos"
+          },
+          "scale": {
+            "t": "Hacer crecer una marca de péptidos que ya tengo",
+            "d": "Mejor sitio, pagos, tráfico, anuncios, email y SMS, o cumplimiento de pedidos"
+          },
+          "other": {
+            "t": "Una marca de otra industria",
+            "d": "Sitio web, búsqueda, pagos o anuncios"
+          },
+          "payments": {
+            "t": "Solo necesito procesamiento de pagos",
+            "d": "Cualquier industria"
+          }
+        }
+      },
+      "services": {
+        "title": "¿Con qué necesita ayuda?",
+        "sub": "Elija todas las que quiera."
+      },
+      "site": {
+        "title": "¿Cómo está su tienda hoy?",
+        "sub": "Elija la opción más cercana.",
+        "options": {
+          "none": {
+            "t": "Todavía no tengo sitio web",
+            "d": "Empezando desde cero"
+          },
+          "platform": {
+            "t": "Una tienda con plantilla o marketplace",
+            "d": "WooCommerce, Shopify o similar"
+          },
+          "custom": {
+            "t": "Un sitio a medida que funciona",
+            "d": "Lo mejoraríamos y haríamos crecer"
+          },
+          "redesign": {
+            "t": "Un sitio que necesita rediseño",
+            "d": "Lento, anticuado o difícil de actualizar"
+          }
+        }
+      },
+      "volume": {
+        "title": "¿Cuánto espera pedir?",
+        "sub": "Los niveles mayoristas dependen del volumen.",
+        "options": {
+          "starter": {
+            "t": "1 a 9 kits",
+            "d": "Nivel inicial"
+          },
+          "tier1": {
+            "t": "10 a 19 kits",
+            "d": "Nivel 1"
+          },
+          "tier2": {
+            "t": "20 a 39 kits",
+            "d": "Nivel 2"
+          },
+          "tier3": {
+            "t": "40+ kits",
+            "d": "Nivel 3"
+          },
+          "unsure": {
+            "t": "Aún no estoy seguro",
+            "d": "Podemos dimensionarlo juntos"
+          }
+        }
+      },
+      "timeline": {
+        "title": "¿Cuándo quiere empezar?",
+        "sub": "Elija la opción más cercana.",
+        "options": {
+          "asap": {
+            "t": "Lo antes posible",
+            "d": "Listo para avanzar ya"
+          },
+          "weeks": {
+            "t": "En 2 a 4 semanas",
+            "d": "Planeando el lanzamiento"
+          },
+          "months": {
+            "t": "En 1 a 3 meses",
+            "d": "Todavía preparándome"
+          },
+          "exploring": {
+            "t": "Solo estoy explorando",
+            "d": "Reuniendo información"
+          }
+        }
+      },
+      "notes": {
+        "title": "¿Algo que debamos saber?",
+        "sub": "Opcional. Una o dos líneas bastan.",
+        "placeholder": "Sus productos, sus metas o una pregunta…"
+      },
+      "contact": {
+        "title": "¿Adónde enviamos su plan?",
+        "sub": "Respondemos por WhatsApp o email, normalmente en un día hábil.",
+        "name": "Su nombre",
+        "business": "Nombre del negocio (opcional)",
+        "email": "Email",
+        "phone": "WhatsApp / teléfono",
+        "errName": "Por favor, agregue su nombre.",
+        "errContact": "Agregue un email o un número de WhatsApp para poder responder."
+      }
+    },
+    "result": {
+      "title": "Su plan está listo",
+      "sub": "No se envía nada hasta que toque un botón.",
+      "whatsapp": "Enviar por WhatsApp",
+      "email": "Enviarlo por email",
+      "again": "Empezar de nuevo",
+      "noServices": "Aún no hay servicios seleccionados",
+      "summary": "Resumen",
+      "building": "Construyendo",
+      "services": "Servicios",
+      "site": "Tienda hoy",
+      "volume": "Volumen esperado",
+      "timeline": "Inicio",
+      "notes": "Notas"
+    },
+    "services": {
+      "supply": "Suministro mayorista"
+    }
   }
 }

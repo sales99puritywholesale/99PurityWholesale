@@ -144,6 +144,8 @@ export async function generateMetadata(props: any) {
 
 
 import { CartProvider } from '@/context/CartContext';
+import { PlanProvider } from '@/components/plan/PlanContext';
+import PlanModal from '@/components/plan/PlanModal';
 import CartDrawer from '@/components/cart/CartDrawer';
 
 import { setRequestLocale } from 'next-intl/server';
@@ -273,6 +275,7 @@ export default async function RootLayout(props: any) {
       <body className={`${dmSans.className} ${rajdhani.variable} ${dmSans.variable} ${dmMono.variable} ${absans.variable} ${goku.variable} ${meshed.variable} ${archia.variable} antialiased min-h-screen flex flex-col`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale} timeZone="America/New_York">
           <SmoothScrollProvider>
+            <PlanProvider>
             <CartProvider>
               <Header />
               <MainContentWrapper>
@@ -282,6 +285,8 @@ export default async function RootLayout(props: any) {
               <FloatingWhatsApp />
               <CartDrawer />
             </CartProvider>
+            <PlanModal locale={currentLocale} />
+            </PlanProvider>
           </SmoothScrollProvider>
         </NextIntlClientProvider>
       </body>

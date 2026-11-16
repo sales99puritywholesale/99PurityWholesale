@@ -7,6 +7,7 @@ import FaqSchema from '@/components/seo/FaqSchema';
 import HomeHero from '@/components/home/HomeHero';
 import Parallax from '@/components/home/Parallax';
 import ServicesAtlas from '@/components/home/ServicesAtlas';
+import PlanBar from '@/components/plan/PlanBar';
 import WhyUs from '@/components/home/WhyUs';
 import Highlights from '@/components/home/Highlights';
 import { HIGHLIGHT_MEDIA } from '@/components/home/highlights-media';
@@ -143,6 +144,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
               })),
             }))}
           />
+          <PlanBar />
 
           <RevealGroup className="mt-16 md:mt-24">
             <div data-reveal className={`${card} grid items-center gap-8 p-7 md:p-10 lg:grid-cols-2`}>

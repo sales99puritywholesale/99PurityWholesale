@@ -56,7 +56,7 @@ export default function CartIcon() {
           )}
         </div>
         
-        <div className="hidden sm:flex flex-col items-start leading-tight whitespace-nowrap">
+        <div className="hidden sm:flex xl:hidden 2xl:flex flex-col items-start leading-tight whitespace-nowrap">
           <span className="text-[12px] font-bold uppercase tracking-tight text-black/80">{t('cart.title')}</span>
           <span className="text-[8px] text-black/30 font-medium uppercase tracking-[0.15em]">{t('cart.registered')}</span>
         </div>
