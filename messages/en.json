@@ -517,7 +517,7 @@
       "gaName": "Google Analytics",
       "badge": "Our own site data",
       "source": "Source: our own Google Search Console and Google Analytics accounts.",
-      "note": "Figures and date ranges are as reported by Google. Chart lines are redrawn from the dashboards. Past results do not guarantee future results."
+      "note": "Daily figures exported from Google Search Console and Google Analytics. Date ranges are shown on each view. Past results do not guarantee future results."
     }
   },
   "Search": {

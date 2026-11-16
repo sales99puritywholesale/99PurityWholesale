@@ -517,7 +517,7 @@
       "gaName": "Google Analytics",
       "badge": "Datos de nuestro propio sitio",
       "source": "Fuente: nuestras propias cuentas de Google Search Console y Google Analytics.",
-      "note": "Las cifras y fechas son las reportadas por Google. Las líneas del gráfico se redibujaron a partir de los paneles. Los resultados pasados no garantizan resultados futuros."
+      "note": "Cifras diarias exportadas de Google Search Console y Google Analytics. Los rangos de fechas se muestran en cada vista. Los resultados pasados no garantizan resultados futuros."
     }
   },
   "Search": {

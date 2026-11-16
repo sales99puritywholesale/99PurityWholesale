@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { ArrowDown, ArrowUp } from 'lucide-react';
 import { registerGsap, useIsoLayoutEffect, MOTION_OK } from './gsap-setup';
 import { Eyebrow, h2 } from './ui';
 import { SplitHeading } from './Reveal';
@@ -29,7 +28,7 @@ function curve(values: number[]) {
   return { d, last: pts[pts.length - 1] };
 }
 
-function Chart({ series, xLabels }: { series: ProofSeries[]; xLabels: string[] }) {
+function Chart({ series, xTicks, count }: { series: ProofSeries[]; xTicks: Array<{ i: number; label: string }>; count: number }) {
   const iw = W - PAD.l - PAD.r;
   const ih = H - PAD.t - PAD.b;
   const primary = series[0];
@@ -58,9 +57,9 @@ function Chart({ series, xLabels }: { series: ProofSeries[]; xLabels: string[] }
           </g>
         );
       })}
-      {xLabels.map((x, i) => (
-        <text key={x} x={PAD.l + (i / (xLabels.length - 1)) * iw} y={H - 6} textAnchor={i === 0 ? 'start' : i === xLabels.length - 1 ? 'end' : 'middle'} fontSize="10" fill="#0B0F14" fillOpacity="0.45" fontFamily="var(--font-dm-mono), monospace">
-          {x}
+      {xTicks.map((x, k) => (
+        <text key={x.label} x={PAD.l + (x.i / (count - 1)) * iw} y={H - 6} textAnchor={k === 0 ? 'start' : k === xTicks.length - 1 ? 'end' : 'middle'} fontSize="10" fill="#0B0F14" fillOpacity="0.45" fontFamily="var(--font-dm-mono), monospace">
+          {x.label}
         </text>
       ))}
       {[...series].reverse().map((s, k) => {
@@ -164,12 +163,6 @@ export default function Proof({ labels }: { labels: ProofLabels }) {
                   <div className={`font-dm-mono text-[10px] uppercase tracking-[0.16em] ${hot ? 'text-white/75' : 'text-[#0B0F14]/50'}`}>{s.label}</div>
                   <div className="mt-2 flex items-end gap-2">
                     <span className="text-[clamp(1.9rem,3.6vw,3rem)] font-light leading-none tracking-[-0.045em]">{s.value}</span>
-                    {s.delta && (
-                      <span className={`mb-1 flex items-center gap-0.5 text-[11px] font-medium ${s.deltaDir === 'up' ? 'text-[#188038]' : 'text-[#d93025]'}`}>
-                        {s.deltaDir === 'up' ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
-                        {s.delta}
-                      </span>
-                    )}
                   </div>
                 </div>
               );
@@ -187,7 +180,7 @@ export default function Proof({ labels }: { labels: ProofLabels }) {
               ))}
             </div>
             <div data-chart>
-              <Chart series={view.series} xLabels={view.xLabels} />
+              <Chart series={view.series} xTicks={view.xTicks} count={view.series[0].values.length} />
             </div>
           </div>
 

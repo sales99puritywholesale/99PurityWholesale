@@ -135,7 +135,7 @@ const seo = (
           <Search className="h-2 w-2" strokeWidth={3} />
         </span>
         <span className="text-[9px] font-medium">Search Console</span>
-        <span className="ml-auto text-[7px] text-[#0B0F14]/45">18 Oct to 13 Nov</span>
+        <span className="ml-auto text-[7px] text-[#0B0F14]/45">18 Oct to 14 Nov</span>
       </div>
       <div className="px-2.5 pt-2">
         <div className="mb-1.5 text-[8px] font-medium text-[#0B0F14]/70">Performance</div>
@@ -176,9 +176,8 @@ const seo = (
         <div className="flex items-end justify-between">
           <div>
             <div className="text-[7px] text-[#0B0F14]/50">Active users</div>
-            <div className="text-[17px] font-medium leading-none">7.1K</div>
+            <div className="text-[17px] font-medium leading-none">7.0K</div>
           </div>
-          <span className="rounded bg-[#E6F4EA] px-1 py-[1px] text-[7px] font-medium text-[#188038]">▲ 6.7%</span>
         </div>
         <svg viewBox="0 0 220 56" className="mt-1.5 h-[52px] w-full" aria-hidden>
           <defs>
@@ -192,9 +191,9 @@ const seo = (
         </svg>
         <div className="mt-1.5 grid grid-cols-3 gap-1 text-[7px]">
           {[
-            ['Sessions', '9.9K'],
-            ['Views', '22K'],
-            ['New users', '6.8K'],
+            ['Sessions', '9.7K'],
+            ['Views', '21K'],
+            ['New users', '6.7K'],
           ].map(([l, v]) => (
             <div key={l} data-u="" className="rounded border border-[#0B0F14]/10 px-1.5 py-1">
               <div className="text-[#0B0F14]/50">{l}</div>
