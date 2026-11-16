@@ -2571,7 +2571,11 @@
         "email": "Email",
         "phone": "WhatsApp / phone",
         "errName": "Please add your name.",
-        "errContact": "Add an email or a WhatsApp number so we can reply."
+        "errContact": "Add an email or a WhatsApp number so we can reply.",
+        "err_invalid": "Please check your name and contact details.",
+        "err_rate": "Too many requests. Please try again in a few minutes.",
+        "err_config": "Email is not available right now. Please use WhatsApp below.",
+        "err_send": "We could not send your plan. Please try again, or use WhatsApp."
       }
     },
     "result": {
@@ -2587,10 +2591,14 @@
       "site": "Store today",
       "volume": "Expected volume",
       "timeline": "Start",
-      "notes": "Notes"
+      "notes": "Notes",
+      "received": "We have your plan and will reply on the contact you gave us, usually within one business day.",
+      "receivedTitle": "Plan received",
+      "whatsappFollow": "Also message us on WhatsApp"
     },
     "services": {
       "supply": "Wholesale supply"
-    }
+    },
+    "sending": "Sending…"
   }
 }

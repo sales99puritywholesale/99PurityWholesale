@@ -2562,7 +2562,11 @@
         "email": "Email",
         "phone": "WhatsApp / teléfono",
         "errName": "Por favor, agregue su nombre.",
-        "errContact": "Agregue un email o un número de WhatsApp para poder responder."
+        "errContact": "Agregue un email o un número de WhatsApp para poder responder.",
+        "err_invalid": "Revise su nombre y datos de contacto.",
+        "err_rate": "Demasiadas solicitudes. Inténtelo de nuevo en unos minutos.",
+        "err_config": "El email no está disponible ahora. Use WhatsApp abajo.",
+        "err_send": "No pudimos enviar su plan. Inténtelo de nuevo o use WhatsApp."
       }
     },
     "result": {
@@ -2578,10 +2582,14 @@
       "site": "Tienda hoy",
       "volume": "Volumen esperado",
       "timeline": "Inicio",
-      "notes": "Notas"
+      "notes": "Notas",
+      "received": "Recibimos su plan y responderemos al contacto que nos dio, normalmente en un día hábil.",
+      "receivedTitle": "Plan recibido",
+      "whatsappFollow": "Escríbanos también por WhatsApp"
     },
     "services": {
       "supply": "Suministro mayorista"
-    }
+    },
+    "sending": "Enviando…"
   }
 }

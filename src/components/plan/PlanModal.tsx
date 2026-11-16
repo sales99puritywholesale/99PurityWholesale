@@ -3,10 +3,11 @@
 import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useTranslations } from 'next-intl';
-import { AppWindow, ArrowLeft, ArrowRight, CalendarClock, Check, Compass, CreditCard, FlaskConical, Hourglass, LayoutTemplate, MessageCircle, Mail, Package, RefreshCw, Rocket, TrendingUp, X, Code, Ban } from 'lucide-react';
+import { AppWindow, ArrowLeft, ArrowRight, CalendarClock, Check, Compass, CreditCard, FlaskConical, Hourglass, LayoutTemplate, MessageCircle, Package, RefreshCw, Rocket, TrendingUp, X, Code, Ban } from 'lucide-react';
 import { registerGsap, MOTION_OK } from '../home/gsap-setup';
 import { usePlan, type PlanAnswers } from './PlanContext';
-import { BUILD_OPTIONS, EN_LABELS, PLAN_EMAIL, PLAN_PHONE_DISPLAY, PLAN_SERVICES, PLAN_STEPS, PLAN_WHATSAPP, SITE_OPTIONS, TIMELINE_OPTIONS, VOLUME_OPTIONS } from './plan-config';
+import { submitPlan } from '@/app/actions/planActions';
+import { BUILD_OPTIONS, EN_LABELS, PLAN_PHONE_DISPLAY, PLAN_SERVICES, PLAN_STEPS, PLAN_WHATSAPP, SITE_OPTIONS, TIMELINE_OPTIONS, VOLUME_OPTIONS } from './plan-config';
 
 type Icon = ComponentType<{ className?: string }>;
 type OptionStep = 'build' | 'site' | 'volume' | 'timeline';
@@ -50,6 +51,9 @@ export default function PlanModal({ locale }: { locale: string }) {
   const { open, step, done, services, answers, closePlan, setStep, setDone, toggleService, setAnswer, reset } = usePlan();
   const content = useRef<HTMLDivElement>(null);
   const [errors, setErrors] = useState<{ name?: boolean; contact?: boolean }>({});
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const [honey, setHoney] = useState('');
 
   const total = PLAN_STEPS.length;
   const key = PLAN_STEPS[step];
@@ -84,11 +88,22 @@ export default function PlanModal({ locale }: { locale: string }) {
     window.setTimeout(advance, 220);
   };
 
-  const submit = () => {
+  const submit = async () => {
     const nameBad = !answers.name?.trim();
     const contactBad = !emailOk(answers.email) && !phoneOk(answers.phone);
     setErrors({ name: nameBad, contact: contactBad });
-    if (!nameBad && !contactBad) setDone(true);
+    setSendError(null);
+    if (nameBad || contactBad || sending) return;
+    setSending(true);
+    try {
+      const res = await submitPlan({ ...answers, services, locale, website: honey });
+      if (res.success) setDone(true);
+      else setSendError(res.error);
+    } catch {
+      setSendError('send');
+    } finally {
+      setSending(false);
+    }
   };
 
   const card = 'group flex flex-col items-start gap-3 rounded-2xl border border-[#0B0F14]/10 bg-gradient-to-b from-white to-[#F6F8FB] p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-[#2BB0C0]/60 hover:shadow-[0_14px_34px_rgba(11,15,20,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2BB0C0]';
@@ -118,7 +133,6 @@ export default function PlanModal({ locale }: { locale: string }) {
   };
 
   const wa = `https://wa.me/${PLAN_WHATSAPP}?text=${encodeURIComponent(message)}`;
-  const mail = `mailto:${PLAN_EMAIL}?subject=${encodeURIComponent('Plan request - 99 Purity Wholesale')}&body=${encodeURIComponent(message)}`;
 
   return (
     <Dialog.Root open={open} onOpenChange={(o) => !o && closePlan()}>
@@ -154,8 +168,8 @@ export default function PlanModal({ locale }: { locale: string }) {
           {/* body */}
           {done ? (
             <div className="pt-8">
-              <h3 className="text-[1.6rem] font-light leading-tight tracking-[-0.035em] md:text-[1.9rem]">{tp('result.title')}</h3>
-              <p className="mt-1.5 text-[13px] text-[#0B0F14]/55">{tp('result.sub')}</p>
+              <h3 className="text-[1.6rem] font-light leading-tight tracking-[-0.035em] md:text-[1.9rem]">{tp('result.receivedTitle')}</h3>
+              <p className="mt-1.5 text-[13px] text-[#0B0F14]/55">{tp('result.received')}</p>
 
               <dl data-opt="" className="mt-6 space-y-2.5 rounded-2xl border border-[#0B0F14]/10 bg-[#F6F8FB] p-4 text-[13px]">
                 {[
@@ -175,14 +189,10 @@ export default function PlanModal({ locale }: { locale: string }) {
                   ))}
               </dl>
 
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="mt-6 grid gap-3">
                 <a data-opt="" href={wa} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 rounded-full bg-[#2BB0C0] px-5 py-3.5 text-[13px] font-medium text-[#0B0F14] transition-colors hover:bg-[#4FC3D0]">
                   <MessageCircle className="h-4 w-4" />
-                  {tp('result.whatsapp')}
-                </a>
-                <a data-opt="" href={mail} className="flex items-center justify-center gap-2 rounded-full bg-[#0B0F14] px-5 py-3.5 text-[13px] font-medium text-white transition-colors hover:bg-[#1b232d]">
-                  <Mail className="h-4 w-4" />
-                  {tp('result.email')}
+                  {tp('result.whatsappFollow')}
                 </a>
               </div>
               <button type="button" onClick={reset} className="mt-4 text-[12px] text-[#0B0F14]/55 underline underline-offset-4 hover:text-[#0B0F14]">
@@ -224,7 +234,13 @@ export default function PlanModal({ locale }: { locale: string }) {
                     <input value={answers.email ?? ''} onChange={(e) => setAnswer('email', e.target.value)} type="email" autoComplete="email" placeholder={tp('steps.contact.email')} aria-invalid={errors.contact} className={`${input} ${errors.contact ? '!border-[#d92d20]' : ''}`} />
                     <input value={answers.phone ?? ''} onChange={(e) => setAnswer('phone', e.target.value)} type="tel" autoComplete="tel" placeholder={tp('steps.contact.phone')} aria-invalid={errors.contact} className={`${input} ${errors.contact ? '!border-[#d92d20]' : ''}`} />
                   </div>
+                  <input tabIndex={-1} autoComplete="off" aria-hidden value={honey} onChange={(e) => setHoney(e.target.value)} className="absolute -left-[9999px] h-0 w-0 opacity-0" name="website" />
                   {errors.contact && <p className="mt-2 text-[11.5px] text-[#d92d20]">{tp('steps.contact.errContact')}</p>}
+                  {sendError && (
+                    <p role="alert" className="mt-3 rounded-lg bg-[#fef3f2] px-3 py-2 text-[12px] text-[#b42318]">
+                      {tp(`steps.contact.err_${sendError}`)}
+                    </p>
+                  )}
                 </>
               )}
 
@@ -252,8 +268,8 @@ export default function PlanModal({ locale }: { locale: string }) {
                       </button>
                     )}
                     {key === 'contact' && (
-                      <button type="button" onClick={submit} className="flex items-center gap-2 rounded-full bg-[#2BB0C0] px-6 py-3 text-[13px] font-medium text-[#0B0F14] transition-colors hover:bg-[#4FC3D0]">
-                        {tp('send')}
+                      <button type="button" onClick={submit} disabled={sending} className="flex items-center gap-2 rounded-full bg-[#2BB0C0] px-6 py-3 disabled:opacity-60 text-[13px] font-medium text-[#0B0F14] transition-colors hover:bg-[#4FC3D0]">
+                        {sending ? tp('sending') : tp('send')}
                         <ArrowRight className="h-3.5 w-3.5" />
                       </button>
                     )}
