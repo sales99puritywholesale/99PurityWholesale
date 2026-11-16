@@ -492,11 +492,19 @@
       "verified": "Verified"
     },
     "Highlights": {
-      "eyebrow": "Highlights",
-      "title": "Made, tested and shipped in the U.S.",
-      "description": "A closer look at the lab, the paperwork and the packing bench behind every order.",
+      "eyebrow": "Highlights · A few of our builds",
+      "title": "Built from scratch. Live and selling.",
+      "description": "Every storefront here was designed and coded by our team, not built from a template, and every one is live and taking orders today.",
       "prev": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "visit": "Visit live site",
+      "live": "Live",
+      "sites": {
+        "veracue": "Editorial storefront with batch-level testing data",
+        "helix": "Cinematic underwater hero, batch-verified catalog",
+        "primetime": "Storm-lit hero and a dark product grid",
+        "vlr": "Cream and serif, with a full COA library"
+      }
     }
   },
   "Search": {

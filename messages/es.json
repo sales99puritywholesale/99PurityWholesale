@@ -492,11 +492,19 @@
       "verified": "Verificado"
     },
     "Highlights": {
-      "eyebrow": "Destacados",
-      "title": "Fabricado, verificado y enviado en EE. UU.",
-      "description": "Una mirada de cerca al laboratorio, la documentación y la mesa de empaque detrás de cada pedido.",
+      "eyebrow": "Destacados · Algunas de nuestras tiendas",
+      "title": "Hechas desde cero. En vivo y vendiendo.",
+      "description": "Cada tienda aquí fue diseñada y programada por nuestro equipo, no creada desde una plantilla, y todas están en vivo y recibiendo pedidos hoy.",
       "prev": "Anterior",
-      "next": "Siguiente"
+      "next": "Siguiente",
+      "visit": "Ver sitio en vivo",
+      "live": "En vivo",
+      "sites": {
+        "veracue": "Tienda editorial con datos de pruebas por lote",
+        "helix": "Héroe cinematográfico bajo el agua y catálogo verificado por lote",
+        "primetime": "Héroe con tormenta y una cuadrícula de productos oscura",
+        "vlr": "Crema y serif, con una biblioteca completa de COA"
+      }
     }
   },
   "Search": {

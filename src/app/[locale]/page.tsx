@@ -211,22 +211,14 @@ export default async function HomePage({ params }: { params: { locale: string } 
         />
       </section>
 
-      {/* 05 — HIGHLIGHTS (carousel) */}
+      {/* 05 — HIGHLIGHTS (storefront builds carousel) */}
       <section className="pb-20 md:pb-28">
         <Highlights
           eyebrow={t('Highlights.eyebrow')}
           title={t('Highlights.title')}
           description={t('Highlights.description')}
-          labels={{ prev: t('Highlights.prev'), next: t('Highlights.next'), learn: t('ServicesAtlas.learn') }}
-          slides={HIGHLIGHT_MEDIA.map((m) => {
-            const text = {
-              lab: { tag: t('Hero.badges.usMade'), title: t('Differentiators.lab.title'), desc: t('Differentiators.lab.description'), href: '/about' },
-              coa: { tag: t('Quality.batchReport'), title: t('Differentiators.coa.title'), desc: t('Differentiators.coa.description'), href: '/certificates-of-analysis' },
-              shipping: { tag: t('Hero.badges.shipping'), title: t('StatsBar.coverage.label'), desc: t('Differentiators.shippingDesc'), href: '/locations' },
-              private: { tag: t('Services.badge'), title: t('ServicesAtlas.items.privateLabel.name'), desc: t('ServicesAtlas.items.privateLabel.desc'), href: '/services' },
-            }[m.key];
-            return { key: m.key, image: m.image, video: m.video, detail: m.detail, ...text };
-          })}
+          labels={{ prev: t('Highlights.prev'), next: t('Highlights.next'), visit: t('Highlights.visit'), live: t('Highlights.live') }}
+          slides={HIGHLIGHT_MEDIA.map((m) => ({ key: m.key, name: m.name, host: m.host, href: m.href, poster: m.poster, video: m.video, phone: m.phone, desc: t(`Highlights.sites.${m.key}`) }))}
         />
       </section>
 
