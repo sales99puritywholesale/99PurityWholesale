@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { registerGsap, useIsoLayoutEffect, clearInline, MOTION_OK, FINE_POINTER } from './gsap-setup';
 import { SERVICE_ART } from './service-art';
+import { SERVICE_UI } from './service-ui';
 import { PillButton } from './ui';
 
 export interface AtlasItem {
@@ -62,6 +63,18 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
     return () => mm.revert();
   }, []);
 
+  // scale the fixed 400 x 280 UI canvases to whatever width the stage has
+  useIsoLayoutEffect(() => {
+    const el = root.current;
+    const wrap = el?.querySelector<HTMLElement>('[data-art-wrap]');
+    if (!el || !wrap) return;
+    const apply = () => el.style.setProperty('--svc-scale', String(Math.max(0.5, wrap.clientWidth / 400)));
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(wrap);
+    return () => ro.disconnect();
+  }, []);
+
   // pointer parallax on the artwork (fine pointers only)
   useIsoLayoutEffect(() => {
     const { gsap } = registerGsap();
@@ -109,6 +122,7 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
         .fromTo(q('[data-s]'), { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, stagger: 0.1 }, 0.1)
         .fromTo(q('[data-sr]'), { x: 40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, stagger: 0.1 }, 0.2)
         .fromTo(q('[data-t]'), { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.7, stagger: 0.06 }, 0.25)
+        .fromTo(q('[data-u]'), { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.07 }, 0.2)
         .fromTo(q('[data-txt]'), { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.07 }, 0.1);
 
       // idle loops, started once the build-in has landed
@@ -131,7 +145,7 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
 
     return () => {
       mm.revert();
-      clearInline(panel.querySelectorAll('[data-d],[data-r],[data-p],[data-s],[data-sr],[data-t],[data-pulse],[data-float],[data-txt]'), 'transform,opacity,visibility,strokeDashoffset');
+      clearInline(panel.querySelectorAll('[data-d],[data-r],[data-p],[data-s],[data-sr],[data-t],[data-pulse],[data-float],[data-u],[data-txt]'), 'transform,opacity,visibility,strokeDashoffset');
     };
   }, [active]);
 
@@ -164,9 +178,17 @@ export default function ServicesAtlas({ groups, labels, href }: { groups: AtlasG
                   className="invisible col-start-1 row-start-1 opacity-0 transition-[opacity,visibility] duration-500 data-[on=true]:visible data-[on=true]:opacity-100"
                 >
                   <div data-art-wrap className="mx-auto w-full max-w-[420px] will-change-transform">
-                    <svg viewBox="0 0 400 280" className="h-auto w-full" aria-hidden role="presentation">
-                      {SERVICE_ART[it.key]}
-                    </svg>
+                    {SERVICE_UI[it.key] ? (
+                      <div className="relative w-full" style={{ aspectRatio: '400 / 280' }} aria-hidden>
+                        <div className="absolute left-0 top-0 origin-top-left" style={{ width: 400, height: 280, transform: 'scale(var(--svc-scale, 1))' }}>
+                          {SERVICE_UI[it.key]}
+                        </div>
+                      </div>
+                    ) : (
+                      <svg viewBox="0 0 400 280" className="h-auto w-full" aria-hidden role="presentation">
+                        {SERVICE_ART[it.key]}
+                      </svg>
+                    )}
                   </div>
                 </div>
               ))}
