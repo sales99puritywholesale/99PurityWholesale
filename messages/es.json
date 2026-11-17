@@ -500,10 +500,11 @@
       "visit": "Ver sitio en vivo",
       "live": "En vivo",
       "sites": {
-        "veracue": "Tienda editorial con datos de pruebas por lote",
-        "helix": "Héroe cinematográfico bajo el agua y catálogo verificado por lote",
-        "primetime": "Héroe con tormenta y una cuadrícula de productos oscura",
-        "vlr": "Crema y serif, con una biblioteca completa de COA"
+        "purity": "Tienda en tonos verde azulado y crema con un héroe cinematográfico de producto",
+        "certified": "Tienda de catálogo limpia, construida en torno a COA por lote",
+        "helix": "Héroe submarino cinematográfico, catálogo verificado por lote",
+        "longevia": "Tienda de investigación serena y editorial con un catálogo claro",
+        "veracue": "Tienda editorial con datos de pruebas por lote"
       }
     },
     "Proof": {

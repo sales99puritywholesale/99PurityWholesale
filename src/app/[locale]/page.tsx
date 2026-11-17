@@ -226,7 +226,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
           title={t('Highlights.title')}
           description={t('Highlights.description')}
           labels={{ prev: t('Highlights.prev'), next: t('Highlights.next'), visit: t('Highlights.visit'), live: t('Highlights.live') }}
-          slides={HIGHLIGHT_MEDIA.map((m) => ({ key: m.key, name: m.name, host: m.host, href: m.href, poster: m.poster, video: m.video, phone: m.phone, desc: t(`Highlights.sites.${m.key}`) }))}
+          slides={HIGHLIGHT_MEDIA.map((m) => ({ key: m.key, name: m.name, host: m.host, href: m.href, poster: m.poster, phone: m.phone, desc: t(`Highlights.sites.${m.key}`) }))}
         />
       </section>
 

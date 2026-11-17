@@ -500,10 +500,11 @@
       "visit": "Visit live site",
       "live": "Live",
       "sites": {
-        "veracue": "Editorial storefront with batch-level testing data",
+        "purity": "Teal-and-cream retail storefront with a cinematic product hero",
+        "certified": "Clean catalog storefront built around batch-level COAs",
         "helix": "Cinematic underwater hero, batch-verified catalog",
-        "primetime": "Storm-lit hero and a dark product grid",
-        "vlr": "Cream and serif, with a full COA library"
+        "longevia": "Calm, editorial research storefront with a clear product catalog",
+        "veracue": "Editorial storefront with batch-level testing data"
       }
     },
     "Proof": {

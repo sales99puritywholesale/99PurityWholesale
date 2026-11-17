@@ -1,23 +1,22 @@
 /**
  * Media for the homepage "Highlights" carousel (storefront builds).
  *
- * Each slide shows a desktop screen recording / poster inside a browser frame, with a mobile screenshot
- * in a phone frame on top. Files live in /public/highlights. To change a slide, replace the files or edit
- * the paths below; set `video` to null to show the still poster only.
+ * Each slide shows a desktop screenshot inside a browser frame, with a mobile screenshot in a phone frame on
+ * top. Files live in /public/highlights. To change a slide, replace the files or edit the paths below.
  */
 export interface HighlightMedia {
-  key: 'veracue' | 'helix' | 'primetime' | 'vlr';
+  key: 'purity' | 'certified' | 'helix' | 'longevia' | 'veracue';
   name: string;
   host: string;
   href: string;
   poster: string;
-  video: string | null;
   phone: string;
 }
 
 export const HIGHLIGHT_MEDIA: HighlightMedia[] = [
-  { key: 'veracue', name: 'Veracue Labs', host: 'veracuelabs.com', href: 'https://veracuelabs.com', poster: '/highlights/veracue-desktop.jpg', video: '/highlights/veracue.mp4', phone: '/highlights/veracue-mobile.jpg' },
-  { key: 'helix', name: 'Helix Bio Chem', host: 'helixbiochem.com', href: 'https://helixbiochem.com', poster: '/highlights/helix-desktop.jpg', video: '/highlights/helix.mp4', phone: '/highlights/helix-mobile.jpg' },
-  { key: 'primetime', name: 'PrimeTime BioLabs', host: 'primetimebiolabs.com', href: 'https://primetimebiolabs.com', poster: '/highlights/primetime-desktop.jpg', video: '/highlights/primetime.mp4', phone: '/highlights/primetime-mobile.jpg' },
-  { key: 'vlr', name: 'Vanta Labs Research', host: 'vantalabsresearch.com', href: 'https://vantalabsresearch.com', poster: '/highlights/vlr-desktop.jpg', video: '/highlights/vlr.mp4', phone: '/highlights/vlr-mobile.jpg' },
+  { key: 'purity', name: '99 Purity Peptides', host: '99puritypeptides.com', href: 'https://99puritypeptides.com', poster: '/highlights/purity-desktop.png', phone: '/highlights/purity-mobile.png' },
+  { key: 'certified', name: 'Certified Aminos', host: 'certified-aminos.com', href: 'https://certified-aminos.com', poster: '/highlights/certified-desktop.png', phone: '/highlights/certified-mobile.png' },
+  { key: 'helix', name: 'Helix Bio Chem', host: 'helixbiochem.com', href: 'https://helixbiochem.com', poster: '/highlights/helix-desktop.png', phone: '/highlights/helix-mobile.png' },
+  { key: 'longevia', name: 'Longevia Research', host: 'longeviaresearch.com', href: 'https://longeviaresearch.com', poster: '/highlights/longevia-desktop.png', phone: '/highlights/longevia-mobile.png' },
+  { key: 'veracue', name: 'Veracue Labs', host: 'veracuelabs.com', href: 'https://veracuelabs.com', poster: '/highlights/veracue-desktop.png', phone: '/highlights/veracue-mobile.png' },
 ];

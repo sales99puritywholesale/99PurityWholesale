@@ -14,15 +14,14 @@ export interface HighlightSlide {
   desc: string;
   href: string;
   poster: string;
-  video: string | null;
   phone: string;
 }
 
 const AUTOPLAY_SECONDS = 7;
-const SLIDE_RATIO = 1120 / 732; // 1120 x 700 screen + 32px browser bar
+const SLIDE_RATIO = 1405 / 838; // 1405 x 802 screenshot + browser bar
 
 /**
- * Highlights carousel: storefront builds shown in a browser frame (screen recording on the active slide)
+ * Highlights carousel: storefront builds shown in a browser frame (desktop screenshot)
  * with a phone preview on top. The centre slide is large, neighbours are dimmed at the sides. Autoplays with
  * a progress bar, pauses on hover / focus / off screen, and supports arrows, swipe, keys and clicks.
  */
@@ -196,14 +195,13 @@ export default function Highlights({
                 </div>
                 <div className="relative min-h-0 flex-1 bg-[#EEF1F5]">
                   <Image src={s.poster} alt={`${s.name} — ${s.desc}`} fill sizes="(max-width: 700px) 84vw, 66vw" priority={i === 0} loading={i === 0 ? undefined : 'eager'} draggable={false} className="object-cover object-top" />
-                  {s.video && on && <video key={s.video} className="absolute inset-0 h-full w-full object-cover object-top" src={s.video} poster={s.poster} muted loop playsInline autoPlay={!reduce} preload="metadata" aria-hidden />}
                 </div>
               </div>
 
               {/* phone preview */}
               <div className={`absolute -bottom-3 right-[3%] w-[15%] min-w-[64px] max-w-[150px] rotate-[3deg] rounded-[1.1rem] border-[4px] border-[#0B0F14] bg-[#0B0F14] shadow-[0_22px_44px_rgba(11,15,20,0.32)] transition-opacity duration-500 md:-bottom-4 ${on ? 'opacity-100' : 'opacity-0'}`}>
                 <span className="absolute left-1/2 top-1 z-10 h-1 w-6 -translate-x-1/2 rounded-full bg-[#0B0F14]" />
-                <div className="relative aspect-[330/714] overflow-hidden rounded-[0.7rem] bg-white">
+                <div className="relative overflow-hidden rounded-[0.7rem] bg-white" style={{ aspectRatio: String(532 / 802) }}>
                   <Image src={s.phone} alt="" fill sizes="150px" draggable={false} className="object-cover object-top" />
                 </div>
               </div>
