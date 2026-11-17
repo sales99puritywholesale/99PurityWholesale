@@ -150,8 +150,9 @@ export default function Highlights({
       {/* stage */}
       <div
         ref={stage}
-        className="relative aspect-[16/10.2] w-full select-none overflow-hidden sm:aspect-[16/8] lg:aspect-[16/7.4]"
+        className="relative touch-pan-y aspect-[16/10.2] w-full select-none overflow-hidden sm:aspect-[16/8] lg:aspect-[16/7.4]"
         onPointerDown={(e) => (dragX.current = e.clientX)}
+        onPointerCancel={() => (dragX.current = null)}
         onPointerUp={(e) => {
           if (dragX.current === null) return;
           const dx = e.clientX - dragX.current;
@@ -201,7 +202,7 @@ export default function Highlights({
               {/* phone preview */}
               <div className={`absolute -bottom-3 right-[3%] w-[15%] min-w-[64px] max-w-[150px] rotate-[3deg] rounded-[1.1rem] border-[4px] border-[#0B0F14] bg-[#0B0F14] shadow-[0_22px_44px_rgba(11,15,20,0.32)] transition-opacity duration-500 md:-bottom-4 ${on ? 'opacity-100' : 'opacity-0'}`}>
                 <span className="absolute left-1/2 top-1 z-10 h-1 w-6 -translate-x-1/2 rounded-full bg-[#0B0F14]" />
-                <div className="relative overflow-hidden rounded-[0.7rem] bg-white" style={{ aspectRatio: String(532 / 802) }}>
+                <div className="relative overflow-hidden rounded-[0.7rem] bg-white" style={{ aspectRatio: String(390 / 844) }}>
                   <Image src={s.phone} alt="" fill sizes="150px" draggable={false} className="object-cover object-top" />
                 </div>
               </div>
