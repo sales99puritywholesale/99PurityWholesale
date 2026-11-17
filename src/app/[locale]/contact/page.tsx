@@ -2,9 +2,14 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { MessageCircle, Mail, CheckCircle2 } from "lucide-react";
-import FaqSection from "@/components/shared/FaqSection";
+import { MessageCircle, Mail, CheckCircle2, ArrowRight } from "lucide-react";
+import { PageShell, PageHero, Panel, RevealGroup, WRAP } from "@/components/home/page-kit";
+import FaqLight from "@/components/shared/FaqLight";
 import { submitContactForm } from "@/app/actions/formActions";
+
+const LABEL = "block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55";
+const INPUT =
+  "w-full rounded-xl border border-[#E6EAF1] bg-[#F3F5FA] px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:bg-white focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50";
 
 export default function ContactPage() {
   const t = useTranslations("Contact");
@@ -48,127 +53,96 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F8F8F6] text-[#101827] -mt-24 md:-mt-32 selection:bg-[#13a7b7]/20">
-      
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-52 pb-24 md:pt-64 md:pb-32 border-b border-black/5 bg-[#F8F8F6]">
-        {/* Grain Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <div className="container mx-auto px-6 max-w-5xl relative z-10 text-center">
-          <div>
-            <div className="inline-block bg-black/5 border border-black/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-black/60 mb-6">
-              {isEs ? "Soporte de Adquisición" : "Procurement Assistance"}
-            </div>
-            <h1 className="reveal-text text-4xl sm:text-6xl md:text-7xl font-bold font-absans text-black uppercase tracking-tight leading-none mb-6 break-words w-full">
-              {t("Hero.title")}
-            </h1>
-            <p className="reveal-text text-lg md:text-xl font-archia font-semibold text-black/75 mb-8 max-w-3xl mx-auto leading-relaxed">
-              {t("Hero.subtitle")}
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageShell>
+      <PageHero
+        eyebrow={isEs ? "Soporte de Adquisición" : "Procurement Assistance"}
+        title={t("Hero.title")}
+        intro={t("Hero.subtitle")}
+      />
 
-      {/* Main Grid Content */}
-      <section className="py-24 bg-[#F8F8F6] relative z-10">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="reveal-grid grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-            
+      <section className="pb-16 md:pb-24">
+        <div className={WRAP}>
+          <RevealGroup className="grid grid-cols-1 items-start gap-4 lg:grid-cols-12">
             {/* Left Column: Contact Cards */}
-            <div className="lg:col-span-5 space-y-8">
-              
-              {/* WhatsApp Procurement Card */}
-              <div className="reveal-card bg-white border border-emerald-500/20 rounded-[2rem] p-8 shadow-[0_22px_70px_rgba(16,185,129,0.03)] hover:border-emerald-500/40 transition-all duration-300">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-emerald-500/10 rounded-full flex items-center justify-center shrink-0">
-                    <MessageCircle className="w-6 h-6 text-emerald-600" />
+            <div className="space-y-4 lg:col-span-5">
+              <div data-reveal>
+                <Panel className="md:!p-8">
+                  <div className="mb-5 flex items-center gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                      <MessageCircle className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-[1.15rem] font-medium leading-none tracking-[-0.02em]">{isEs ? "WhatsApp Directo" : "Direct WhatsApp"}</h3>
+                      <p className="mt-1.5 text-[12px] text-[#0B0F14]/55">{t("Methods.whatsapp.title")}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-black font-absans uppercase leading-none">
-                      {isEs ? "WhatsApp Directo" : "Direct WhatsApp"}
-                    </h3>
-                    <p className="text-black/55 font-archia text-xs font-medium mt-1">
-                      {t("Methods.whatsapp.title")}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-black/65 font-archia text-sm mb-6 leading-relaxed font-medium">
-                  {t("Methods.whatsapp.description")}
-                </p>
-                <button
-                  onClick={handleWhatsAppClick}
-                  className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-4 px-8 rounded-xl transition-all flex items-center justify-center space-x-2 text-xs font-archia tracking-wider uppercase shadow-[0_10px_30px_rgba(37,211,102,0.2)] cursor-pointer"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>{t("Methods.whatsapp.cta")}</span>
-                </button>
+                  <p className="mb-6 text-[14px] leading-relaxed text-[#0B0F14]/60">{t("Methods.whatsapp.description")}</p>
+                  <button
+                    type="button"
+                    onClick={handleWhatsAppClick}
+                    className="group inline-flex cursor-pointer items-center gap-3 rounded-full bg-[#0B0F14] py-2 pl-5 pr-2 text-[13px] font-medium text-white transition-colors hover:bg-[#1b232d]"
+                  >
+                    <span>{t("Methods.whatsapp.cta")}</span>
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#4FC3D0] text-[#0B0F14] transition-transform duration-300 group-hover:-rotate-45">
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </button>
+                </Panel>
               </div>
 
-              {/* Email Procurement Card */}
-              <div className="reveal-card bg-white border border-black/5 rounded-[2rem] p-8 shadow-[0_22px_70px_rgba(19,32,52,0.04)] hover:border-black/15 transition-all duration-300 mt-8">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-black/5 rounded-full flex items-center justify-center shrink-0">
-                    <Mail className="w-6 h-6 text-black/80" />
+              <div data-reveal>
+                <Panel className="md:!p-8">
+                  <div className="mb-5 flex items-center gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                      <Mail className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-[1.15rem] font-medium leading-none tracking-[-0.02em]">{isEs ? "Correo Electrónico" : "Email Sourcing"}</h3>
+                      <p className="mt-1.5 text-[12px] text-[#0B0F14]/55">{t("Methods.email.title")}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-black font-absans uppercase leading-none">
-                      {isEs ? "Correo Electrónico" : "Email Sourcing"}
-                    </h3>
-                    <p className="text-black/55 font-archia text-xs font-medium mt-1">
-                      {t("Methods.email.title")}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-black/65 font-archia text-sm mb-6 leading-relaxed font-medium">
-                  {t("Methods.email.description")}
-                </p>
-                <a
-                  href="mailto:sales@99puritywholesale.com"
-                  className="w-full bg-black/5 hover:bg-black/10 text-black border border-black/10 font-bold py-4 px-8 rounded-xl transition-all flex items-center justify-center space-x-2 text-xs font-archia tracking-wider uppercase"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span>{t("Methods.email.cta")}</span>
-                </a>
+                  <p className="mb-6 text-[14px] leading-relaxed text-[#0B0F14]/60">{t("Methods.email.description")}</p>
+                  <a
+                    href="mailto:sales@99puritywholesale.com"
+                    className="group inline-flex items-center gap-3 rounded-full border border-[#0B0F14]/15 py-2 pl-5 pr-2 text-[13px] font-medium text-[#0B0F14] transition-colors hover:bg-[#0B0F14] hover:text-white"
+                  >
+                    <span>{t("Methods.email.cta")}</span>
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#4FC3D0] text-[#0B0F14] transition-transform duration-300 group-hover:-rotate-45">
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </a>
+                </Panel>
               </div>
 
-              {/* checklist Card */}
-              <div className="reveal-card bg-white border border-black/5 rounded-[2rem] p-8 shadow-[0_22px_70px_rgba(19,32,52,0.04)] mt-8">
-                <h3 className="text-lg font-bold text-black mb-6 font-absans uppercase">
-                  {t("Methods.checklist.title")}
-                </h3>
-                <ul className="space-y-4">
-                  {[0, 1, 2, 3].map((index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <CheckCircle2 className="w-5 h-5 text-[#13a7b7] mt-0.5 shrink-0" />
-                      <span className="text-black/75 font-archia text-sm font-medium">
-                        {t(`Methods.checklist.items.${index}`)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+              <div data-reveal>
+                <Panel className="md:!p-8">
+                  <h3 className="mb-5 text-[1.15rem] font-medium tracking-[-0.02em]">{t("Methods.checklist.title")}</h3>
+                  <ul className="space-y-4">
+                    {[0, 1, 2, 3].map((index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#0B6F7B]" />
+                        <span className="text-[14px] leading-relaxed text-[#0B0F14]/70">{t(`Methods.checklist.items.${index}`)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Panel>
               </div>
-
             </div>
 
             {/* Right Column: Account Request Form */}
-            <div className="reveal-card lg:col-span-7 bg-white border border-black/5 rounded-[2rem] p-8 md:p-12 shadow-[0_22px_70px_rgba(19,32,52,0.05)]">
-              <div>
-                <div className="mb-10">
-                  <h2 className="reveal-text text-2xl font-bold text-black mb-2 font-absans uppercase">
-                    {t("Form.title")}
-                  </h2>
-                  <p className="reveal-text text-black/50 font-archia text-sm font-medium">
-                    {t("Form.subtitle")}
-                  </p>
+            <div data-reveal className="lg:col-span-7">
+              <Panel className="md:!p-10">
+                <div className="mb-8">
+                  <h2 className="mb-2 text-[clamp(1.5rem,2.6vw,2rem)] font-light leading-tight tracking-[-0.03em]">{t("Form.title")}</h2>
+                  <p className="text-[14px] leading-relaxed text-[#0B0F14]/55">{t("Form.subtitle")}</p>
                 </div>
 
                 {isSuccess && (
-                  <div className="p-6 bg-emerald-50 border border-emerald-200/50 text-emerald-800 rounded-2xl flex items-start gap-3.5 mb-6">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <div role="status" className="mb-6 flex items-start gap-3.5 rounded-2xl border border-emerald-200/60 bg-emerald-50 p-5 text-emerald-800">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
                     <div>
-                      <h4 className="font-bold text-sm uppercase tracking-wider">{isEs ? "¡Inscripción Recibida!" : "Inquiry Received!"}</h4>
-                      <p className="text-xs text-emerald-700/90 font-medium mt-1 leading-relaxed">
+                      <h4 className="text-sm font-medium">{isEs ? "¡Inscripción Recibida!" : "Inquiry Received!"}</h4>
+                      <p className="mt-1 text-xs leading-relaxed text-emerald-700/90">
                         {isEs ? "Gracias por contactarnos. Nuestro equipo revisará sus datos y se comunicará con usted a la brevedad." : "Thank you for reaching out. Our team will review your credentials and follow up with you shortly."}
                       </p>
                     </div>
@@ -176,92 +150,62 @@ export default function ContactPage() {
                 )}
 
                 {errorMessage && (
-                  <div className="p-6 bg-rose-50 border border-rose-200/50 text-rose-800 rounded-2xl flex items-start gap-3.5 mb-6">
-                    <div className="w-5 h-5 bg-rose-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                      <span className="text-rose-700 font-bold text-xs">!</span>
+                  <div role="alert" className="mb-6 flex items-start gap-3.5 rounded-2xl border border-rose-200/60 bg-rose-50 p-5 text-rose-800">
+                    <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-100">
+                      <span className="text-xs font-medium text-rose-700">!</span>
                     </div>
                     <div>
-                      <h4 className="font-bold text-sm uppercase tracking-wider">{isEs ? "Error al Enviar" : "Submission Failed"}</h4>
-                      <p className="text-xs text-rose-700/90 font-medium mt-1 leading-relaxed">{errorMessage}</p>
+                      <h4 className="text-sm font-medium">{isEs ? "Error al Enviar" : "Submission Failed"}</h4>
+                      <p className="mt-1 text-xs leading-relaxed text-rose-700/90">{errorMessage}</p>
                     </div>
                   </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="block text-black/40 font-dm-mono text-[10px] font-bold uppercase tracking-widest">
-                      {isEs ? "Nombre Completo" : "Full Name"}
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      disabled={isPending}
-                      className="w-full bg-[#F8F8F6] border border-black/5 rounded-xl px-4 py-3.5 text-black placeholder-slate-400 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-sm font-medium disabled:opacity-50"
-                    />
+                    <label htmlFor="contact-name" className={LABEL}>{isEs ? "Nombre Completo" : "Full Name"}</label>
+                    <input id="contact-name" type="text" name="name" required disabled={isPending} className={INPUT} />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div className="space-y-2">
-                      <label className="block text-black/40 font-dm-mono text-[10px] font-bold uppercase tracking-widest">
-                        {t("Form.fields.email")}
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        disabled={isPending}
-                        className="w-full bg-[#F8F8F6] border border-black/5 rounded-xl px-4 py-3.5 text-black placeholder-slate-400 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-sm font-medium disabled:opacity-50"
-                      />
+                      <label htmlFor="contact-email" className={LABEL}>{t("Form.fields.email")}</label>
+                      <input id="contact-email" type="email" name="email" required disabled={isPending} className={INPUT} />
                     </div>
                     <div className="space-y-2">
-                      <label className="block text-black/40 font-dm-mono text-[10px] font-bold uppercase tracking-widest">
-                        {t("Form.fields.phone")}
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        disabled={isPending}
-                        className="w-full bg-[#F8F8F6] border border-black/5 rounded-xl px-4 py-3.5 text-black placeholder-slate-400 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-sm font-medium disabled:opacity-50"
-                      />
+                      <label htmlFor="contact-phone" className={LABEL}>{t("Form.fields.phone")}</label>
+                      <input id="contact-phone" type="tel" name="phone" disabled={isPending} className={INPUT} />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="block text-black/40 font-dm-mono text-[10px] font-bold uppercase tracking-widest">
-                      {isEs ? "Mensaje" : "Message"}
-                    </label>
+                    <label htmlFor="contact-message" className={LABEL}>{isEs ? "Mensaje" : "Message"}</label>
                     <textarea
+                      id="contact-message"
                       name="message"
                       rows={5}
                       required
                       disabled={isPending}
                       placeholder={isEs ? "¿En qué podemos ayudarle?" : "How can we help you?"}
-                      className="w-full bg-[#F8F8F6] border border-black/5 rounded-xl px-4 py-3.5 text-black placeholder-slate-400 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all resize-none font-archia text-sm font-medium disabled:opacity-50"
+                      className={`${INPUT} resize-none`}
                     ></textarea>
                   </div>
 
                   <button
                     type="submit"
                     disabled={isPending}
-                    className="w-full bg-black hover:bg-black/85 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-[0_10px_30px_rgba(0,0,0,0.15)] font-archia tracking-wider uppercase text-xs mt-4 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                    className="mt-2 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#0B0F14] py-4 text-[13px] font-medium text-white transition-colors hover:bg-[#1b232d] disabled:opacity-50"
                   >
                     {isPending ? (isEs ? "Enviando..." : "Sending...") : t("Form.fields.submit")}
                   </button>
                 </form>
-              </div>
+              </Panel>
             </div>
-
-          </div>
+          </RevealGroup>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <FaqSection
-        title={t("FAQ.title")}
-        items={faqs}
-        theme="white"
-      />
-    </main>
+      <FaqLight id="contact-faq" title={t("FAQ.title")} items={faqs} />
+    </PageShell>
   );
 }

@@ -31,8 +31,8 @@ export default function UnitedStatesHubContent() {
       {/* 1. EEAT / Overview Section */}
       <section className="space-y-8">
         <FadeIn>
-          <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed">
-            <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+          <div className="prose prose-lg max-w-none text-black/70 leading-relaxed">
+            <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
               {isEs 
                 ? 'El Principal Centro Nacional de Péptidos de Grado de Investigación en los Estados Unidos'
                 : 'The Premier National Hub for Research-Grade Peptides in the United States'}
@@ -40,7 +40,7 @@ export default function UnitedStatesHubContent() {
             {isEs ? (
               <>
                 <p className="mb-4">
-                  A la vanguardia de la distribución bioquímica, 99 Purity Wholesale es el proveedor nacional definitivo de péptidos de máxima pureza para investigación en todo Estados Unidos: desde compuestos metabólicos como <Link href="/products/cagrilintide" className="text-[#13a7b7] hover:underline font-semibold">Cagrilintide</Link> hasta péptidos regenerativos como <Link href="/products/tb-500" className="text-[#13a7b7] hover:underline font-semibold">TB-500</Link>. Explore nuestro directorio completo de estados y ciudades a continuación para consultar plazos de entrega locales para laboratorios autorizados, universidades y centros de investigación clínica en su región.
+                  A la vanguardia de la distribución bioquímica, 99 Purity Wholesale es el proveedor nacional definitivo de péptidos de máxima pureza para investigación en todo Estados Unidos: desde compuestos metabólicos como <Link href="/products/cagrilintide" className="text-[#0B6F7B] hover:underline font-semibold">Cagrilintide</Link> hasta péptidos regenerativos como <Link href="/products/tb-500" className="text-[#0B6F7B] hover:underline font-semibold">TB-500</Link>. Explore nuestro directorio completo de estados y ciudades a continuación para consultar plazos de entrega locales para laboratorios autorizados, universidades y centros de investigación clínica en su región.
                 </p>
                 <p className="mb-4">
                   El mercado nacional de péptidos exige una precisión absoluta, un riguroso cumplimiento normativo y una pureza inigualable. Comprendemos que en el ámbito del cribado de alto rendimiento, la biología molecular y los estudios analíticos, la integridad de los compuestos básicos no es negociable. Por ello, toda nuestra infraestructura operativa —desde la síntesis hasta la entrega final— está diseñada en torno a un estricto <strong>estándar de pureza ≥99%</strong>, verificado exclusivamente por laboratorios analíticos independientes con certificación ISO ubicados en los propios Estados Unidos.
@@ -52,7 +52,7 @@ export default function UnitedStatesHubContent() {
             ) : (
               <>
                 <p className="mb-4">
-                  Operating at the forefront of biochemical distribution, 99 Purity Wholesale is the definitive national supplier of premium, research-grade peptides across the United States — from metabolic compounds like <Link href="/products/cagrilintide" className="text-[#13a7b7] hover:underline font-semibold">Cagrilintide</Link> to regenerative peptides like <Link href="/products/tb-500" className="text-[#13a7b7] hover:underline font-semibold">TB-500</Link>. Browse our full state and city directory below to find local delivery estimates for licensed laboratories, universities, and clinical research organizations in your region.
+                  Operating at the forefront of biochemical distribution, 99 Purity Wholesale is the definitive national supplier of premium, research-grade peptides across the United States — from metabolic compounds like <Link href="/products/cagrilintide" className="text-[#0B6F7B] hover:underline font-semibold">Cagrilintide</Link> to regenerative peptides like <Link href="/products/tb-500" className="text-[#0B6F7B] hover:underline font-semibold">TB-500</Link>. Browse our full state and city directory below to find local delivery estimates for licensed laboratories, universities, and clinical research organizations in your region.
                 </p>
                 <p className="mb-4">
                   The domestic peptide market demands absolute precision, stringent compliance, and unparalleled purity. We understand that in the realm of high-throughput screening, molecular biology, and clinical trials, the integrity of your base compounds is non-negotiable. That is why our entire operational framework—from synthesis to final mile delivery—is engineered around a strict <strong>≥99% purity standard</strong>, verified exclusively by independent, ISO-certified analytical laboratories located right here in the USA.
@@ -89,10 +89,10 @@ export default function UnitedStatesHubContent() {
                 : "By maintaining vast inventory levels within the continental US, we shield our B2B partners from global supply chain volatility, ensuring consistent and rapid deployment."
             }
           ].map((feature, i) => (
-            <StaggerItem key={i} className="bg-white border border-black/5 rounded-[2rem] p-8 shadow-sm hover:shadow-md transition-all">
-              <feature.icon className="w-8 h-8 text-[#13a7b7] mb-6" />
-              <h3 className="text-lg font-absans font-bold text-black uppercase tracking-tight mb-3">{feature.title}</h3>
-              <p className="text-black/60 font-archia text-sm leading-relaxed">{feature.desc}</p>
+            <StaggerItem key={i} className="bg-white border border-black/5 rounded-[1.25rem] p-8 shadow-sm hover:shadow-md transition-all">
+              <feature.icon className="w-8 h-8 text-[#0B6F7B] mb-6" />
+              <h3 className="text-lg font-dm-sans font-light text-black tracking-[-0.03em] mb-3">{feature.title}</h3>
+              <p className="text-black/60 text-sm leading-relaxed">{feature.desc}</p>
             </StaggerItem>
           ))}
         </StaggerContainer>
@@ -110,12 +110,12 @@ export default function UnitedStatesHubContent() {
       <NationwideLogisticsTable />
 
       {/* 3b. Full State Directory (Internal Linking / GEO Coverage) */}
-      <section className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+      <section className="bg-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
         <FadeIn>
-          <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-3">
+          <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-3">
             {isEs ? "Explorar el Suministro Mayorista de Péptidos por Estado" : "Browse Wholesale Peptide Supply by State"}
           </h2>
-          <p className="text-black/60 font-archia font-medium leading-relaxed mb-8 max-w-3xl">
+          <p className="text-black/60 leading-relaxed mb-8 max-w-3xl">
             {isEs 
               ? "Cada página estatal a continuación contiene plazos de entrega estimados, preguntas frecuentes aplicables y detalles de cobertura institucional para compradores autorizados."
               : "Every state page below has its own local delivery estimates, applicable FAQs, and institution coverage details for licensed buyers in that state."}
@@ -125,9 +125,9 @@ export default function UnitedStatesHubContent() {
               <Link
                 key={loc.slug}
                 href={`/locations/united-states/${loc.slug}`}
-                className="flex items-center gap-2 text-black/60 hover:text-[#13a7b7] font-archia text-sm font-semibold transition-colors group"
+                className="flex items-center gap-2 text-black/60 hover:text-[#0B6F7B] text-sm font-semibold transition-colors group"
               >
-                <MapPin className="w-3 h-3 text-black/20 group-hover:text-[#13a7b7] flex-shrink-0 transition-colors" />
+                <MapPin className="w-3 h-3 text-black/20 group-hover:text-[#0B6F7B] flex-shrink-0 transition-colors" />
                 {loc.name}
               </Link>
             ))}
@@ -136,12 +136,12 @@ export default function UnitedStatesHubContent() {
       </section>
 
       {/* 3b-2. Top Cities Directory (Internal Linking / GEO Coverage) */}
-      <section className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+      <section className="bg-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
         <FadeIn>
-          <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-3">
+          <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-3">
             {isEs ? "Explorar el Suministro Mayorista de Péptidos por Ciudad" : "Browse Wholesale Peptide Supply by City"}
           </h2>
-          <p className="text-black/60 font-archia font-medium leading-relaxed mb-8 max-w-3xl">
+          <p className="text-black/60 leading-relaxed mb-8 max-w-3xl">
             {isEs
               ? "A continuación se presentan los centros metropolitanos de investigación que atendemos directamente, cada uno con estimaciones de entrega local y preguntas frecuentes específicas."
               : "Below are the metro-level institutional research and compounding hubs we serve directly, each with local delivery estimates and city-specific FAQs."}
@@ -151,9 +151,9 @@ export default function UnitedStatesHubContent() {
               <Link
                 key={city.slug}
                 href={`/locations/${city.region.toLowerCase().replace(/ /g, '-')}/${city.stateSlug}/${city.slug}`}
-                className="flex items-center gap-2 text-black/60 hover:text-[#13a7b7] font-archia text-sm font-semibold transition-colors group"
+                className="flex items-center gap-2 text-black/60 hover:text-[#0B6F7B] text-sm font-semibold transition-colors group"
               >
-                <MapPin className="w-3 h-3 text-black/20 group-hover:text-[#13a7b7] flex-shrink-0 transition-colors" />
+                <MapPin className="w-3 h-3 text-black/20 group-hover:text-[#0B6F7B] flex-shrink-0 transition-colors" />
                 {city.name}
               </Link>
             ))}
@@ -165,15 +165,14 @@ export default function UnitedStatesHubContent() {
       <WholesaleOrderingProcess locationName={isEs ? "Estados Unidos" : "United States"} />
 
       {/* 4. Institutions Served (GEO Content) */}
-      <section className="bg-[#05080C] text-white border border-white/5 rounded-[3rem] p-8 md:p-12 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('/images/noise.svg')]" />
+      <section className="bg-[#0B0D10] text-white border border-white/5 rounded-[1.75rem] p-8 md:p-12 relative overflow-hidden">
         
         <FadeIn className="relative z-10 flex flex-col gap-12">
           <div>
-            <h2 className="text-3xl font-absans font-bold uppercase tracking-tight mb-6">
+            <h2 className="text-3xl font-dm-sans font-light tracking-[-0.03em] mb-6">
               {isEs ? "Apoyando el Tejido de la Ciencia Estadounidense" : "Supporting the Fabric of American Science"}
             </h2>
-            <div className="space-y-6 font-archia text-white/60 text-sm leading-relaxed">
+            <div className="space-y-6 text-white/60 text-sm leading-relaxed">
               {isEs ? (
                 <>
                   <p>
@@ -213,27 +212,27 @@ export default function UnitedStatesHubContent() {
               )}
             </div>
             
-            <Link href="/wholesale-application" className="mt-10 inline-flex items-center gap-3 bg-white text-black font-absans font-bold uppercase tracking-widest text-xs px-8 py-4 rounded-full hover:bg-[#13a7b7] hover:text-white transition-all shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:shadow-[0_10px_30px_rgba(19,167,183,0.3)]">
+            <Link href="/wholesale-application" className="mt-10 inline-flex items-center gap-3 bg-white text-black font-dm-sans font-medium tracking-[-0.01em] text-xs px-8 py-4 rounded-full hover:bg-[#0B6F7B] hover:text-white transition-all shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:shadow-[0_10px_30px_rgba(19,167,183,0.3)]">
               {isEs ? 'Solicitar una Cuenta al Por Mayor' : 'Apply For a Wholesale Account'} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
-               <Beaker className="w-8 h-8 text-[#13a7b7] mb-4" />
-               <span className="font-absans font-bold uppercase text-sm tracking-wider">{isEs ? 'Laboratorios Independientes' : 'Independent Labs'}</span>
+               <Beaker className="w-8 h-8 text-[#0B6F7B] mb-4" />
+               <span className="font-dm-sans font-medium uppercase text-sm tracking-wider">{isEs ? 'Laboratorios Independientes' : 'Independent Labs'}</span>
              </div>
              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
-               <BookOpen className="w-8 h-8 text-[#13a7b7] mb-4" />
-               <span className="font-absans font-bold uppercase text-sm tracking-wider">{isEs ? 'Universidades' : 'Universities'}</span>
+               <BookOpen className="w-8 h-8 text-[#0B6F7B] mb-4" />
+               <span className="font-dm-sans font-medium uppercase text-sm tracking-wider">{isEs ? 'Universidades' : 'Universities'}</span>
              </div>
              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
-               <Microscope className="w-8 h-8 text-[#13a7b7] mb-4" />
-               <span className="font-absans font-bold uppercase text-sm tracking-wider">{isEs ? 'CROs' : 'CROs'}</span>
+               <Microscope className="w-8 h-8 text-[#0B6F7B] mb-4" />
+               <span className="font-dm-sans font-medium uppercase text-sm tracking-wider">{isEs ? 'CROs' : 'CROs'}</span>
              </div>
              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
-               <Activity className="w-8 h-8 text-[#13a7b7] mb-4" />
-               <span className="font-absans font-bold uppercase text-sm tracking-wider">{isEs ? 'Startups Biotecnológicas' : 'Biotech Startups'}</span>
+               <Activity className="w-8 h-8 text-[#0B6F7B] mb-4" />
+               <span className="font-dm-sans font-medium uppercase text-sm tracking-wider">{isEs ? 'Startups Biotecnológicas' : 'Biotech Startups'}</span>
              </div>
           </div>
         </FadeIn>

@@ -1,14 +1,11 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import Image from 'next/image';
-import { Search, Filter, ArrowRight, FlaskConical, ChevronRight } from 'lucide-react';
-import { Link } from '@/i18n/routing';
+import { Search, FlaskConical } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import AddToInquiryButton from '@/components/products/AddToInquiryButton';
+import ProductCard from '@/components/products/ProductCard';
 import { getSearchEngine } from '@/lib/search';
 import { useSearchParams } from 'next/navigation';
-import { useNestedSmoothScroll } from '@/hooks/useNestedSmoothScroll';
 
 interface Product {
   name: string;
@@ -23,161 +20,6 @@ interface ProductDirectoryProps {
   categories: { id: string; name: string }[];
 }
 
-const productImagesMap = {
-  "5-amino-1mq": "5-AMINO-1MQ 50mg.webp",
-  "5-amino-1mq-spray": "5-amino-1mq-spray-50mg.jpg",
-  "tirzepatide-spray": "tirzepatide-spray-10mg.jpg",
-  "semaglutide-spray": "semaglutide-spray-5mg.jpg",
-  "retatrutide-spray": "retatrutide-spray-10mg.jpg",
-  "thymosin-alpha-1-spray": "thymosin-alpha-1-spray-10mg.jpg",
-  "tesamorelin-spray": "tesamorelin-spray-10mg.jpg",
-  "tesamorelin-ipamorelin-spray": "tesamorelin-spray-10mg.jpg",
-  "tb-500-spray": "tb-500-spray-5mg.jpg",
-  "snap-8-spray": "snap-8-spray-10mg.jpg",
-  "sermorelin-spray": "sermorelin-spray-10mg.jpg",
-  "ss-31-spray": "ss-31-spray-10mg.jpg",
-  "mots-c-spray": "mots-c-spray-10mg.jpg",
-  "melanotan-1-spray": "melanotan-1-spray-10mg.jpg",
-  "ll-37-spray": "ll-37-spray-1mg.jpg",
-  "lipo-c-spray": "lipo-c-spray-120mg.jpg",
-  "l-carnitine-spray": "l-carnitine-spray-400mg.jpg",
-  "klow-spray": "klow-blend-spray-80mg.jpg",
-  "kisspeptin-spray": "kisspeptin-spray-10mg.jpg",
-  "ipamorelin-spray": "ipamorelin-spray-5mg.jpg",
-  "igf-1-lr3-spray": "igf-1-lr3-spray-1mg.jpg",
-  "hcg-spray": "hcg-spray-5000iu.jpg",
-  "h-frag-spray": "h-frag-spray-5mg.jpg",
-  "glutathione-spray": "glutathione-spray-600mg.jpg",
-  "glow-spray": "glow-blend-spray-70mg.jpg",
-  "ghrp-6-spray": "ghrp-6-spray-10mg.jpg",
-  "ghrp-2-spray": "ghrp-2-spray-100mg.jpg",
-  "dihexa-spray": "dihexa-spray-10mg.jpg",
-  "cjc-1295-ipamorelin-spray": "cjc-1295-ipamorelin-spray-10mg.jpg",
-  "cjc-1295-dac-spray": "cjc-1295-dac-spray-5mg.jpg",
-  "cjc-1295-no-dac-spray": "cjc-1295-no-dac-spray-10mg.jpg",
-  "cagrilintide-spray": "cagrilintide-spray-10mg.jpg",
-  "bpc-157-tb-500-spray": "bpc-157-tb-500-spray-10mg.jpg",
-  "ara-290-spray": "ara-290-spray-10mg.jpg",
-  "aod9604-spray": "aod9604-spray-5mg.jpg",
-  "ahk-cu-spray": "ahk-cu-50mg.png",
-  "bioregulator-core-panel": "bioregulator-core-panel.webp",
-  "bioregulator-full-master-set": "bioregulator-full-master-set.webp",
-  "bioregulator-cardiovascular": "bioregulator-cardiovascular.webp",
-  "bioregulator-hepatic-digestive": "bioregulator-hepatic-digestive.webp",
-  "bioregulator-immune-thymic": "bioregulator-immune-thymic.webp",
-  "bioregulator-neuro-pineal": "bioregulator-neuro-pineal.webp",
-  "bioregulator-respiratory": "bioregulator-respiratory.webp",
-  "bioregulator-urogenital": "bioregulator-urogenital.webp",
-  "advanced-nootropic": "bundle-advanced-nootropic.webp",
-  "advanced-repair-immune": "bundle-advanced-repair-immune.webp",
-  "body-composition-kit": "bundle-body-composition.webp",
-  "classic-secretagogue": "bundle-classic-secretagogue.webp",
-  "extended-gh-igf": "bundle-extended-gh-igf.webp",
-  "gh-secretagogue": "bundle-gh-secretagogue.webp",
-  "gut-mucosal-panel": "bundle-gut-mucosal-panel.webp",
-  "incretin-amylin": "bundle-incretin-amylin.webp",
-  "longevity-mitochondrial": "bundle-longevity-mitochondrial.webp",
-  "melanocortin-reproductive": "bundle-melanocortin-reproductive.webp",
-  "metabolic-activation": "bundle-metabolic-activation.webp",
-  "metabolic-support": "bundle-metabolic-support.webp",
-  "nad-antioxidant": "bundle-nad-antioxidant.webp",
-  "neuro-core": "bundle-neuro-core.webp",
-  "recovery-sleep-stress": "bundle-recovery-sleep-stress.webp",
-  "repair-trio": "bundle-repair-trio.webp",
-  "reproductive-hpg-axis": "bundle-reproductive-hpg-axis.webp",
-  "skin-cosmetic": "bundle-skin-cosmetic.webp",
-  "vascular-immune-protection": "bundle-vascular-immune-protection.webp",
-  "senescence-stack": "bundle-senescence-stack.webp",
-  "pathway-genetic-optimization-test": "pathway-genetic-optimization-test.webp",
-  "adamax": "adamax-5mg.webp",
-  "adipotide-fttp": "adipotide-fttp-2mg.webp",
-  "aod9604": "aod9604-5mg.webp",
-  "b12": "b12-10mg.webp",
-  "b7-33": "b7-33-2mg.webp",
-  "bac-water": "BAC WATER 3ML.webp",
-  "bpc-157": "BPC-157 5mg-5.webp",
-  "bpc-5mg-tb-5mg": "BPC-157 TB-500 MIX 5mg 5mg-2.webp",
-  "bpc-10mg-tb-10mg": "bpc-157-tb-500-10-10mg.jpg",
-  "cagrilintide": "CAGRILINTIDE 10mg.webp",
-  "cagrisema": "cagrisema-2-5-2-5-5mg.webp",
-  "cjc-1295-dac": "cjc-1295-dac5mg.webp",
-  "cjc-1295-no-dac": "cjc-1295-no-dac-5mg.webp",
-  "cjc-1295-ipam": "cjc-1295-ipamorelin-10-10mg.jpg",
-  "dihexa": "dihexa-10mg.webp",
-  "dsip": "dsip-5mg.webp",
-  "dulaglutide": "dulaglutide-5mg.webp",
-  "epithalon": "EPITHALON 10mg.webp",
-  "foxo4": "foxo4-2mg.webp",
-  "foxo4-dri": "foxo4-dri-10mg.webp",
-  "ghk-cu": "GHK-CU 50mg-1.webp",
-  "glow-blend": "glow-hair-skin-nail-blend.jpg",
-  "klow-blend": "klow-custom-peptide-kit.jpg",
-  "glutathione": "glutathione-600mg.webp",
-  "ipamorelin": "IPAMORELIN 5mg-2.webp",
-  "kpv": "KPV 10mg.webp",
-  "l-carnitine": "l-carnitine-1200mg.webp",
-  "lipo-c": "LIPO-C.webp",
-  "ll37": "ll37-5mg.jpg",
-  "mic-blend": "mic-lipo-c-b12-10mg.webp",
-  "mots-c": "MOTS-C 10mg-1.webp",
-  "nad": "nad-plus-500mg-1.webp",
-  "retatrutide": "RETATRUTIDE 10mg-6.webp",
-  "selank": "SELANK 10mg.webp",
-  "semaglutide": "SEMAGLUTIDE 5mg-2.webp",
-  "semax": "SEMAX 10mg.webp",
-  "sermorelin-acetate": "semorelin-acetate-5mg.webp",
-  "snap-8": "SNAP 8  10mg.webp",
-  "ss-31": "ss-31-10mg.webp",
-  "tb-500": "TB-500  5mg-2.webp",
-  "tesamorelin": "TESAMORELIN 10mg-1.webp",
-  "thymalin-thymulin": "thymalin-thymylin-10mg.webp",
-  "thymosin-alpha-1": "Thymosin Alpha 1mg.webp",
-  "tirzepatide": "TIRZEPATIDE 10mg-3.webp",
-  "vip": "vip-5mg.webp",
-  "glutathione-600-1500": "GLUTATHIONE  200mg ml.webp",
-  "epitalon-spray": "EPITALON spray 10mg.webp",
-  "aod-9604-5mg-10mg": "AOD9604  5mg-2.webp",
-  "cjc-1295-ipamorelin": "CJC 1295 IPAMORELIN 5mg 5mg-2.webp",
-  "10-needles": "10 Needles-1.webp",
-  "l-carnitine-600mg": "L-CARNATINE 600mg 20mg.webp",
-  "h-frag": "H FRAG.webp",
-  "ghrp-2-10mg": "GHRP-2  10mg.webp",
-  "ss-31-elamipretide": "SS-31 10mg-1.webp",
-  "ahk-cu-50mg-100mg": "AHK-CU 50mg-1.webp",
-  "pt-141-bremelanotide": "PT-141 10mg.webp",
-  "kisspeptin": "KISSPEPTIN  10mg.webp",
-  "mt-1-10mg": "MT-1 10mg.webp",
-  "semax-spray": "SEMAX spray 5mg.webp",
-  "selank-spray": "SELANK spray 100mcg.webp",
-  "semax-selank-spray": "semax-plus-selank-spray-300mcg.webp",
-  "l-carnitine-400mg": "L-CARNATINE 400mg 20mg.webp",
-  "l-carnitine-200mg": "L-CARNATINE 200mg 20ml.webp",
-  "oxytocin-spray": "OXYTOCIN spray10mg.webp",
-  "pt-141-spray": "PT-141  spray 10mg.webp",
-  "dsip-spray": "DSIP spray 10mg.webp",
-  "kpv-spray": "KPV spray 5mg.webp",
-  "nad-spray": "nad-plus-spray-50mg.webp",
-  "glow": "GLOW 70mg.webp",
-  "klow": "KLOW.webp",
-  "ara-290-10mg": "ARA-290  10mg.webp",
-  "ghrp-6-10mg": "GHRP-6  10mg.webp",
-  "sermorelin": "SERMORELIN 10mg.webp",
-  "igf-1-lr3": "IGF1 LR31mg-2.webp",
-  "dhea-10mg": "DHEA 10mg.webp",
-  "hcg-5000-iu": "HCG  5000 IU.webp",
-  "mt-2-melanotan-ii": "MT-2 10mg.webp",
-  "vip-vasoactive-intestinal-peptide": "VIP 10mg.webp",
-  "vip-spray": "VIP spray 10mg.webp",
-  "mt-2-spray": "MT-2 spray 10mg.webp",
-  "ghk-cu-spray": "GHK-CU spray 50mg.webp",
-  "bpc-157-spray": "BPC-157 spray 5mg.webp",
-  "dsip-delta-sleep-inducing-peptide": "DSIP 10mg.webp",
-  "cjc-1295-no-dac-10mg": "CJC-1295 No DAC  10mg.webp",
-  "cjc-1295-dac-5mg": "CJC W DAC  5mg.webp",
-  "semax-selank-blend": "SEMAX SELANK 10 10.webp",
-  "hcg-10000-iu": "HCG  10000 IU.webp",
-  "tesamorelin-ipamorelin-research-peptide": "TESA IPA 6mg 3mg.webp",
-};
 
 export default function ProductDirectory({ products, categories }: ProductDirectoryProps) {
   const t = useTranslations('ProductsIndex');
@@ -185,8 +27,6 @@ export default function ProductDirectory({ products, categories }: ProductDirect
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
-
-  const categoryScrollRef = useNestedSmoothScroll<HTMLDivElement>({ orientation: 'horizontal' });
 
   useEffect(() => {
     if (!searchParams) return;
@@ -241,165 +81,74 @@ export default function ProductDirectory({ products, categories }: ProductDirect
 
   return (
     <div className="w-full">
-      {/* Search and Filter Bar */}
-      <div className="sticky top-[70px] md:top-[90px] z-30 bg-[#F8F8F6]/90 backdrop-blur-xl border-b border-black/5 py-6 mb-12 shadow-[0_4px_30px_rgba(0,0,0,0.01)] transition-all duration-300">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="flex flex-col w-full">
-            {/* Layer 1: Centered Search Input */}
-            <div className="relative w-full max-w-2xl mx-auto mb-6 group">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-black/30 group-focus-within:text-brand-accent transition-all duration-300 group-hover:scale-105 pointer-events-none" />
+      {/* Search and filter bar */}
+      <div className="sticky top-[70px] md:top-[90px] z-30 mb-10 border-y border-[#E6EAF1] bg-[#F3F5FA]/90 py-4 backdrop-blur-xl">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-10">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
+            <div className="group relative w-full lg:max-w-md lg:shrink-0">
+              <Search className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#0B0F14]/35 transition-colors group-focus-within:text-[#0B6F7B]" />
               <input
-                type="text"
-                placeholder={t('searchPlaceholder') || "Search compounds..."}
-                className="w-full bg-black/5 border border-black/5 rounded-full py-3.5 pl-14 pr-20 text-sm text-black placeholder-black/30 focus:outline-none focus:border-black/15 focus:bg-white focus:shadow-[0_15px_30px_rgba(0,0,0,0.03)] transition-all font-dm-sans"
+                type="search"
+                aria-label={t('searchPlaceholder') || 'Search compounds...'}
+                placeholder={t('searchPlaceholder') || 'Search compounds...'}
+                className="w-full rounded-full border border-[#E6EAF1] bg-white py-3 pl-12 pr-5 font-dm-sans text-sm text-[#0B0F14] placeholder-[#0B0F14]/35 outline-none transition-shadow focus:border-[#4FC3D0] focus:shadow-[0_0_0_3px_rgba(79,195,208,0.2)]"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <div className="absolute right-5 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1 px-2.5 py-1 rounded bg-black/5 border border-black/5 text-[9px] font-bold text-black/40 font-dm-mono pointer-events-none">
-                <span>⌘</span>
-                <span>K</span>
-              </div>
             </div>
 
-            {/* Layer 2: Premium Horizontal Scrolling Navigation Track */}
-            <div className="w-full relative max-w-4xl mx-auto px-4 mt-2">
-              {/* Fade Overlays to indicate scrolling */}
-              <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#F8F8F6] via-[#F8F8F6]/80 to-transparent pointer-events-none z-20" />
-              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#F8F8F6] via-[#F8F8F6]/80 to-transparent pointer-events-none z-20" />
-
-              <div className="flex items-center justify-start gap-3 overflow-x-auto pb-4 px-10 scroll-smooth [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-black/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/15 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-black/25 transition-all duration-300" data-lenis-prevent>
-                <button
-                  onClick={() => setActiveCategory('all')}
-                  className={`px-6 py-3 rounded-full font-dm-sans text-[10px] font-bold uppercase tracking-wider border flex items-center gap-2.5 transition-all duration-300 flex-shrink-0 cursor-pointer ${
-                    activeCategory === 'all'
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-black/60 border-black/10 hover:bg-black/5 hover:border-black/25 hover:text-black'
-                  }`}
-                >
-                  <span>All</span>
-                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold font-dm-mono leading-none ${
-                    activeCategory === 'all'
-                      ? 'bg-brand-accent text-black'
-                      : 'bg-black/5 text-black/40'
-                  }`}>
-                    {categoryCounts['all']}
-                  </span>
-                </button>
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
-                    className={`px-6 py-3 rounded-full font-dm-sans text-[10px] font-bold uppercase tracking-wider border flex items-center gap-2.5 transition-all duration-300 flex-shrink-0 cursor-pointer ${
-                      activeCategory === cat.id
-                        ? 'bg-black text-white border-black'
-                        : 'bg-white text-black/60 border-black/10 hover:bg-black/5 hover:border-black/25 hover:text-black'
-                    }`}
-                  >
-                    <span>{cat.name}</span>
-                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold font-dm-mono leading-none ${
-                      activeCategory === cat.id
-                        ? 'bg-brand-accent text-black'
-                        : 'bg-black/5 text-black/40'
-                    }`}>
-                      {categoryCounts[cat.id] || 0}
-                    </span>
-                  </button>
-                ))}
+            <div className="relative min-w-0 flex-1">
+              <div
+                className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                data-lenis-prevent
+              >
+                {[{ id: 'all', name: 'All' }, ...categories].map((cat) => {
+                  const active = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setActiveCategory(cat.id)}
+                      aria-pressed={active}
+                      className={`flex flex-shrink-0 cursor-pointer items-center gap-2 rounded-full border px-4 py-2.5 font-dm-sans text-[13px] font-medium outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-[#4FC3D0] ${
+                        active ? 'border-[#0B0F14] bg-[#0B0F14] text-white' : 'border-[#E6EAF1] bg-white text-[#0B0F14]/65 hover:border-[#0B0F14]/40 hover:text-[#0B0F14]'
+                      }`}
+                    >
+                      <span>{cat.name}</span>
+                      <span className={`rounded-full px-1.5 py-0.5 font-dm-mono text-[9px] leading-none ${active ? 'bg-[#4FC3D0] text-[#0B0F14]' : 'bg-[#F3F5FA] text-[#0B0F14]/50'}`}>
+                        {categoryCounts[cat.id] || 0}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="container mx-auto px-2 sm:px-4 pb-20">
+      {/* Product grid */}
+      <div className="mx-auto w-full max-w-[1440px] px-5 pb-6 md:px-10">
         {filteredProducts.length > 0 ? (
-          <div className="reveal-grid grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
-            {filteredProducts.map((product) => {
-              const productImage = productImagesMap[product.slug as keyof typeof productImagesMap];
-              return (
-                <div 
-                  key={product.slug} 
-                  className="reveal-card group relative bg-white border border-black/5 rounded-[1.25rem] sm:rounded-[2.2rem] p-3 sm:p-6 hover:border-black/15 transition-all duration-500 flex flex-col hover:-translate-y-2 shadow-[0_15px_40px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.06)] overflow-hidden"
-                >
-                  {/* Grainy Noise Overlay for premium luxury depth */}
-                  <div className="absolute inset-0 opacity-[0.01] pointer-events-none bg-[url('/images/noise.svg')]" />
-                  
-                  <Link href={`/products/${product.slug}`} className="flex flex-col h-full relative z-10">
-                    {/* Luxury Product Thumbnail Showcase */}
-                    <div className="relative aspect-square w-full rounded-xl sm:rounded-2xl bg-white overflow-hidden flex items-center justify-center mb-4 sm:mb-5 transition-all duration-500">
-                      
-                      {productImage ? (
-                        <Image 
-                          src={`/product-images/${productImage}`}
-                          alt={`${product.name} High Purity Wholesale Research Peptide`}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                          className="object-contain p-[5%] rounded-lg transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                        />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center text-center p-4 text-black/20 relative z-10">
-                          <FlaskConical className="w-10 h-10 text-black/10 mb-2 group-hover:text-brand-accent/50 transition-colors" />
-                          <span className="text-[9px] font-dm-mono uppercase tracking-[0.15em] text-black/20">Research Only</span>
-                        </div>
-                      )}
-                    </div>
- 
-                    <div className="mb-2.5 sm:mb-3.5">
-                      <span className="text-[8px] font-dm-mono font-bold text-black/40 uppercase tracking-[0.2em] px-2 py-0.5 sm:px-2.5 sm:py-1 bg-black/5 rounded-full border border-black/5 group-hover:border-black/15 group-hover:text-black transition-all duration-300">
-                        {product.category.replace(/-/g, ' ')}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-xs sm:text-base md:text-lg font-absans font-bold text-black mb-1 sm:mb-2 leading-tight group-hover:text-black/80 transition-colors duration-300 uppercase tracking-tight line-clamp-1 sm:line-clamp-none">
-                      {product.name}
-                    </h3>
-                    
-                    <p className="text-[10px] sm:text-xs text-black/50 font-archia leading-relaxed font-medium line-clamp-2 mb-3 sm:mb-6 group-hover:text-black/70 transition-colors duration-300 flex-grow">
-                      {tDetail.has(`descriptions.${product.slug}`) ? tDetail(`descriptions.${product.slug}`) : product.description}
-                    </p>
-                  </Link>
-
-                  <div className="flex flex-col gap-2.5 sm:gap-4 pt-3 sm:pt-5 border-t border-black/5 mt-auto relative z-10">
-                    {(() => {
-                      const [spec, kitSizeStr] = product.specs[0].split('×');
-                      return (
-                        <AddToInquiryButton
-                          productId={product.slug}
-                          productName={product.name}
-                          category={product.category}
-                          spec={spec}
-                          kitSize={parseInt(kitSizeStr)}
-                          categoryPage={`/products/${product.category}`}
-                        />
-                      );
-                    })()}
-                    
-                    <div className="flex items-center justify-between mt-1">
-                      <div className="text-[9px] font-dm-mono font-bold text-black/30 uppercase tracking-widest">
-                        {product.specs.length} Specs
-                      </div>
-                      
-                      <Link 
-                        href={`/products/${product.slug}`} 
-                        className="flex items-center gap-1 text-black/50 text-[10px] font-dm-mono font-bold uppercase tracking-widest transition-colors hover:text-black"
-                      >
-                        Details <ChevronRight className="w-3.5 h-3.5 ml-0.5 transform transition-transform group-hover:translate-x-0.5" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.slug}
+                product={product}
+                reveal={false}
+                description={tDetail.has(`descriptions.${product.slug}`) ? tDetail(`descriptions.${product.slug}`) : product.description}
+              />
+            ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-black/5 shadow-sm">
-            <FlaskConical className="w-16 h-16 text-black/10 mx-auto mb-6" />
-            <h3 className="text-2xl font-absans font-bold text-black mb-2 uppercase tracking-tight">No compounds found</h3>
-            <p className="text-black/50 font-dm-sans text-sm">Try adjusting your search or category filters</p>
-            <button 
-              onClick={() => {setSearchQuery(''); setActiveCategory('all');}}
-              className="mt-6 text-brand-accent font-dm-mono text-sm underline hover:text-black transition-colors"
+          <div className="rounded-[1.25rem] border border-[#E6EAF1] bg-white py-20 text-center">
+            <FlaskConical className="mx-auto mb-5 h-12 w-12 text-[#0B0F14]/15" />
+            <h3 className="mb-2 text-2xl font-light tracking-[-0.03em] text-[#0B0F14]">No compounds found</h3>
+            <p className="font-dm-sans text-sm text-[#0B0F14]/55">Try adjusting your search or category filters</p>
+            <button
+              type="button"
+              onClick={() => { setSearchQuery(''); setActiveCategory('all'); }}
+              className="mt-6 font-dm-mono text-sm text-[#0B6F7B] underline underline-offset-2 hover:text-[#0B0F14]"
             >
               Reset all filters
             </button>

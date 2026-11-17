@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
-import { CheckCircle2, ShieldCheck, FlaskConical, Users, Truck, Award, ArrowRight, Zap, MessageCircle, Mail } from 'lucide-react';
-import FaqSection from '@/components/shared/FaqSection';
-import GlobalCTA from '@/components/layout/GlobalCTA';
+import { CheckCircle2, ShieldCheck, FlaskConical, Users, Truck, Award, ArrowRight } from 'lucide-react';
+import { PageShell, PageHero, Section, CardGrid, InfoCard, Panel, CtaBand, RevealGroup, WRAP } from '@/components/home/page-kit';
+import FaqLight from '@/components/shared/FaqLight';
 import WholesaleForm from '@/components/wholesale/WholesaleForm';
 
 export async function generateMetadata(props: any) {
@@ -43,176 +43,88 @@ export default async function WholesaleApplicationPage({ params: { locale } }: {
   ];
 
   return (
-    <main className="min-h-screen bg-[#F8F8F6] text-black -mt-24 md:-mt-32 relative overflow-hidden">
-      {/* Grain overlay */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-44 pb-20 md:pt-56 md:pb-32 border-b border-black/5 bg-[#F8F8F6]">
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Tag Badge */}
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#13a7b7]/10 border border-[#13a7b7]/15 text-[#0b7f8c] rounded-full text-[10px] font-dm-mono font-bold uppercase tracking-widest mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#13a7b7] animate-pulse" />
-              {t('hero.badge')}
-            </div>
-
-            {/* Title */}
-            <h1 className="reveal-text text-4xl md:text-6xl lg:text-7xl font-absans font-bold text-black uppercase tracking-tighter leading-[0.95] mb-6">
-              {t('hero.title')}
-            </h1>
-
-            {/* Subtitle */}
-            <p className="reveal-text text-base md:text-lg text-black/60 font-archia font-medium leading-relaxed max-w-2xl mx-auto">
-              {t('hero.subtitle')}
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageShell>
+      <PageHero eyebrow={t('hero.badge')} title={t('hero.title')} intro={t('hero.subtitle')} />
 
       {/* Account Benefits */}
-      <section className="py-24 border-b border-black/5 bg-white">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="reveal-text text-3xl md:text-4xl font-absans font-bold text-black uppercase tracking-tight mb-4">
-              {t('benefitsSection.title')}
-            </h2>
-            <p className="reveal-text text-black/55 font-archia font-semibold text-xs leading-relaxed">
-              {t('benefitsSection.subtitle')}
-            </p>
-          </div>
-
-          <div className="reveal-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((b, i) => (
-              <div key={i} className="reveal-card">
-                <div className="bg-[#F8F8F6] border border-black/5 rounded-[2rem] p-8 hover:border-[#13a7b7]/25 hover:shadow-md transition-all flex flex-col justify-between group h-full">
-                  <div>
-                    <div className="w-12 h-12 rounded-2xl bg-white border border-black/5 flex items-center justify-center text-black/50 group-hover:bg-[#13a7b7]/10 group-hover:text-[#13a7b7] transition-all mb-6 shadow-sm">
-                      <b.icon className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-lg font-absans font-bold text-black uppercase tracking-tight mb-3">
-                      {b.title}
-                    </h3>
-                    <p className="text-black/55 font-archia font-medium text-xs leading-relaxed">
-                      {b.desc}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Section title={t('benefitsSection.title')} description={t('benefitsSection.subtitle')}>
+        <CardGrid cols={3}>
+          {benefits.map((b, i) => (
+            <InfoCard key={i} icon={<b.icon className="h-5 w-5" />} title={b.title}>
+              {b.desc}
+            </InfoCard>
+          ))}
+        </CardGrid>
+      </Section>
 
       {/* Eligibility & Requirements & Pricing */}
-      <section className="py-24 bg-[#F8F8F6] border-b border-black/5">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="reveal-grid grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
-            
-             {/* Left: Requirements Container Card */}
-            <div className="reveal-card h-full">
-              <div className="bg-white border border-black/[0.06] rounded-[2.5rem] p-8 md:p-12 shadow-sm flex flex-col justify-between h-full hover:border-[#13a7b7]/15 transition-all duration-500">
-                <div>
-                  <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-4">
-                    {t('eligibility.title')}
-                  </h2>
-                  <p className="text-black/60 font-archia font-semibold text-sm leading-relaxed mb-8">
-                    {t('eligibility.description')}
-                  </p>
-                  
-                  <div className="space-y-5">
-                    {requirements.map((req, i) => (
-                      <div key={i} className="flex items-start gap-4 pb-4 border-b border-black/[0.04] last:border-b-0 last:pb-0">
-                        <div className="w-6 h-6 rounded-full bg-[#13a7b7]/10 flex items-center justify-center text-[#13a7b7] flex-shrink-0 mt-0.5">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                        </div>
-                        <span className="text-black/75 font-archia text-sm font-semibold leading-relaxed mt-0.5">
-                          {req}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+      <section className="pb-16 md:pb-24">
+        <div className={WRAP}>
+          <RevealGroup className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-2">
+            <div data-reveal className="h-full">
+              <Panel className="h-full">
+                <h2 className="mb-4 text-[clamp(1.5rem,2.6vw,2rem)] font-light leading-tight tracking-[-0.03em]">{t('eligibility.title')}</h2>
+                <p className="mb-8 text-[14px] leading-relaxed text-[#0B0F14]/60">{t('eligibility.description')}</p>
+                <ul className="space-y-4">
+                  {requirements.map((req, i) => (
+                    <li key={i} className="flex items-start gap-4 border-b border-[#E6EAF1] pb-4 last:border-b-0 last:pb-0">
+                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#4FC3D0]/15 text-[#0B6F7B]">
+                        <CheckCircle2 className="h-3.5 w-3.5" />
+                      </span>
+                      <span className="mt-0.5 text-[14px] leading-relaxed text-[#0B0F14]/75">{req}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Panel>
             </div>
- 
-            {/* Right: Pricing Tiers Container Card */}
-            <div className="reveal-card h-full">
-              <div className="bg-white border border-black/[0.06] rounded-[2.5rem] p-8 md:p-12 shadow-sm flex flex-col justify-between h-full hover:border-[#13a7b7]/15 transition-all duration-500">
+
+            <div data-reveal className="h-full">
+              <Panel className="flex h-full flex-col justify-between">
                 <div>
-                  <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-4">
-                    {t('pricing.title')}
-                  </h2>
-                  <p className="text-black/60 font-archia font-semibold text-sm leading-relaxed mb-8">
+                  <h2 className="mb-4 text-[clamp(1.5rem,2.6vw,2rem)] font-light leading-tight tracking-[-0.03em]">{t('pricing.title')}</h2>
+                  <p className="mb-8 text-[14px] leading-relaxed text-[#0B0F14]/60">
                     Select procurement tiers based on monthly vial counts to optimize chemical budgets.
                   </p>
-                  
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {pricingTiers.map((tier, i) => (
-                      <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-[#F8F8F6] rounded-2xl border border-black/[0.03] hover:border-[#13a7b7]/20 transition-all duration-300 group">
+                      <div key={i} className="flex flex-col justify-between gap-3 rounded-2xl border border-[#E6EAF1] bg-[#F3F5FA] p-5 sm:flex-row sm:items-center">
                         <div>
-                          <div className="text-[#13a7b7] font-dm-mono text-[10px] font-bold uppercase tracking-widest mb-1">
-                            {tier.tier}
-                          </div>
-                          <div className="text-black font-absans font-bold text-lg uppercase tracking-tight">
-                            {tier.kits}
-                          </div>
+                          <div className="mb-1 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B6F7B]">{tier.tier}</div>
+                          <div className="text-[1.15rem] font-light tracking-[-0.02em]">{tier.kits}</div>
                         </div>
-                        <p className="text-black/60 font-archia font-semibold text-sm leading-relaxed sm:text-right max-w-sm sm:max-w-[280px]">
-                          {tier.desc}
-                        </p>
+                        <p className="max-w-sm text-[13px] leading-relaxed text-[#0B0F14]/60 sm:max-w-[260px] sm:text-right">{tier.desc}</p>
                       </div>
                     ))}
                   </div>
                 </div>
-                
-                <p className="text-black/45 font-archia font-semibold text-xs mt-8 pt-4 border-t border-black/[0.05] leading-relaxed">
-                  {t('pricing.footer')}
-                </p>
-              </div>
+                <p className="mt-8 border-t border-[#E6EAF1] pt-4 text-[12px] leading-relaxed text-[#0B0F14]/50">{t('pricing.footer')}</p>
+              </Panel>
             </div>
- 
-          </div>
+          </RevealGroup>
         </div>
       </section>
 
       {/* Application Form Section */}
-      <section className="py-24 border-b border-black/5 bg-white">
-        <div className="container mx-auto px-6 max-w-3xl">
-          <div className="text-center mb-12 max-w-xl mx-auto">
-            <h2 className="reveal-text text-3xl md:text-4xl font-absans font-bold text-black uppercase tracking-tight mb-4">
-              {t('form.title')}
-            </h2>
-            <p className="reveal-text text-black/55 font-archia font-semibold text-xs leading-relaxed">
-              {t('form.subtitle')}
-            </p>
-          </div>
-
+      <Section id="apply" title={t('form.title')} description={t('form.subtitle')}>
+        <div className="mx-auto max-w-3xl">
           <WholesaleForm />
         </div>
-      </section>
+      </Section>
 
-      {/* FAQ Section */}
-      <FaqSection
+      <FaqLight
         id="wholesale-faq"
-        eyebrow="(FAQ)"
         title={indexT('FAQ.title')}
         subtitle={indexT('FAQ.subtitle')}
         items={indexT.raw('FAQ.items') as any[]}
-        theme="light"
       />
 
-      {/* Global B2B Call-To-Action Segment */}
-      <GlobalCTA
-        badge="Instant Fast-Track"
+      <CtaBand
+        eyebrow="Instant Fast-Track"
         title="Ready to Fast-Track Your Approval?"
-        subtitle={t('fastTrack.text')}
-        primaryCtaText={t('fastTrack.whatsapp')}
-        primaryCtaHref="https://wa.me/18433307365?text=Hi%2C%20I%27d%20like%20to%20apply%20for%20a%20wholesale%20peptide%20account."
-        secondaryCtaText={t('fastTrack.email')}
-        secondaryCtaHref="mailto:sales@99puritywholesale.com"
+        description={t('fastTrack.text')}
+        primary={{ label: t('fastTrack.whatsapp'), href: 'https://wa.me/18433307365?text=Hi%2C%20I%27d%20like%20to%20apply%20for%20a%20wholesale%20peptide%20account.', external: true }}
+        secondary={{ label: t('fastTrack.email'), href: 'mailto:sales@99puritywholesale.com' }}
       />
-      
-    </main>
+    </PageShell>
   );
 }

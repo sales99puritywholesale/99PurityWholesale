@@ -14,10 +14,10 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
 
   if (isEs) {
     return (
-      <div className="space-y-12 text-black/70 font-archia font-medium leading-relaxed">
+      <div className="space-y-12 text-black/70 leading-relaxed">
         {/* A quién va dirigida esta página */}
-        <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
             A Quién Va Dirigida Esta Página
           </h2>
           <p>
@@ -35,8 +35,8 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </FadeIn>
 
         {/* Categorías de Productos */}
-        <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
             Categorías de Productos
           </h2>
           <p>
@@ -50,11 +50,11 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
           </ul>
           <p className="pt-2">
             Las listas completas, las cantidades disponibles y las especificaciones actuales se mantienen en el{' '}
-            <Link href="/products" className="text-[#13a7b7] hover:underline font-semibold">
+            <Link href="/products" className="text-[#0B6F7B] hover:underline font-semibold">
               catálogo de productos
             </Link>{' '}
             en lugar de duplicarse aquí, ya que la disponibilidad del catálogo cambia con más frecuencia que esta página. Si su empresa necesita una secuencia, objetivo de pureza o volumen fuera del catálogo estándar, eso también se gestiona mediante síntesis personalizada y a granel — póngase en contacto a través de{' '}
-            <Link href="/contact" className="text-[#13a7b7] hover:underline font-semibold">
+            <Link href="/contact" className="text-[#0B6F7B] hover:underline font-semibold">
               ventas
             </Link>{' '}
             con la especificación.
@@ -62,19 +62,19 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </FadeIn>
 
         {/* Documentación de Calidad */}
-        <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
             Documentación de Calidad
           </h2>
           <p>
             Cada lote que vendemos se suministra con un certificado de análisis (COA) específico para ese lote, no con una hoja de especificaciones genérica. Los COA reflejan las pruebas de identidad y pureza realizadas mediante métodos HPLC y LC-MS, y los compradores pueden solicitar o revisar el COA relevante para cualquier lote a través de nuestra{' '}
-            <Link href="/certificates-of-analysis" className="text-[#13a7b7] hover:underline font-semibold">
+            <Link href="/certificates-of-analysis" className="text-[#0B6F7B] hover:underline font-semibold">
               biblioteca de certificados de análisis
             </Link>.
           </p>
           <p>
             Entendemos que para un laboratorio o revendedor, el COA suele ser el factor decisivo en una compra — es lo que su propio proceso de control de calidad o los clientes intermedios solicitarán. Si necesita un COA antes de realizar el pedido para evaluarnos como proveedor, contacte a{' '}
-            <Link href="/contact" className="text-[#13a7b7] hover:underline font-semibold">
+            <Link href="/contact" className="text-[#0B6F7B] hover:underline font-semibold">
               ventas
             </Link>{' '}
             y mencione el producto o número de catálogo específico.
@@ -82,8 +82,8 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </FadeIn>
 
         {/* Precios al Por Mayor y Verificación de Cuenta */}
-        <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
             Precios al Por Mayor y Verificación de Cuenta
           </h2>
           <p>
@@ -94,15 +94,15 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
           </p>
           <p className="pt-2">
             Para comenzar:{' '}
-            <Link href="/wholesale-application" className="text-[#13a7b7] hover:underline font-semibold">
+            <Link href="/wholesale-application" className="text-[#0B6F7B] hover:underline font-semibold">
               solicite una cuenta mayorista
             </Link>. Una vez aprobada, su cuenta tendrá acceso a los precios mayoristas estándar y podrá solicitar cotizaciones formales para pedidos más grandes o recurrentes a través de ventas.
           </p>
         </FadeIn>
 
         {/* Pedidos y Cumplimiento */}
-        <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
             Pedidos y Cumplimiento
           </h2>
           <p>
@@ -114,8 +114,8 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </FadeIn>
 
         {/* Solo para Uso en Investigación */}
-        <FadeIn className="bg-amber-500/5 border border-amber-500/15 rounded-[2.5rem] p-8 md:p-10 space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-amber-900 uppercase tracking-tight">
+        <FadeIn className="bg-amber-500/5 border border-amber-500/15 rounded-[1.25rem] p-8 md:p-10 space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-amber-900 tracking-[-0.03em]">
             Solo para Uso en Investigación
           </h2>
           <p className="text-amber-950/80">
@@ -136,13 +136,13 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </FadeIn>
 
         {/* Contexto de Investigación y Fabricación en Delaware */}
-        <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
             Contexto de Investigación y Fabricación en Delaware
           </h2>
           <p>
             Delaware cuenta con una base consolidada de ciencias de la vida y fabricación química, impulsada por instituciones como el{' '}
-            <a href="https://dbi.udel.edu/" target="_blank" rel="noopener noreferrer" className="text-[#13a7b7] hover:underline font-semibold">
+            <a href="https://dbi.udel.edu/" target="_blank" rel="noopener noreferrer" className="text-[#0B6F7B] hover:underline font-semibold">
               Instituto de Biotecnología de Delaware
             </a>{' '}
             y la actividad de investigación conectada a la Universidad de Delaware, junto con una presencia histórica en la fabricación farmacéutica y de productos químicos especializados en el estado. Hacemos referencia a esto únicamente como contexto general del mercado — ninguna de estas organizaciones es cliente, socio o afiliado de 99 Purity Wholesale, y no reclamamos ninguna relación con ellas.
@@ -153,40 +153,40 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </FadeIn>
 
         {/* Para Comenzar */}
-        <FadeIn className="bg-[#13a7b7]/5 border border-[#13a7b7]/15 rounded-[2.5rem] p-8 md:p-10 space-y-4">
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <FadeIn className="bg-[#0B6F7B]/5 border border-[#0B6F7B]/15 rounded-[1.25rem] p-8 md:p-10 space-y-4">
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
             Para Comenzar
           </h2>
           <ul className="space-y-3 font-semibold">
             <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+              <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
               <span>Solicite una cuenta mayorista para acceder a los precios y realizar pedidos:{' '}
-                <Link href="/wholesale-application" className="text-[#13a7b7] hover:underline font-bold">
+                <Link href="/wholesale-application" className="text-[#0B6F7B] hover:underline font-bold">
                   Solicitar ahora
                 </Link>
               </span>
             </li>
             <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+              <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
               <span>¿Tiene preguntas primero?{' '}
-                <Link href="/contact" className="text-[#13a7b7] hover:underline font-bold">
+                <Link href="/contact" className="text-[#0B6F7B] hover:underline font-bold">
                   Contacte a ventas
                 </Link>{' '}
                 para hablar sobre las necesidades de su empresa antes de presentar la solicitud.
               </span>
             </li>
             <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+              <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
               <span>¿Quiere ver la gama de productos?{' '}
-                <Link href="/products" className="text-[#13a7b7] hover:underline font-bold">
+                <Link href="/products" className="text-[#0B6F7B] hover:underline font-bold">
                   Ver el catálogo de investigación
                 </Link>
               </span>
             </li>
             <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+              <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
               <span>¿Necesita verificar un lote?{' '}
-                <Link href="/certificates-of-analysis" className="text-[#13a7b7] hover:underline font-bold">
+                <Link href="/certificates-of-analysis" className="text-[#0B6F7B] hover:underline font-bold">
                   Revisar la biblioteca de COA
                 </Link>
               </span>
@@ -198,10 +198,10 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
   }
 
   return (
-    <div className="space-y-12 text-black/70 font-archia font-medium leading-relaxed">
+    <div className="space-y-12 text-black/70 leading-relaxed">
       {/* Who This Page Is For */}
-      <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+      <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
           Who This Page Is For
         </h2>
         <p>
@@ -219,8 +219,8 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
       </FadeIn>
 
       {/* Product Categories */}
-      <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+      <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
           Product Categories
         </h2>
         <p>
@@ -234,11 +234,11 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </ul>
         <p className="pt-2">
           Full listings, available quantities, and current specifications are maintained on the{' '}
-          <Link href="/products" className="text-[#13a7b7] hover:underline font-semibold">
+          <Link href="/products" className="text-[#0B6F7B] hover:underline font-semibold">
             product catalog
           </Link>{' '}
           rather than duplicated here, since catalog availability changes more often than this page does. If your business needs a sequence, purity target, or volume outside the standard catalog, that's handled through custom and bulk synthesis as well — reach out through{' '}
-          <Link href="/contact" className="text-[#13a7b7] hover:underline font-semibold">
+          <Link href="/contact" className="text-[#0B6F7B] hover:underline font-semibold">
             sales
           </Link>{' '}
           with the specification.
@@ -246,19 +246,19 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
       </FadeIn>
 
       {/* Quality Documentation */}
-      <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+      <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
           Quality Documentation
         </h2>
         <p>
           Every batch we sell is supplied with a certificate of analysis (COA) specific to that lot, not a generic specification sheet. COAs reflect identity and purity testing performed using HPLC and LC-MS methods, and buyers can request or review the relevant COA for any batch through our{' '}
-          <Link href="/certificates-of-analysis" className="text-[#13a7b7] hover:underline font-semibold">
+          <Link href="/certificates-of-analysis" className="text-[#0B6F7B] hover:underline font-semibold">
             certificate of analysis library
           </Link>.
         </p>
         <p>
           We understand that for a lab or reseller, the COA is often the deciding factor in a purchase — it's what your own QA process or downstream customers will ask for. If you need a COA in advance of ordering to evaluate us as a supplier, contact{' '}
-          <Link href="/contact" className="text-[#13a7b7] hover:underline font-semibold">
+          <Link href="/contact" className="text-[#0B6F7B] hover:underline font-semibold">
             sales
           </Link>{' '}
           and reference the specific product or catalog number.
@@ -266,8 +266,8 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
       </FadeIn>
 
       {/* Wholesale Pricing and Account Verification */}
-      <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+      <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
           Wholesale Pricing and Account Verification
         </h2>
         <p>
@@ -278,15 +278,15 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
         </p>
         <p className="pt-2">
           To start:{' '}
-          <Link href="/wholesale-application" className="text-[#13a7b7] hover:underline font-semibold">
+          <Link href="/wholesale-application" className="text-[#0B6F7B] hover:underline font-semibold">
             apply for a wholesale account
           </Link>. Once approved, your account has access to standard wholesale pricing and can request formal quotes for larger or recurring orders through sales.
         </p>
       </FadeIn>
 
       {/* Ordering and Fulfillment */}
-      <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+      <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
           Ordering and Fulfillment
         </h2>
         <p>
@@ -298,8 +298,8 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
       </FadeIn>
 
       {/* Research Use Only */}
-      <FadeIn className="bg-amber-500/5 border border-amber-500/15 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-amber-900 uppercase tracking-tight">
+      <FadeIn className="bg-amber-500/5 border border-amber-500/15 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-amber-900 tracking-[-0.03em]">
           Research Use Only
         </h2>
         <p className="text-amber-950/80">
@@ -320,13 +320,13 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
       </FadeIn>
 
       {/* Delaware Research and Manufacturing Context */}
-      <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+      <FadeIn className="bg-white border border-black/5 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
           Delaware Research and Manufacturing Context
         </h2>
         <p>
           Delaware has an established life-science and chemical-manufacturing base, anchored by institutions like the{' '}
-          <a href="https://dbi.udel.edu/" target="_blank" rel="noopener noreferrer" className="text-[#13a7b7] hover:underline font-semibold">
+          <a href="https://dbi.udel.edu/" target="_blank" rel="noopener noreferrer" className="text-[#0B6F7B] hover:underline font-semibold">
             Delaware Biotechnology Institute
           </a>{' '}
           and research activity connected to the University of Delaware, along with a long-standing pharmaceutical and specialty-chemical manufacturing presence in the state. We reference this only as general market context — none of these organizations are customers, partners, or affiliates of 99 Purity Wholesale, and we don't claim any relationship with them.
@@ -337,40 +337,40 @@ export default function DelawareContent({ locale }: DelawareContentProps) {
       </FadeIn>
 
       {/* Get Started */}
-      <FadeIn className="bg-[#13a7b7]/5 border border-[#13a7b7]/15 rounded-[2.5rem] p-8 md:p-10 shadow-sm space-y-4">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+      <FadeIn className="bg-[#0B6F7B]/5 border border-[#0B6F7B]/15 rounded-[1.25rem] p-8 md:p-10 shadow-sm space-y-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em]">
           Get Started
         </h2>
         <ul className="space-y-3 font-semibold">
           <li className="flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+            <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
             <span>Apply for a wholesale account to access pricing and place orders:{' '}
-              <Link href="/wholesale-application" className="text-[#13a7b7] hover:underline font-bold">
+              <Link href="/wholesale-application" className="text-[#0B6F7B] hover:underline font-bold">
                 Apply now
               </Link>
             </span>
           </li>
           <li className="flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+            <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
             <span>Have questions first?{' '}
-              <Link href="/contact" className="text-[#13a7b7] hover:underline font-bold">
+              <Link href="/contact" className="text-[#0B6F7B] hover:underline font-bold">
                 Contact sales
               </Link>{' '}
               to talk through your business's needs before applying.
             </span>
           </li>
           <li className="flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+            <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
             <span>Want to see the product range?{' '}
-              <Link href="/products" className="text-[#13a7b7] hover:underline font-bold">
+              <Link href="/products" className="text-[#0B6F7B] hover:underline font-bold">
                 View the research catalog
               </Link>
             </span>
           </li>
           <li className="flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 text-[#13a7b7]" />
+            <ArrowRight className="w-4 h-4 text-[#0B6F7B]" />
             <span>Need to verify a batch?{' '}
-              <Link href="/certificates-of-analysis" className="text-[#13a7b7] hover:underline font-bold">
+              <Link href="/certificates-of-analysis" className="text-[#0B6F7B] hover:underline font-bold">
                 Review the COA library
               </Link>
             </span>

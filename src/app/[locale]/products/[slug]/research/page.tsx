@@ -14,9 +14,9 @@ import {
   FileSpreadsheet, 
   Activity
 } from 'lucide-react';
-import { FadeIn } from '@/components/shared/Motion';
 import PrintReportButton from '@/components/products/PrintReportButton';
-import FaqSection from '@/components/shared/FaqSection';
+import ProductFaq from '@/components/products/ProductFaq';
+import { PageShell, Eyebrow, RevealGroup, SplitHeading, WRAP, card } from '@/components/home/page-kit';
 import { curatedResearch, productLookup } from '@/data/researchDb';
 import type { ResearchData } from '@/data/researchDb';
 
@@ -178,7 +178,7 @@ export default async function ResearchPaperPage({
   // Generate HPLC SVG chromatogram peak details
   const rt = research.retentionTime;
   return (
-    <div className="min-h-screen bg-[#F8F8F6] text-[#101827] font-archia antialiased selection:bg-[#13a7b7]/20 selection:text-black pt-24 md:pt-32">
+    <PageShell className="print:!bg-white">
       {/* Printable page layout header (hidden on screen, visible on print) */}
       <div className="hidden print:block print:bg-white print:text-black p-8 font-serif leading-relaxed text-sm">
         <style dangerouslySetInnerHTML={{ __html: `
@@ -265,272 +265,207 @@ export default async function ResearchPaperPage({
         </div>
       </div>
 
-      {/* Screen Presentation Layout */}
-      <div className="print:hidden relative min-h-screen">
-        {/* Fixed background cover to block text scrolling above the sticky header */}
-        <div className="fixed top-0 inset-x-0 h-[70px] md:h-[90px] bg-[#F8F8F6] z-30 print:hidden" />
+      {/* Screen presentation layout */}
+      <div className="print:hidden">
+        {/* Top bar */}
+        <div className={`${WRAP} flex flex-wrap items-center justify-between gap-4 pt-2`}>
+          <Link
+            href={`/products/${params.slug}`}
+            className="inline-flex items-center gap-2 font-dm-mono text-[11px] uppercase tracking-[0.14em] text-[#0B0F14]/55 transition-colors hover:text-[#0B0F14]"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <span>{t('backToProduct')}</span>
+          </Link>
 
-        {/* Dynamic Abstract Particles in Header */}
-        <div className="absolute top-0 inset-x-0 h-[500px] overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#13a7b7]/5 via-transparent to-transparent" />
-          <div className="absolute -top-[200px] left-[10%] w-[500px] h-[500px] bg-[#13a7b7]/5 rounded-full blur-[120px]" />
-          <div className="absolute top-[100px] right-[5%] w-[400px] h-[400px] bg-zinc-500/5 rounded-full blur-[100px]" />
-          <div className="absolute inset-0 opacity-[0.02] bg-[url('/images/noise.svg')]" />
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="rounded-full border border-[#4FC3D0]/40 bg-[#4FC3D0]/10 px-3 py-1.5 font-dm-mono text-[9px] uppercase tracking-[0.14em] text-[#0B6F7B]">
+              REF: 99PW-RP-{product.slug.toUpperCase()}
+            </span>
+            <PrintReportButton label={t('pdfReport')} />
+          </div>
         </div>
 
-        {/* Global Navigation Bar */}
-        <header className="sticky top-[70px] md:top-[90px] z-40 bg-[#F8F8F6]/85 backdrop-blur-xl border-b border-black/5 py-4">
-          <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
-            <Link 
-              href={`/products/${params.slug}`} 
-              className="inline-flex items-center gap-2 text-xs font-dm-mono text-zinc-500 hover:text-black transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span>{t('backToProduct')}</span>
-            </Link>
-
-            <div className="flex items-center gap-4">
-              <span className="text-[9px] font-dm-mono uppercase tracking-widest text-[#0b7f8c] bg-[#13a7b7]/10 border border-[#13a7b7]/20 px-3 py-1 rounded-full font-bold">
-                REF: 99PW-RP-{product.slug.toUpperCase()}
-              </span>
-              <PrintReportButton label={t('pdfReport')} />
-            </div>
-          </div>
-        </header>
-
-        {/* Hero / Document Header Fold */}
-        <main className="container mx-auto px-6 max-w-7xl pt-16 pb-12 md:pt-28 md:pb-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            
-            {/* Left Column: Academic Index Navigation (Sticky) */}
-            <div className="lg:col-span-3 lg:sticky lg:top-[180px] hidden lg:block">
+        <main className={`${WRAP} pb-16 pt-10 md:pb-24 md:pt-14`}>
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+            {/* Left: index navigation */}
+            <div className="hidden lg:sticky lg:top-28 lg:col-span-3 lg:block">
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-[10px] font-dm-mono text-zinc-400 uppercase tracking-widest mb-3">Academic Compendium</h4>
-                  <p className="text-sm font-semibold text-black font-absans">{product.name}</p>
+                  <h2 className="mb-3 font-dm-mono text-[10px] uppercase tracking-[0.18em] text-[#0B0F14]/45">Academic Compendium</h2>
+                  <p className="text-[1.05rem] font-normal tracking-[-0.02em]">{product.name}</p>
                 </div>
 
-                <div className="border-t border-black/5 pt-4">
-                  <nav className="flex flex-col gap-2.5 text-xs text-zinc-500 font-medium font-archia">
-                    <a href="#abstract" className="hover:text-black transition-colors flex items-center gap-2 group">
-                      <BookOpen className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black transition-colors" />
-                      <span>{t('abstract')}</span>
+                <nav aria-label="Compendium sections" className="flex flex-col border-t border-[#E6EAF1] pt-4 text-[13px] text-[#0B0F14]/60">
+                  {[
+                    { href: '#abstract', icon: BookOpen, label: t('abstract') },
+                    { href: '#specifications', icon: Atom, label: t('specifications') },
+                    ...(!isDnaKit ? [{ href: '#hplc-report', icon: Activity, label: t('purityReport') }] : []),
+                    { href: '#mechanism', icon: Dna, label: t('mechanism') },
+                    { href: '#benefits', icon: Sparkles, label: t('benefits') },
+                    { href: '#citations', icon: FileSpreadsheet, label: t('publications') },
+                  ].map(({ href, icon: Icon, label }) => (
+                    <a key={href} href={href} className="group flex items-center gap-2.5 rounded-full px-3 py-2 transition-colors hover:bg-white hover:text-[#0B0F14]">
+                      <Icon className="h-3.5 w-3.5 text-[#0B6F7B]" />
+                      <span>{label}</span>
                     </a>
-                    <a href="#specifications" className="hover:text-black transition-colors flex items-center gap-2 group">
-                      <Atom className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black transition-colors" />
-                      <span>{t('specifications')}</span>
-                    </a>
-                    <a href="#hplc-report" className="hover:text-black transition-colors flex items-center gap-2 group">
-                      <Activity className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black transition-colors" />
-                      <span>{t('purityReport')}</span>
-                    </a>
-                    <a href="#mechanism" className="hover:text-black transition-colors flex items-center gap-2 group">
-                      <Dna className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black transition-colors" />
-                      <span>{t('mechanism')}</span>
-                    </a>
-                    <a href="#benefits" className="hover:text-black transition-colors flex items-center gap-2 group">
-                      <Sparkles className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black transition-colors" />
-                      <span>{t('benefits')}</span>
-                    </a>
-                    <a href="#citations" className="hover:text-black transition-colors flex items-center gap-2 group">
-                      <FileSpreadsheet className="w-3.5 h-3.5 text-zinc-400 group-hover:text-black transition-colors" />
-                      <span>{t('publications')}</span>
-                    </a>
-                  </nav>
-                </div>
+                  ))}
+                </nav>
 
-                <div className="bg-red-500/5 border border-red-500/10 rounded-2xl p-4 mt-6">
-                  <div className="flex items-center gap-2 text-[#D93838] mb-2">
-                    <ShieldAlert className="w-4 h-4" />
-                    <span className="text-[9px] font-dm-mono uppercase tracking-wider font-bold">Research Restricted</span>
+                <div className={`${card} p-4`}>
+                  <div className="mb-2 flex items-center gap-2 text-[#B42318]">
+                    <ShieldAlert className="h-4 w-4" />
+                    <span className="font-dm-mono text-[9px] uppercase tracking-[0.16em]">Research Restricted</span>
                   </div>
-                  <p className="text-[10px] text-red-900/60 font-archia leading-relaxed">
+                  <p className="text-[11px] leading-relaxed text-[#0B0F14]/55">
                     Licensed B2B access only. Subject to strict laboratory verification guidelines. Not for human consumption.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Research Documentation Body */}
-            <div className="lg:col-span-9 space-y-12">
-              
-              {/* Document Overview */}
-              <FadeIn>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="h-px w-8 bg-black/10" />
-                  <span className="text-[10px] font-dm-mono uppercase tracking-widest text-zinc-400 font-bold">
-                    {t('academicTitle')}
-                  </span>
-                </div>
-                <h1 className="font-absans text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-[#101827] mb-6">
-                  {product.name}
-                </h1>
-                
-                {/* Category & CAS Pills */}
-                <div className="flex items-center gap-2 mb-8 flex-wrap">
-                  <span className="bg-white border border-black/5 text-zinc-500 px-3.5 py-1.5 rounded-full text-[10px] font-dm-mono uppercase tracking-wider font-bold">
+            {/* Right: documentation body */}
+            <div className="space-y-12 lg:col-span-9">
+              <header>
+                <Eyebrow className="mb-6">{t('academicTitle')}</Eyebrow>
+                <SplitHeading as="h1" text={product.name} className="mb-6 font-dm-sans text-[clamp(2.4rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.05em]" />
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-[#E6EAF1] bg-white px-3.5 py-1.5 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/60">
                     {localizedCategoryName}
                   </span>
                   {product.cas !== 'N/A' && (
-                    <span className="bg-emerald-500/5 border border-emerald-500/10 text-emerald-700 px-3.5 py-1.5 rounded-full text-[10px] font-dm-mono uppercase tracking-wider font-bold">
+                    <span className="rounded-full border border-[#E6EAF1] bg-white px-3.5 py-1.5 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/60">
                       CAS {product.cas}
                     </span>
                   )}
-                  <span className="bg-[#13a7b7] border border-[#13a7b7] text-white px-3.5 py-1.5 rounded-full text-[10px] font-dm-sans uppercase tracking-wider font-black shadow-sm">
+                  <span className="rounded-full bg-[#4FC3D0] px-3.5 py-1.5 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]">
                     Purity &ge;99.0%
                   </span>
                 </div>
-              </FadeIn>
+              </header>
 
-              {/* SECTION: Abstract */}
-              <FadeIn delay={0.15}>
-                <section id="abstract" className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.02)] transition-all duration-500">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-[#13a7b7]/5 rounded-full blur-xl pointer-events-none" />
-                  <h3 className="font-absans text-lg md:text-xl font-bold uppercase tracking-tight text-[#101827] mb-4 flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-[#13a7b7]" />
-                    <span>{t('abstract')}</span>
-                  </h3>
-                  <p className="text-zinc-700 font-archia text-sm md:text-base leading-relaxed font-semibold">
-                    {research.abstract}
-                  </p>
-                </section>
-              </FadeIn>
+              {/* Abstract */}
+              <section id="abstract" className={`${card} scroll-mt-28 p-7 md:p-10`}>
+                <h2 className="mb-4 flex items-center gap-3 text-[1.35rem] font-light tracking-[-0.03em] md:text-[1.6rem]">
+                  <BookOpen className="h-5 w-5 text-[#0B6F7B]" />
+                  <span>{t('abstract')}</span>
+                </h2>
+                <p className="text-[15px] leading-relaxed text-[#0B0F14]/70">{research.abstract}</p>
+              </section>
 
-              {/* SECTION: Chemical Specs Grid */}
-              <FadeIn delay={0.2}>
-                <section id="specifications" className="space-y-6">
-                  <h3 className="font-absans text-lg md:text-xl font-bold uppercase tracking-tight text-[#101827] flex items-center gap-2">
-                    <Atom className="w-5 h-5 text-[#13a7b7]" />
-                    <span>{t('specifications')}</span>
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm hover:border-black/15 transition-all duration-300">
-                      <span className="text-zinc-400 block mb-1 text-[9px] uppercase tracking-widest font-bold font-dm-mono">{t('formula')}</span>
-                      <span className="font-bold text-[#101827] text-base font-dm-mono break-all">{research.formula}</span>
-                    </div>
+              {/* Chemical specs */}
+              <section id="specifications" className="scroll-mt-28">
+                <h2 className="mb-6 flex items-center gap-3 text-[1.35rem] font-light tracking-[-0.03em] md:text-[1.6rem]">
+                  <Atom className="h-5 w-5 text-[#0B6F7B]" />
+                  <span>{t('specifications')}</span>
+                </h2>
 
-                    <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm hover:border-black/15 transition-all duration-300">
-                      <span className="text-zinc-400 block mb-1 text-[9px] uppercase tracking-widest font-bold font-dm-mono">{t('molarMass')}</span>
-                      <span className="font-bold text-[#101827] text-base font-dm-mono">{research.molarMass}</span>
-                    </div>
-
-                    <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm hover:border-black/15 transition-all duration-300">
-                      <span className="text-zinc-400 block mb-1 text-[9px] uppercase tracking-widest font-bold font-dm-mono">{t('cas')}</span>
-                      <span className="font-bold text-[#101827] text-base font-dm-mono">{product.cas !== 'N/A' ? product.cas : 'N/A (Peptide Compound)'}</span>
-                    </div>
-
-                    <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm hover:border-black/15 transition-all duration-300">
-                      <span className="text-zinc-400 block mb-1 text-[9px] uppercase tracking-widest font-bold font-dm-mono">{t('storage')}</span>
-                      <span className="font-bold text-[#13a7b7] text-base font-dm-sans font-semibold">-20&deg;C (Stable Long Term)</span>
-                    </div>
-
-                    <div className="bg-white border border-black/5 rounded-3xl p-6 md:col-span-2 shadow-sm hover:border-black/15 transition-all duration-300">
-                      <span className="text-zinc-400 block mb-1.5 text-[9px] uppercase tracking-widest font-bold font-dm-mono">{t('sequence')}</span>
-                      <span className="font-mono text-xs md:text-sm text-zinc-700 break-all leading-relaxed bg-[#F8F8F6] px-4 py-3 rounded-xl border border-black/5 block">
-                        {research.sequence}
-                      </span>
-                    </div>
+                <RevealGroup className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <div data-reveal className={`${card} p-6`}>
+                    <span className="mb-1.5 block font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#0B0F14]/45">{t('formula')}</span>
+                    <span className="break-all font-dm-mono text-base">{research.formula}</span>
                   </div>
-                </section>
-              </FadeIn>
+                  <div data-reveal className={`${card} p-6`}>
+                    <span className="mb-1.5 block font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#0B0F14]/45">{t('molarMass')}</span>
+                    <span className="font-dm-mono text-base">{research.molarMass}</span>
+                  </div>
+                  <div data-reveal className={`${card} p-6`}>
+                    <span className="mb-1.5 block font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#0B0F14]/45">{t('cas')}</span>
+                    <span className="font-dm-mono text-base">{product.cas !== 'N/A' ? product.cas : 'N/A (Peptide Compound)'}</span>
+                  </div>
+                  <div data-reveal className={`${card} p-6`}>
+                    <span className="mb-1.5 block font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#0B0F14]/45">{t('storage')}</span>
+                    <span className="text-base font-medium text-[#0B6F7B]">-20&deg;C (Stable Long Term)</span>
+                  </div>
+                  <div data-reveal className={`${card} p-6 md:col-span-2`}>
+                    <span className="mb-2 block font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#0B0F14]/45">{t('sequence')}</span>
+                    <span className="block break-all rounded-[0.9rem] border border-[#E6EAF1] bg-[#F3F5FA] px-4 py-3 font-dm-mono text-xs leading-relaxed text-[#0B0F14]/75 md:text-sm">
+                      {research.sequence}
+                    </span>
+                  </div>
+                </RevealGroup>
+              </section>
 
-              {/* SECTION: HPLC Chromatogram Visualizer */}
+              {/* HPLC chromatogram */}
               {!isDnaKit && (
-              <FadeIn delay={0.25}>
-                <section id="hplc-report" className="space-y-6 page-break-avoid">
-                  <h3 className="font-absans text-lg md:text-xl font-bold uppercase tracking-tight text-[#101827] flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-[#13a7b7]" />
+                <section id="hplc-report" className="page-break-avoid scroll-mt-28">
+                  <h2 className="mb-6 flex items-center gap-3 text-[1.35rem] font-light tracking-[-0.03em] md:text-[1.6rem]">
+                    <Activity className="h-5 w-5 text-[#0B6F7B]" />
                     <span>{t('purityReport')}</span>
-                  </h3>
-                  
-                  <div className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-12 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.02)] transition-all duration-500">
-                    <div className="mb-6 border-b border-black/5 pb-4">
-                      <h4 className="text-sm font-dm-mono text-zinc-500 font-bold uppercase tracking-widest mb-2">
+                  </h2>
+
+                  <div className={`${card} p-5 md:p-8`}>
+                    <div className="mb-6 border-b border-[#E6EAF1] pb-5">
+                      <h3 className="mb-2 font-dm-mono text-[11px] uppercase tracking-[0.16em] text-[#0B0F14]/60">
                         {isEs ? "CROMATOGRAMA DE REFERENCIA HPLC (ESTÁNDAR ANALÍTICO)" : "HPLC REFERENCE CHROMATOGRAM (ANALYTICAL STANDARD)"}
-                      </h4>
-                      <p className="text-xs text-zinc-600 font-archia leading-relaxed mt-1">
+                      </h3>
+                      <p className="text-[13px] leading-relaxed text-[#0B0F14]/60">
                         {isEs
                           ? "Perfil analítico de alta resolución correspondiente a la pureza del lote de este compuesto. La integración del área del pico confirma una pureza ≥99.0%."
                           : "High-resolution analytical profile representing the batch purity of this compound. Peak area integration confirms purity verification of ≥99.0%."}
                       </p>
                     </div>
 
-                    <div className="bg-[#05080C] border border-white/5 text-white rounded-[2rem] p-6 md:p-8 shadow-2xl">
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                        {/* Left: Real-looking HPLC Graph Image with Credits */}
-                        <div className="lg:col-span-7 space-y-3">
-                          <div className="relative border border-white/10 rounded-2xl overflow-hidden bg-zinc-950 shadow-2xl">
-                            <img 
-                              src="/images/hplc_reference_graph.png" 
-                              alt="HPLC Chromatography Assay Report" 
-                              className="w-full aspect-[16/10] object-cover filter brightness-90 hover:brightness-100 transition-all duration-300"
+                    <div className="rounded-[1.25rem] bg-[#0B0D10] p-5 text-white md:p-7">
+                      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
+                        <div className="space-y-3 lg:col-span-7">
+                          <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-zinc-950">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src="/images/hplc_reference_graph.png"
+                              alt="HPLC Chromatography Assay Report"
+                              className="aspect-[16/10] w-full object-cover brightness-90 transition-all duration-300 hover:brightness-100"
                             />
-                            <div className="absolute bottom-2 right-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded text-[10px] font-mono text-zinc-300 uppercase tracking-wider font-semibold">
+                            <div className="absolute bottom-2 right-3 rounded bg-black/80 px-2.5 py-1 font-dm-mono text-[10px] uppercase tracking-wider text-zinc-300 backdrop-blur-md">
                               Reference Spectrum
                             </div>
                           </div>
-                          <p className="text-xs text-zinc-400 font-archia leading-relaxed">
-                            {isEs 
+                          <p className="text-xs leading-relaxed text-zinc-400">
+                            {isEs
                               ? "Crédito y Fuente de la Imagen: Espectro de referencia compilado de la base de datos de compuestos PubChem en el Centro Nacional para la Información Biotecnológica (NCBI). Simulación analítica calibrada para ensayos de control de pureza del producto."
                               : "Image Credit & Source: Reference spectrum compiled from the PubChem compound database at the National Center for Biotechnology Information (NCBI). Calibrated analytical simulation for product purity control assays."}
                           </p>
                         </div>
 
-                        {/* Right: Method Parameters & Integration Table */}
-                        <div className="lg:col-span-5 space-y-6">
-                          {/* Method Parameters Grid */}
-                          <div className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-4">
-                            <h5 className="text-xs font-dm-mono uppercase tracking-wider text-[#13a7b7] font-bold border-b border-white/5 pb-2">
+                        <div className="space-y-6 lg:col-span-5">
+                          <div className="space-y-4 rounded-[0.9rem] border border-white/10 bg-white/5 p-5">
+                            <h4 className="border-b border-white/10 pb-2 font-dm-mono text-xs uppercase tracking-wider text-[#4FC3D0]">
                               {isEs ? "Condiciones del Método HPLC" : "HPLC Method Conditions"}
-                            </h5>
-                            <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-xs font-mono">
-                              <div>
-                                <span className="text-white/40 block text-[9px] uppercase tracking-wider font-bold">System</span>
-                                <span className="text-white/90 font-semibold">Agilent 1260 Infinity II</span>
-                              </div>
-                              <div>
-                                <span className="text-white/40 block text-[9px] uppercase tracking-wider font-bold">Column</span>
-                                <span className="text-white/90 font-semibold">C18 5µm (4.6x250mm)</span>
-                              </div>
-                              <div>
-                                <span className="text-white/40 block text-[9px] uppercase tracking-wider font-bold">Mobile Phase</span>
-                                <span className="text-white/90 font-semibold">0.1% TFA in H2O/ACN</span>
-                              </div>
-                              <div>
-                                <span className="text-white/40 block text-[9px] uppercase tracking-wider font-bold">Flow Rate</span>
-                                <span className="text-white/90 font-semibold">1.0 mL/min</span>
-                              </div>
-                              <div>
-                                <span className="text-white/40 block text-[9px] uppercase tracking-wider font-bold">Detection</span>
-                                <span className="text-white/90 font-semibold">UV @ 220 nm</span>
-                              </div>
-                              <div>
-                                <span className="text-white/40 block text-[9px] uppercase tracking-wider font-bold">Inj. Volume</span>
-                                <span className="text-white/90 font-semibold">10.0 µL</span>
-                              </div>
+                            </h4>
+                            <div className="grid grid-cols-2 gap-x-6 gap-y-3 font-dm-mono text-xs">
+                              {[
+                                ['System', 'Agilent 1260 Infinity II'],
+                                ['Column', 'C18 5µm (4.6x250mm)'],
+                                ['Mobile Phase', '0.1% TFA in H2O/ACN'],
+                                ['Flow Rate', '1.0 mL/min'],
+                                ['Detection', 'UV @ 220 nm'],
+                                ['Inj. Volume', '10.0 µL'],
+                              ].map(([k, v]) => (
+                                <div key={k}>
+                                  <span className="block text-[9px] uppercase tracking-wider text-white/40">{k}</span>
+                                  <span className="text-white/90">{v}</span>
+                                </div>
+                              ))}
                             </div>
                           </div>
 
-                          {/* Peak Integration Table */}
                           <div className="overflow-x-auto" data-lenis-prevent>
-                            <table className="w-full text-left text-xs font-dm-mono border border-white/5">
+                            <table className="w-full border border-white/10 text-left font-dm-mono text-xs">
                               <thead>
-                                <tr className="bg-white/5 text-white/60 border-b border-white/5">
-                                  <th className="p-3">Peak</th>
-                                  <th className="p-3">{t('retentionTime')}</th>
-                                  <th className="p-3">Area (mAU*s)</th>
-                                  <th className="p-3">Area %</th>
+                                <tr className="border-b border-white/10 bg-white/5 text-white/60">
+                                  <th className="p-3 font-normal">Peak</th>
+                                  <th className="p-3 font-normal">{t('retentionTime')}</th>
+                                  <th className="p-3 font-normal">Area (mAU*s)</th>
+                                  <th className="p-3 font-normal">Area %</th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-white/5">
+                              <tbody className="divide-y divide-white/10">
                                 <tr className="text-white/40">
-                                  <td className="p-3 font-semibold">1 (Impurity)</td>
+                                  <td className="p-3">1 (Impurity)</td>
                                   <td className="p-3">2.10</td>
                                   <td className="p-3">12.5</td>
                                   <td className="p-3">0.35%</td>
                                 </tr>
-                                <tr className="text-[#13a7b7] font-bold">
+                                <tr className="text-[#4FC3D0]">
                                   <td className="p-3">2 ({product.name})</td>
                                   <td className="p-3">{rt.toFixed(2)}</td>
                                   <td className="p-3">3562.4</td>
@@ -542,33 +477,32 @@ export default async function ResearchPaperPage({
                         </div>
                       </div>
 
-                      {/* User-Friendly Graph Explainer */}
-                      <div className="mt-8 pt-6 border-t border-white/5">
-                        <h5 className="text-sm font-absans text-[#13a7b7] font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
-                          <Sparkles className="w-4 h-4" />
+                      <div className="mt-8 border-t border-white/10 pt-6">
+                        <h3 className="mb-4 flex items-center gap-2 text-sm font-medium tracking-[-0.01em] text-[#4FC3D0]">
+                          <Sparkles className="h-4 w-4" />
                           <span>{isEs ? "Guía de Lectura: ¿Qué demuestra este Cromatograma?" : "How to Read This Report: What Does This Graph Prove?"}</span>
-                        </h5>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-archia leading-relaxed">
-                          <div className="bg-white/5 border border-white/5 rounded-xl p-4 space-y-1.5">
-                            <span className="text-[#13a7b7] font-bold text-xs block">{isEs ? "1. El Pico Alto y Único" : "1. The Single High Peak"}</span>
-                            <p className="text-white/70 text-xs">
-                              {isEs 
+                        </h3>
+                        <div className="grid grid-cols-1 gap-3 text-xs leading-relaxed md:grid-cols-3">
+                          <div className="space-y-1.5 rounded-[0.9rem] border border-white/10 bg-white/5 p-4">
+                            <span className="block text-xs font-medium text-[#4FC3D0]">{isEs ? "1. El Pico Alto y Único" : "1. The Single High Peak"}</span>
+                            <p className="text-white/70">
+                              {isEs
                                 ? `El pico alto a los ${rt.toFixed(2)} min representa a ${product.name}. Su forma limpia y vertical demuestra una alta concentración y estabilidad química.`
                                 : `The tall spike at ${rt.toFixed(2)} minutes represents the active compound (${product.name}). A single clean, tall peak confirms high concentration.`}
                             </p>
                           </div>
-                          <div className="bg-white/5 border border-white/5 rounded-xl p-4 space-y-1.5">
-                            <span className="text-[#13a7b7] font-bold text-xs block">{isEs ? "2. Integración de Área ≥99%" : "2. Purity Level (≥99%)"}</span>
-                            <p className="text-white/70 text-xs">
-                              {isEs 
+                          <div className="space-y-1.5 rounded-[0.9rem] border border-white/10 bg-white/5 p-4">
+                            <span className="block text-xs font-medium text-[#4FC3D0]">{isEs ? "2. Integración de Área ≥99%" : "2. Purity Level (≥99%)"}</span>
+                            <p className="text-white/70">
+                              {isEs
                                 ? "El área total bajo el pico principal constituye el 99.65% de la muestra. Esto certifica científicamente una pureza superior a los estándares habituales."
                                 : "The total area under the main peak accounts for 99.65% of the material. This mathematically verifies the high-purity rating of the batch."}
                             </p>
                           </div>
-                          <div className="bg-white/5 border border-white/5 rounded-xl p-4 space-y-1.5">
-                            <span className="text-[#13a7b7] font-bold text-xs block">{isEs ? "3. Línea Base Plana" : "3. Flat Baseline (No Contaminants)"}</span>
-                            <p className="text-white/70 text-xs">
-                              {isEs 
+                          <div className="space-y-1.5 rounded-[0.9rem] border border-white/10 bg-white/5 p-4">
+                            <span className="block text-xs font-medium text-[#4FC3D0]">{isEs ? "3. Línea Base Plana" : "3. Flat Baseline (No Contaminants)"}</span>
+                            <p className="text-white/70">
+                              {isEs
                                 ? "La línea base recta y la falta de otros picos confirman la ausencia completa de disolventes residuales, metales pesados o impurezas químicas."
                                 : "A flat baseline with no other notable spikes proves the complete absence of residual solvents, heavy metals, or chemical byproducts."}
                             </p>
@@ -578,114 +512,86 @@ export default async function ResearchPaperPage({
                     </div>
                   </div>
                 </section>
-              </FadeIn>
               )}
 
-              {/* SECTION: Mechanism & Cellular Pathways */}
-              <FadeIn delay={0.3}>
-                <section id="mechanism" className="space-y-4">
-                  <h3 className="font-absans text-lg md:text-xl font-bold uppercase tracking-tight text-[#101827] flex items-center gap-2">
-                    <Dna className="w-5 h-5 text-[#13a7b7]" />
-                    <span>{t('mechanism')}</span>
-                  </h3>
-                  <div className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-12 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.02)] transition-all duration-500">
-                    <p className="text-zinc-700 font-archia leading-relaxed text-sm md:text-base font-semibold">
-                      {research.mechanism}
-                    </p>
-                  </div>
-                </section>
-              </FadeIn>
-
-              {/* SECTION: Primary Research Directions */}
-              <FadeIn delay={0.35}>
-                <section id="benefits" className="space-y-4">
-                  <h3 className="font-absans text-lg md:text-xl font-bold uppercase tracking-tight text-[#101827] flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-[#13a7b7]" />
-                    <span>{t('benefits')}</span>
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {research.benefits.map((benefit, i) => (
-                      <div 
-                        key={i} 
-                        className="bg-white border border-black/5 rounded-2xl p-6 flex items-start gap-4 hover:border-[#13a7b7]/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.02)] transition-all group"
-                      >
-                        <span className="w-6 h-6 bg-[#13a7b7]/10 border border-[#13a7b7]/20 text-[#0b7f8c] rounded-full flex items-center justify-center font-mono text-xs font-bold flex-shrink-0 group-hover:bg-[#13a7b7] group-hover:text-white transition-all">
-                          {i + 1}
-                        </span>
-                        <p className="text-zinc-700 font-archia font-semibold text-sm leading-snug">
-                          {benefit}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </FadeIn>
-
-            </div> {/* End of lg:col-span-9 */}
-          </div> {/* End of grid-cols-12 */}
-        </main>
-
-        {/* Full Width Bottom Reference Sections (White background container) */}
-        <div className="w-full bg-white border-t border-black/5 py-20 mt-20">
-          <div className="container mx-auto px-6 max-w-7xl space-y-16">
-            
-            {/* Unified FaqSection */}
-            <FaqSection 
-              id="research-faq"
-              eyebrow="FAQ"
-              title={isEs ? "Preguntas Frecuentes" : "Frequently Asked Questions"}
-              subtitle={isEs ? "Análisis científico y respuestas técnicas sobre los compuestos." : "Scientific analysis and technical answers regarding the compounds."}
-              items={faqs}
-              theme="white"
-            />
-
-            {/* SECTION: Scientific Citations */}
-            <FadeIn delay={0.4}>
-              <section id="citations" className="space-y-6 max-w-5xl mx-auto">
-                <h3 className="font-absans text-lg md:text-xl font-bold uppercase tracking-tight text-black flex items-center gap-2">
-                  <FileSpreadsheet className="w-5 h-5 text-[#13a7b7]" />
-                  <span>{t('publications')}</span>
-                </h3>
-                
-                <div className="bg-[#F8F8F6] border border-black/5 rounded-[2.5rem] p-8 md:p-12 space-y-6">
-                  {research.citations.map((citation, i) => (
-                    <div key={i} className="flex gap-4 items-start pb-6 border-b border-black/5 last:border-b-0 last:pb-0">
-                      <BookOpen className="w-4 h-4 text-[#13a7b7]/40 flex-shrink-0 mt-1" />
-                      <p className="text-zinc-600 font-archia text-xs md:text-sm italic leading-relaxed">
-                        {citation}
-                      </p>
-                    </div>
-                  ))}
+              {/* Mechanism */}
+              <section id="mechanism" className="scroll-mt-28">
+                <h2 className="mb-6 flex items-center gap-3 text-[1.35rem] font-light tracking-[-0.03em] md:text-[1.6rem]">
+                  <Dna className="h-5 w-5 text-[#0B6F7B]" />
+                  <span>{t('mechanism')}</span>
+                </h2>
+                <div className={`${card} p-7 md:p-10`}>
+                  <p className="text-[15px] leading-relaxed text-[#0B0F14]/70">{research.mechanism}</p>
                 </div>
               </section>
-            </FadeIn>
 
-            {/* SECTION: Academic Disclaimer */}
-            <FadeIn delay={0.45}>
-              <section className="bg-[#FF5A5A]/5 border border-[#FF5A5A]/15 rounded-[2.5rem] p-8 md:p-12 max-w-5xl mx-auto">
-                <h3 className="font-absans text-lg font-bold uppercase tracking-tight text-[#D93838] mb-4 flex items-center gap-2">
-                  <ShieldAlert className="w-5 h-5" />
-                  <span>{t('disclaimer')}</span>
-                </h3>
-                <p className="text-xs text-[#D93838]/80 font-archia leading-relaxed font-semibold">
-                  {isEs 
-                    ? "Todos los compuestos suministrados por 99 Purity Wholesale se producen estrictamente para fines de investigación de laboratorio, análisis químico y experimentación in-vitro. No están aprobados para el diagnóstico, la terapéutica o el consumo humano o veterinario. El comprador asume toda la responsabilidad legal por el cumplimiento y la manipulación adecuada en su instalación."
-                    : "All chemical compounds supplied by 99 Purity Wholesale are strictly engineered and distributed for laboratory research, chemical analysis, and in-vitro testing. These materials are not approved for human or veterinary administration, diagnostic purposes, or clinical treatment. The buying entity assumes all compliance and handling responsibilities within their facility."}
-                </p>
+              {/* Primary research directions */}
+              <section id="benefits" className="scroll-mt-28">
+                <h2 className="mb-6 flex items-center gap-3 text-[1.35rem] font-light tracking-[-0.03em] md:text-[1.6rem]">
+                  <Sparkles className="h-5 w-5 text-[#0B6F7B]" />
+                  <span>{t('benefits')}</span>
+                </h2>
+                <RevealGroup className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  {research.benefits.map((benefit, i) => (
+                    <div key={i} data-reveal className={`${card} flex items-start gap-4 p-6`}>
+                      <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#4FC3D0]/20 font-dm-mono text-xs text-[#0B6F7B]">
+                        {i + 1}
+                      </span>
+                      <p className="text-[14px] leading-snug text-[#0B0F14]/70">{benefit}</p>
+                    </div>
+                  ))}
+                </RevealGroup>
               </section>
-            </FadeIn>
+            </div>
+          </div>
+        </main>
 
-            {/* Global Footer of Research Page */}
-            <footer className="border-t border-black/5 py-8 mt-12 bg-[#F8F8F6] rounded-2xl max-w-5xl mx-auto">
-              <div className="text-center text-[10px] font-dm-mono text-zinc-500">
-                <span>&copy; {new Date().getFullYear()} 99 PURITY CLINICAL COMPENDIUM. ALL RIGHTS RESERVED. B2B PORTAL.</span>
+        {/* Bottom reference sections */}
+        <div className="border-t border-[#E6EAF1] bg-white">
+          <ProductFaq
+            id="research-faq"
+            eyebrow="FAQ"
+            title={isEs ? "Preguntas Frecuentes" : "Frequently Asked Questions"}
+            subtitle={isEs ? "Análisis científico y respuestas técnicas sobre los compuestos." : "Scientific analysis and technical answers regarding the compounds."}
+            items={faqs}
+          />
+
+          <div className={`${WRAP} space-y-8 pb-16 md:pb-24`}>
+            {/* Citations */}
+            <section id="citations" className="mx-auto max-w-5xl scroll-mt-28">
+              <h2 className="mb-6 flex items-center gap-3 text-[1.35rem] font-light tracking-[-0.03em] md:text-[1.6rem]">
+                <FileSpreadsheet className="h-5 w-5 text-[#0B6F7B]" />
+                <span>{t('publications')}</span>
+              </h2>
+              <div className="space-y-6 rounded-[1.25rem] border border-[#E6EAF1] bg-[#F3F5FA] p-7 md:p-10">
+                {research.citations.map((citation, i) => (
+                  <div key={i} className="flex items-start gap-4 border-b border-[#E6EAF1] pb-6 last:border-b-0 last:pb-0">
+                    <BookOpen className="mt-1 h-4 w-4 flex-shrink-0 text-[#0B6F7B]/60" />
+                    <p className="text-[13px] italic leading-relaxed text-[#0B0F14]/65 md:text-sm">{citation}</p>
+                  </div>
+                ))}
               </div>
-            </footer>
+            </section>
 
+            {/* Disclaimer */}
+            <section className="mx-auto max-w-5xl rounded-[1.25rem] border border-[#B42318]/20 bg-[#B42318]/[0.04] p-7 md:p-10">
+              <h2 className="mb-4 flex items-center gap-2 text-[1.15rem] font-medium tracking-[-0.02em] text-[#B42318]">
+                <ShieldAlert className="h-5 w-5" />
+                <span>{t('disclaimer')}</span>
+              </h2>
+              <p className="text-[13px] leading-relaxed text-[#B42318]/85">
+                {isEs
+                  ? "Todos los compuestos suministrados por 99 Purity Wholesale se producen estrictamente para fines de investigación de laboratorio, análisis químico y experimentación in-vitro. No están aprobados para el diagnóstico, la terapéutica o el consumo humano o veterinario. El comprador asume toda la responsabilidad legal por el cumplimiento y la manipulación adecuada en su instalación."
+                  : "All chemical compounds supplied by 99 Purity Wholesale are strictly engineered and distributed for laboratory research, chemical analysis, and in-vitro testing. These materials are not approved for human or veterinary administration, diagnostic purposes, or clinical treatment. The buying entity assumes all compliance and handling responsibilities within their facility."}
+              </p>
+            </section>
+
+            <div className="mx-auto max-w-5xl pt-4 text-center font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/45">
+              <span>&copy; {new Date().getFullYear()} 99 PURITY CLINICAL COMPENDIUM. ALL RIGHTS RESERVED. B2B PORTAL.</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

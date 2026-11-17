@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import FaqSchema from '@/components/seo/FaqSchema';
 
 interface FAQItem {
@@ -19,43 +19,36 @@ export default function BlogFAQ({ faqs }: BlogFAQProps) {
   if (!faqs || faqs.length === 0) return null;
 
   return (
-    <div className="mt-20 border-t border-white/5 pt-16">
+    <div className="rounded-[1.25rem] border border-[#E6EAF1] bg-white p-6 md:p-10">
       <FaqSchema items={faqs.map(faq => ({ q: faq.question, a: faq.answer }))} />
 
-      <h2 className="text-3xl font-rajdhani font-bold text-white mb-8 tracking-tight">
+      <h2 className="mb-8 font-dm-sans text-[clamp(1.5rem,2.6vw,2rem)] font-light leading-tight tracking-[-0.03em] text-[#0B0F14]">
         Frequently Asked Questions
       </h2>
-      
-      <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <div 
-            key={index}
-            className="border border-white/5 rounded-2xl bg-white/[0.01] hover:bg-white/[0.03] overflow-hidden transition-all duration-300"
-          >
-            <button
-              onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="w-full flex items-center justify-between p-6 text-left focus:outline-none transition-colors gap-4"
-            >
-              <span className="font-bold text-white text-lg font-rajdhani tracking-wide">
-                {faq.question}
-              </span>
-              <div className={`p-2 rounded-lg bg-white/5 flex-shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180 text-brand-accent' : 'text-gray-500'}`}>
-                <ChevronDown className="w-5 h-5" />
+
+      <div className="space-y-2">
+        {faqs.map((faq, index) => {
+          const open = openIndex === index;
+          return (
+            <div key={index} className="overflow-hidden rounded-[1rem] border border-[#E6EAF1] bg-[#F3F5FA]/50">
+              <button
+                type="button"
+                aria-expanded={open}
+                aria-controls={`blog-faq-${index}`}
+                onClick={() => setOpenIndex(open ? null : index)}
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-dm-sans text-[15px] tracking-[-0.01em] text-[#0B0F14] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4FC3D0]"
+              >
+                <span>{faq.question}</span>
+                <Plus className={`h-4 w-4 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`} aria-hidden="true" />
+              </button>
+              <div id={`blog-faq-${index}`} className={`grid transition-all duration-300 ease-out ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                <div className="overflow-hidden">
+                  <p className="px-5 pb-5 text-[14px] leading-relaxed text-[#0B0F14]/65">{faq.answer}</p>
+                </div>
               </div>
-            </button>
-            
-            <div 
-              className={`px-6 overflow-hidden transition-all duration-500 ease-in-out ${
-                openIndex === index ? "max-h-[500px] pb-8 opacity-100" : "max-h-0 opacity-0"
-              }`}
-            >
-              <div className="h-px w-full bg-gradient-to-r from-brand-accent/20 to-transparent mb-6"></div>
-              <p className="text-gray-400 font-dm-sans leading-relaxed">
-                {faq.answer}
-              </p>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

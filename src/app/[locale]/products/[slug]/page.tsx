@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import { ShieldCheck, Mail, Zap, CheckCircle2, FileText, Beaker, ChevronRight, Box, FlaskConical, MapPin } from 'lucide-react';
+import { ShieldCheck, Mail, Zap, CheckCircle2, FileText, Beaker, ChevronRight, Box, FlaskConical, MapPin, ArrowUpRight } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import productsData from '@/data/products.json';
 import { getProductContent } from '@/data/productContent';
@@ -9,10 +8,10 @@ import citiesData from '@/data/cities.json';
 import { getTranslations } from 'next-intl/server';
 import SpecSelector from '@/components/products/SpecSelector';
 import ShareProduct from '@/components/products/ShareProduct';
-import FaqSection from '@/components/shared/FaqSection';
-import { FadeIn } from '@/components/shared/Motion';
+import ProductFaq from '@/components/products/ProductFaq';
+import ProductCard from '@/components/products/ProductCard';
+import { PageShell, Eyebrow, PillButton, RevealGroup, SplitHeading, WRAP, SECTION, card, h2 } from '@/components/home/page-kit';
 import ProductGallery from '@/components/products/ProductGallery';
-import AddToInquiryButton from '@/components/products/AddToInquiryButton';
 
 // 2 days. Overrides the 1 hour inherited from [locale]/layout.tsx, so the catalog
 // gets a longer window than the services and locations routes.
@@ -813,114 +812,96 @@ export default async function ProductPage({ params }: { params: { locale: string
     }));
   const matchedLocations = [...matchedCities, ...matchedStates].slice(0, 8);
 
+  const whatsappHref = `https://wa.me/${(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '18433307365').replace(/\D/g, '')}?text=${encodeURIComponent(t('whatsappMsg', { name: product.name }))}`;
+  const eyebrowCls = 'font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#0B0F14]/45';
+  const panelH2 = 'mb-6 flex items-center gap-3 border-b border-[#E6EAF1] pb-5 text-[clamp(1.5rem,2.4vw,2.1rem)] font-light leading-tight tracking-[-0.04em]';
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#F8F8F6] text-black -mt-24 md:-mt-32">
+    <PageShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      {/* Breadcrumbs Fold */}
-      <div className="border-b border-black/5 bg-[#F8F8F6] relative z-20 pt-28 md:pt-36">
-        <div className="container mx-auto px-6 py-4 flex items-center gap-2 text-xs font-dm-mono text-black/40 overflow-x-auto whitespace-nowrap">
-          <Link href="/products" className="hover:text-black transition-colors">{t('breadcrumbs.products')}</Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <Link href={`/products/${product.category}`} className="hover:text-black transition-colors uppercase">
-            {localizedCategoryName}
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-black font-semibold">{product.name}</span>
-        </div>
-      </div>
+      {/* Breadcrumbs */}
+      <nav aria-label="Breadcrumb" className={`${WRAP} pt-2`}>
+        <ol className="flex items-center gap-2 overflow-x-auto whitespace-nowrap font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/45">
+          <li><Link href="/products" className="transition-colors hover:text-[#0B0F14]">{t('breadcrumbs.products')}</Link></li>
+          <li aria-hidden><ChevronRight className="h-3.5 w-3.5" /></li>
+          <li><Link href={`/products/${product.category}`} className="transition-colors hover:text-[#0B0F14]">{localizedCategoryName}</Link></li>
+          <li aria-hidden><ChevronRight className="h-3.5 w-3.5" /></li>
+          <li className="text-[#0B0F14]" aria-current="page">{product.name}</li>
+        </ol>
+      </nav>
 
-      {/* Light Showcase Section */}
-      <section className="relative z-10 bg-[#F8F8F6] py-16 md:py-24 overflow-hidden">
-        {/* Subtle Light Grain Texture */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
+      {/* Showcase */}
+      <section className="pb-16 pt-8 md:pb-24 md:pt-12">
+        <div className={WRAP}>
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+            {/* Left: gallery and technical passport */}
+            <div className="lg:col-span-5 lg:sticky lg:top-28">
+              <div className={`${card} flex w-full flex-col p-3 md:p-4`}>
+                <ProductGallery
+                  images={images}
+                  productName={product.name}
+                  categoryName={localizedCategoryName}
+                  specImagesMap={specImagesMap}
+                />
 
-        <div className="container mx-auto px-6 max-w-[1600px] relative z-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* Left Column: Combined Product Showcase & Technical Passport Card (Symmetrical & Dense!) */}
-            <div className="lg:col-span-5 flex flex-col items-center">
-              <FadeIn className="w-full">
-                <div className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.02)] flex flex-col w-full">
-                  {/* Dynamic Interactive Image Gallery */}
-                  <ProductGallery 
-                    images={images}
-                    productName={product.name}
-                    categoryName={localizedCategoryName}
-                    specImagesMap={specImagesMap}
-                  />
-
-                  {/* Elegant Divider line inside card */}
-                  <div className="border-t border-black/5 my-8" />
-
-                  {/* Dense Specification Passport Grid inside combined card - Generous Row Spacing! */}
-                  <div className="w-full">
-                    <div className="flex items-center gap-2 mb-6">
-                      <Beaker className="w-3.5 h-3.5 text-black/30" />
-                      <span className="font-absans text-[10px] font-bold uppercase tracking-wider text-black/80">{t('passportTitle')}</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-y-6 gap-x-8 text-sm leading-tight">
-                      <div>
-                        <span className="text-black/45 block mb-1.5 uppercase tracking-wider font-bold text-[9px]">{t('compoundNameLabel')}</span>
-                        <span className="font-bold text-black text-sm uppercase">{product.name}</span>
-                      </div>
-                      <div>
-                        <span className="text-black/45 block mb-1.5 uppercase tracking-wider font-bold text-[9px]">{t('casRegistryLabel')}</span>
-                        <span className="font-dm-mono font-bold text-black/80 text-sm">{product.cas !== 'N/A' && product.cas !== 'Blend' ? product.cas : (product.cas === 'Blend' ? (isEs ? 'Mezcla' : 'Blend') : (isEs ? 'N/A (Peptide)' : 'N/A (Peptide)'))}</span>
-                      </div>
-                      <div>
-                        <span className="text-black/45 block mb-1.5 uppercase tracking-wider font-bold text-[9px]">{t('purityGradeLabel')}</span>
-                        <span className="font-bold text-emerald-600 text-sm">≥99.0% ({isEs ? 'Verificado por HPLC' : 'HPLC Verified'})</span>
-                      </div>
-                      <div>
-                        <span className="text-black/45 block mb-1.5 uppercase tracking-wider font-bold text-[9px]">{t('physicalFormLabel')}</span>
-                        <span className="font-bold text-black/70 text-sm">{physicalForm}</span>
-                      </div>
-                      <div>
-                        <span className="text-black/45 block mb-1.5 uppercase tracking-wider font-bold text-[9px]">{t('recommendedStorageLabel')}</span>
-                        <span className="font-bold text-black/70 text-sm">{recommendedStorage}</span>
-                      </div>
-                      <div>
-                        <span className="text-black/45 block mb-1.5 uppercase tracking-wider font-bold text-[9px]">{t('procurementLimitLabel')}</span>
-                        <span className="font-bold text-black/70 text-sm">{t('moqValue')}</span>
-                      </div>
-                    </div>
+                <div className="px-3 pb-3 pt-7 md:px-4 md:pb-4">
+                  <div className="mb-6 flex items-center gap-2.5">
+                    <Beaker className="h-3.5 w-3.5 text-[#0B6F7B]" />
+                    <span className="font-dm-mono text-[10px] uppercase tracking-[0.18em] text-[#0B0F14]/60">{t('passportTitle')}</span>
                   </div>
+                  <dl className="grid grid-cols-2 gap-x-6 gap-y-5 text-sm leading-tight">
+                    <div>
+                      <dt className={`${eyebrowCls} mb-1.5`}>{t('compoundNameLabel')}</dt>
+                      <dd className="text-[15px] font-medium">{product.name}</dd>
+                    </div>
+                    <div>
+                      <dt className={`${eyebrowCls} mb-1.5`}>{t('casRegistryLabel')}</dt>
+                      <dd className="font-dm-mono text-[13px] text-[#0B0F14]/80">{product.cas !== 'N/A' && product.cas !== 'Blend' ? product.cas : (product.cas === 'Blend' ? (isEs ? 'Mezcla' : 'Blend') : (isEs ? 'N/A (Peptide)' : 'N/A (Peptide)'))}</dd>
+                    </div>
+                    <div>
+                      <dt className={`${eyebrowCls} mb-1.5`}>{t('purityGradeLabel')}</dt>
+                      <dd className="text-[14px] font-medium text-[#0B6F7B]">≥99.0% ({isEs ? 'Verificado por HPLC' : 'HPLC Verified'})</dd>
+                    </div>
+                    <div>
+                      <dt className={`${eyebrowCls} mb-1.5`}>{t('physicalFormLabel')}</dt>
+                      <dd className="text-[14px] text-[#0B0F14]/70">{physicalForm}</dd>
+                    </div>
+                    <div>
+                      <dt className={`${eyebrowCls} mb-1.5`}>{t('recommendedStorageLabel')}</dt>
+                      <dd className="text-[14px] text-[#0B0F14]/70">{recommendedStorage}</dd>
+                    </div>
+                    <div>
+                      <dt className={`${eyebrowCls} mb-1.5`}>{t('procurementLimitLabel')}</dt>
+                      <dd className="text-[14px] text-[#0B0F14]/70">{t('moqValue')}</dd>
+                    </div>
+                  </dl>
                 </div>
-              </FadeIn>
+              </div>
             </div>
 
-            {/* Right Column: Symmetrical Meta Info & Symmetrical Selector Card */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
-              <FadeIn delay={0.15}>
-                <div className="flex items-center gap-2 mb-6 flex-wrap">
-                  <span className="inline-flex items-center gap-1.5 bg-black/5 border border-black/5 text-black px-3.5 py-1.5 rounded-full text-[10px] font-dm-sans font-bold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5 text-black/40" />
-                    {t('purity')}
+            {/* Right: meta, selector, research, share */}
+            <div className="flex flex-col lg:col-span-7">
+              <div className="mb-6 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E6EAF1] bg-white px-3.5 py-1.5 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]">
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#0B6F7B]" />
+                  {t('purity')}
+                </span>
+                {product.cas !== 'N/A' && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E6EAF1] bg-white px-3.5 py-1.5 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/60">
+                    {t('cas')} {product.cas}
                   </span>
-                  {product.cas !== 'N/A' && (
-                    <span className="inline-flex items-center gap-1.5 bg-black/5 border border-black/5 text-black/60 px-3.5 py-1.5 rounded-full text-[10px] font-dm-mono uppercase tracking-wider">
-                      {t('cas')} {product.cas}
-                    </span>
-                  )}
-                </div>
-              </FadeIn>
+                )}
+              </div>
 
-              <FadeIn delay={0.2}>
-                <h1 className="reveal-text font-absans text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-black mb-6 leading-none">
-                  {product.name}
-                </h1>
-              </FadeIn>
+              <SplitHeading as="h1" text={product.name} className="mb-6 font-dm-sans text-[clamp(2.2rem,5vw,4.2rem)] font-light leading-[1] tracking-[-0.05em]" />
 
-              <FadeIn delay={0.25}>
-                <p className="font-archia text-sm md:text-base text-black/60 leading-relaxed font-medium mb-8 max-w-2xl">
-                  {enrichedDescription}
-                </p>
-              </FadeIn>
+              <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-[#0B0F14]/60">
+                {enrichedDescription}
+              </p>
 
-              {/* Symmetrical white card for Selector controls */}
-              <FadeIn delay={0.3} className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.02)] w-full mb-6">
+              <div className={`${card} mb-4 w-full p-6 md:p-8`}>
                 <SpecSelector
                   productId={product.slug}
                   productName={product.name}
@@ -929,174 +910,147 @@ export default async function ProductPage({ params }: { params: { locale: string
                   specs={Array.from(new Set(product.specs.map(s => s.split('×')[0])))}
                   kitSizes={Array.from(new Set(product.specs.map(s => parseInt(s.split('×')[1]))))}
                 />
-              </FadeIn>
+              </div>
 
-              {/* Dynamic Research Paper Card */}
-              <FadeIn delay={0.32}>
-                <div className="bg-gradient-to-r from-black via-zinc-900 to-zinc-950 text-white rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.08)] w-full mb-6 relative overflow-hidden group border border-white/5">
-                  <div className="absolute -right-16 -top-16 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-all duration-700 pointer-events-none" />
-                  
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <FlaskConical className="w-4 h-4 text-emerald-400 animate-pulse" />
-                        <span className="text-[10px] font-dm-mono uppercase tracking-widest text-emerald-400 font-bold">
-                          {tr('academicTitle')}
-                        </span>
-                      </div>
-                      <h3 className="reveal-text font-absans text-xl md:text-2xl font-bold uppercase tracking-tight text-white mb-2 leading-none">
-                        {product.name}
-                      </h3>
-                      <p className="text-xs text-white/60 font-archia max-w-md">
-                        {isEs 
-                          ? "Acceda a datos científicos detallados, mecanismos celulares y resultados de pureza del lote para este compuesto de investigación."
-                          : "Access in-depth scientific literature, cellular signaling pathways, and HPLC batch verification for this compound."}
-                      </p>
-                    </div>
-                    
-                    <Link
-                      href={`/products/${product.slug}/research`}
-                      className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-black font-dm-sans font-bold text-xs uppercase tracking-wider py-4 px-6 rounded-full transition-all duration-300 transform hover:scale-[1.02] shadow-lg shadow-emerald-500/20 whitespace-nowrap self-start md:self-auto"
-                    >
-                      <span>{tr('readPaper')}</span>
-                      <ChevronRight className="w-4 h-4 text-black" />
-                    </Link>
+              {/* Research paper card */}
+              <div className="relative mb-2 w-full overflow-hidden rounded-[1.25rem] bg-[#0B0D10] p-6 text-white md:p-8">
+                <div className="relative z-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
+                  <div>
+                    <Eyebrow light className="mb-3">{tr('academicTitle')}</Eyebrow>
+                    <h2 className="mb-2 text-[1.5rem] font-light leading-tight tracking-[-0.03em] text-white">{product.name}</h2>
+                    <p className="max-w-md text-[13px] leading-relaxed text-white/55">
+                      {isEs
+                        ? "Acceda a datos científicos detallados, mecanismos celulares y resultados de pureza del lote para este compuesto de investigación."
+                        : "Access in-depth scientific literature, cellular signaling pathways, and HPLC batch verification for this compound."}
+                    </p>
                   </div>
+                  <PillButton href={`/products/${product.slug}/research`} variant="teal" className="self-start whitespace-nowrap md:self-auto">
+                    {tr('readPaper')}
+                  </PillButton>
                 </div>
-              </FadeIn>
+              </div>
 
-              {/* Share Product component renders beautifully in light mode beneath selector card */}
-              <FadeIn delay={0.35}>
-                <ShareProduct 
-                  title={product.name} 
-                  url={`${process.env.NEXT_PUBLIC_BASE_URL || 'https://99puritywholesale.com'}/${params.locale}/products/${product.slug}`}
-                />
-              </FadeIn>
+              <ShareProduct
+                title={product.name}
+                url={`${process.env.NEXT_PUBLIC_BASE_URL || 'https://99puritywholesale.com'}/${params.locale}/products/${product.slug}`}
+              />
             </div>
-            
           </div>
         </div>
       </section>
 
-      {/* Details & Specs body fold */}
-      <section className="bg-[#F8F8F6] text-black pb-16 md:pb-24 relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-[1600px] relative z-10 space-y-12 md:space-y-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* Left Column: Specs */}
+      {/* Details and specs */}
+      <section className="pb-16 md:pb-24">
+        <div className={`${WRAP} space-y-6 md:space-y-8`}>
+          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-8">
-              
-              {/* Technical Specifications Card */}
-              <FadeIn className="bg-white border border-black/5 rounded-[2.2rem] p-8 md:p-10 shadow-[0_15px_40px_rgba(0,0,0,0.02)]">
-                <h3 className="reveal-text font-absans text-2xl md:text-3xl font-bold uppercase tracking-tight text-black mb-8 flex items-center gap-3 border-b border-black/5 pb-4">
-                  <Beaker className="w-6 h-6 text-black/40" />
+              <div className={`${card} p-6 md:p-10`}>
+                <h2 className={panelH2}>
+                  <Beaker className="h-5 w-5 text-[#0B6F7B]" />
                   {t('specsTitle')}
-                </h3>
-                
+                </h2>
+
                 <div className="mb-10">
-                  <h4 className="text-[10px] font-dm-mono font-bold text-black/40 mb-4 uppercase tracking-widest">{t('availableSizes')}</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  <h3 className={`${eyebrowCls} mb-4 !text-[10px]`}>{t('availableSizes')}</h3>
+                  <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                     {product.specs.map(spec => (
-                      <div key={spec} className="flex items-center gap-3 text-black/90 font-dm-sans text-sm bg-black/5 px-6 py-4 rounded-full border border-black/5 font-semibold hover:bg-black/10 transition-colors">
-                        <CheckCircle2 className="w-4.5 h-4.5 text-emerald-500 flex-shrink-0" />
+                      <li key={spec} className="flex items-center gap-3 rounded-full border border-[#E6EAF1] bg-[#F3F5FA] px-5 py-3.5 text-[13.5px] font-medium">
+                        <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-[#0B6F7B]" />
                         <span>{spec}</span>
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
-                {/* MOQ & Tier Pricing */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-8 border-t border-black/5">
-                  <div className="md:col-span-4 bg-emerald-500/[0.03] border border-emerald-500/10 rounded-2xl p-6 flex flex-col justify-center">
-                    <div className="flex items-center gap-2 mb-2 text-emerald-800">
-                      <Box className="w-5 h-5" />
-                      <h4 className="font-bold font-dm-sans text-xs uppercase tracking-wider">{t('moqHeading')}</h4>
+                <div className="grid grid-cols-1 gap-4 border-t border-[#E6EAF1] pt-8 md:grid-cols-12">
+                  <div className="flex flex-col justify-center rounded-[1rem] bg-[#4FC3D0]/10 p-6 md:col-span-4">
+                    <div className="mb-2 flex items-center gap-2 text-[#0B6F7B]">
+                      <Box className="h-5 w-5" />
+                      <h3 className="text-[15px] font-medium tracking-[-0.01em]">{t('moqHeading')}</h3>
                     </div>
-                    <p className="text-xs text-emerald-800/70 font-archia leading-relaxed font-medium">{t('moqSubtext')}</p>
+                    <p className="text-[12.5px] leading-relaxed text-[#0B0F14]/60">{t('moqSubtext')}</p>
                   </div>
-                  
-                  <div className="md:col-span-8 bg-black/[0.01] border border-black/5 rounded-2xl p-6">
-                    <h4 className="reveal-text text-black font-bold font-absans text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-black/40" />
+
+                  <div className="rounded-[1rem] border border-[#E6EAF1] bg-[#F3F5FA] p-6 md:col-span-8">
+                    <h3 className="mb-4 flex items-center gap-2 text-[15px] font-medium tracking-[-0.01em]">
+                      <Zap className="h-4 w-4 text-[#0B6F7B]" />
                       {t('pricingHeading')}
-                    </h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    </h3>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                       {[
                         { key: 'starter', range: '1-9' },
                         { key: 'tier1', range: '10-19' },
                         { key: 'tier2', range: '20-39' },
                         { key: 'tier3', range: '40+' }
                       ].map((tier) => (
-                        <div key={tier.key} className="bg-white border border-black/5 rounded-xl p-3 flex flex-col items-center text-center transition-all hover:border-black/20 shadow-sm">
-                          <span className="text-[9px] text-black/40 font-bold uppercase mb-1 tracking-wider leading-none">
-                            {tier.key === 'starter' 
-                              ? t('pricing.starter') 
+                        <div key={tier.key} className="flex flex-col items-center rounded-[0.9rem] border border-[#E6EAF1] bg-white p-3 text-center">
+                          <span className="mb-1 font-dm-mono text-[9px] uppercase leading-none tracking-[0.14em] text-[#0B0F14]/45">
+                            {tier.key === 'starter'
+                              ? t('pricing.starter')
                               : `${t('pricing.tier')} ${tier.key.replace('tier', '')}`
                             }
                           </span>
-                          <span className="text-xs text-black font-bold font-dm-mono tracking-tight">{tier.range} {t('pricing.kits')}</span>
+                          <span className="font-dm-mono text-[12px] tracking-tight">{tier.range} {t('pricing.kits')}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
-              </FadeIn>
-
+              </div>
             </div>
 
-            {/* Right Column: Sticky Sidebar pricing block */}
-            <div className="lg:col-span-4 relative">
-              <FadeIn className="sticky top-24 bg-white border border-black/10 rounded-[2.2rem] p-8 shadow-[0_30px_60px_rgba(0,0,0,0.04)]">
-                <h3 className="reveal-text font-absans text-3xl font-bold uppercase tracking-tight text-black mb-3">{t('requestPricingTitle')}</h3>
-                <p className="text-black/50 font-archia text-sm font-medium mb-8 leading-relaxed">
+            {/* Request pricing sidebar */}
+            <aside className="lg:col-span-4 lg:sticky lg:top-28">
+              <div className={`${card} p-7 md:p-8`}>
+                <h2 className="mb-3 text-[1.7rem] font-light leading-tight tracking-[-0.04em]">{t('requestPricingTitle')}</h2>
+                <p className="mb-7 text-[13.5px] leading-relaxed text-[#0B0F14]/60">
                   {t('requestPricingDesc', { name: product.name })}
                 </p>
-                
-                <div className="space-y-4">
-                  <a 
-                    href={`https://wa.me/${(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '18433307365').replace(/\D/g, '')}?text=${encodeURIComponent(t('whatsappMsg', { name: product.name }))}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="w-full bg-black border border-black hover:bg-transparent hover:text-black hover:border-black text-white font-bold py-4 rounded-full transition-all font-dm-sans text-xs uppercase tracking-wider flex items-center justify-center gap-2.5"
+
+                <div className="space-y-3">
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-2.5 rounded-full bg-[#0B0F14] px-5 py-3.5 font-dm-sans text-[13px] font-medium text-white transition-colors hover:bg-[#4FC3D0] hover:text-[#0B0F14]"
                   >
-                    <Zap className="w-4 h-4" /> {t('whatsappCta')}
+                    <Zap className="h-4 w-4" /> {t('whatsappCta')}
                   </a>
-                  
-                  <div className="relative flex items-center py-2">
-                    <div className="flex-grow border-t border-black/5"></div>
-                    <span className="flex-shrink-0 mx-4 text-black/30 font-dm-mono text-[9px] uppercase tracking-widest">{t('or')}</span>
-                    <div className="flex-grow border-t border-black/5"></div>
+
+                  <div className="relative flex items-center py-1">
+                    <div className="flex-grow border-t border-[#E6EAF1]"></div>
+                    <span className="mx-4 flex-shrink-0 font-dm-mono text-[9px] uppercase tracking-[0.18em] text-[#0B0F14]/40">{t('or')}</span>
+                    <div className="flex-grow border-t border-[#E6EAF1]"></div>
                   </div>
 
-                  <a 
-                    href={`mailto:sales@99purity.com?subject=Wholesale Inquiry: ${product.name}`} 
-                    className="w-full bg-transparent border border-black/10 hover:border-black/30 hover:bg-black/5 text-black/70 hover:text-black font-bold py-4 rounded-full transition-all font-dm-sans text-xs uppercase tracking-wider flex items-center justify-center gap-2.5"
+                  <a
+                    href={`mailto:sales@99purity.com?subject=Wholesale Inquiry: ${product.name}`}
+                    className="flex w-full items-center justify-center gap-2.5 rounded-full border border-[#0B0F14]/15 px-5 py-3.5 font-dm-sans text-[13px] font-medium text-[#0B0F14] transition-colors hover:bg-[#0B0F14] hover:text-white"
                   >
-                    <Mail className="w-4 h-4" /> {t('emailCta')}
+                    <Mail className="h-4 w-4" /> {t('emailCta')}
                   </a>
                 </div>
-                
-                <div className="mt-8 pt-6 border-t border-black/5">
-                  <div className="flex items-start gap-3 text-xs text-black/50 font-archia font-medium leading-relaxed">
-                    <ShieldCheck className="w-4 h-4 text-black/40 flex-shrink-0 mt-0.5" />
+
+                <div className="mt-7 border-t border-[#E6EAF1] pt-6">
+                  <div className="flex items-start gap-3 text-[12px] leading-relaxed text-[#0B0F14]/55">
+                    <ShieldCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#0B6F7B]" />
                     <p>{t('confidential')}</p>
                   </div>
                 </div>
-              </FadeIn>
-            </div>
-
+              </div>
+            </aside>
           </div>
 
-          {/* Expanded AEO & SEO Scientific Dossier Card - Now Full Width! */}
-          <FadeIn className="bg-white border border-black/5 rounded-[2.2rem] p-8 md:p-10 shadow-[0_15px_40px_rgba(0,0,0,0.02)] w-full">
-            <h3 className="reveal-text font-absans text-2xl md:text-3xl font-bold uppercase tracking-tight text-black mb-2">
+          {/* Scientific dossier */}
+          <div className={`${card} w-full p-6 md:p-10`}>
+            <h2 className="mb-2 text-[clamp(1.5rem,2.4vw,2.1rem)] font-light leading-tight tracking-[-0.04em]">
               {isEs ? "Dossier Clínico e Índice Técnico" : "Clinical Dossier & Technical Digest"}
-            </h3>
-            <p className="text-xs font-dm-sans font-bold text-black/40 uppercase tracking-widest mb-6">
+            </h2>
+            <p className={`${eyebrowCls} mb-7 !text-[10px]`}>
               {isEs ? "Perfil de referencia de datos químicos y especificaciones de laboratorio." : "Factual reference profile and clinical data specifications."}
             </p>
-            
-            <div className="space-y-6 text-sm text-black/60 font-archia leading-relaxed font-medium">
+
+            <div className="max-w-4xl space-y-5 text-[14px] leading-relaxed text-[#0B0F14]/65">
               <p>
                 {customContent
                   ? customContent.dossier.applicationProfile
@@ -1115,30 +1069,30 @@ export default async function ProductPage({ params }: { params: { locale: string
               </p>
             </div>
 
-            {/* Structured Machine-Readable AEO Card */}
-            <div className="bg-black/[0.015] border border-black/5 rounded-2xl p-6 mt-8">
-              <div className="flex items-center gap-2 mb-4">
-                <Beaker className="w-4.5 h-4.5 text-black/40 flex-shrink-0" />
-                <h4 className="font-absans font-bold text-xs uppercase tracking-wider text-black">
+            {/* Structured procurement profile */}
+            <div className="mt-8 rounded-[1rem] bg-[#F3F5FA] p-6">
+              <div className="mb-5 flex items-center gap-2.5">
+                <Beaker className="h-4 w-4 flex-shrink-0 text-[#0B6F7B]" />
+                <h3 className="font-dm-mono text-[11px] uppercase tracking-[0.14em]">
                   {isEs ? "Perfil Estructurado de Adquisición y Referencia Científica" : "Structured Procurement Profile & Technical Reference"}
-                </h4>
+                </h3>
               </div>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-black/60 font-dm-sans font-medium">
-                <li><strong className="text-black/80 font-bold uppercase text-[9px] tracking-wider block mb-0.5">{isEs ? "Nombre del Compuesto" : "Compound Reference"}</strong> {product.name}</li>
-                <li><strong className="text-black/80 font-bold uppercase text-[9px] tracking-wider block mb-0.5">{isEs ? "Registro CAS" : "CAS Registry"}</strong> {product.cas !== 'N/A' ? product.cas : 'Peptide Specific'}</li>
-                <li><strong className="text-black/80 font-bold uppercase text-[9px] tracking-wider block mb-0.5">{isEs ? "Grado Analítico" : "Analytical Grade"}</strong> &ge;99.0% High-Purity Research Standard</li>
-                <li><strong className="text-black/80 font-bold uppercase text-[9px] tracking-wider block mb-0.5">{isEs ? "Uso Autorizado" : "Authorized Intended Use"}</strong> Strictly for Laboratory Research Purposes Only</li>
-                <li><strong className="text-black/80 font-bold uppercase text-[9px] tracking-wider block mb-0.5">{isEs ? "Distribución" : "Supply Availability"}</strong> {isSpray ? 'Pre-Dissolved Spray Bulk Kits (10-unit standard)' : 'Lyophilized Bulk Kits (10-vial standard)'}</li>
-                <li><strong className="text-black/80 font-bold uppercase text-[9px] tracking-wider block mb-0.5">{isEs ? "Distribuidor Global" : "Global Authorized Distributor"}</strong> 99 Purity Wholesale</li>
+              <ul className="grid grid-cols-1 gap-x-8 gap-y-4 text-[13px] text-[#0B0F14]/65 md:grid-cols-2">
+                <li><strong className={`${eyebrowCls} mb-0.5 block !text-[#0B0F14]/50`}>{isEs ? "Nombre del Compuesto" : "Compound Reference"}</strong> {product.name}</li>
+                <li><strong className={`${eyebrowCls} mb-0.5 block !text-[#0B0F14]/50`}>{isEs ? "Registro CAS" : "CAS Registry"}</strong> {product.cas !== 'N/A' ? product.cas : 'Peptide Specific'}</li>
+                <li><strong className={`${eyebrowCls} mb-0.5 block !text-[#0B0F14]/50`}>{isEs ? "Grado Analítico" : "Analytical Grade"}</strong> &ge;99.0% High-Purity Research Standard</li>
+                <li><strong className={`${eyebrowCls} mb-0.5 block !text-[#0B0F14]/50`}>{isEs ? "Uso Autorizado" : "Authorized Intended Use"}</strong> Strictly for Laboratory Research Purposes Only</li>
+                <li><strong className={`${eyebrowCls} mb-0.5 block !text-[#0B0F14]/50`}>{isEs ? "Distribución" : "Supply Availability"}</strong> {isSpray ? 'Pre-Dissolved Spray Bulk Kits (10-unit standard)' : 'Lyophilized Bulk Kits (10-vial standard)'}</li>
+                <li><strong className={`${eyebrowCls} mb-0.5 block !text-[#0B0F14]/50`}>{isEs ? "Distribuidor Global" : "Global Authorized Distributor"}</strong> 99 Purity Wholesale</li>
               </ul>
             </div>
 
-            {/* Analytical Quality Assurance Loops */}
-            <div className="border-t border-black/5 pt-8 mt-8">
-              <h4 className="reveal-text font-absans font-bold text-sm uppercase tracking-wider text-black mb-3">
+            {/* Analytical QA */}
+            <div className="mt-8 border-t border-[#E6EAF1] pt-8">
+              <h3 className="mb-3 text-[1.15rem] font-medium tracking-[-0.02em]">
                 {isEs ? "Protocolo de Control de Calidad Analítica" : "Analytical Quality Assurance Loop"}
-              </h4>
-              <p className="text-xs text-black/55 font-archia leading-relaxed font-medium mb-6">
+              </h3>
+              <p className="mb-6 max-w-4xl text-[13.5px] leading-relaxed text-[#0B0F14]/60">
                 {isSpray
                   ? (isEs
                     ? `Cada lote de ${product.name} se somete a un proceso de verificación cromatográfica de doble pasada. Confirmamos la pureza por HPLC de fase reversa y la identidad por la masa exacta del catión mediante Espectrometría de Masas (LC-MS), junto con la verificación de la concentración de la solución dosificada. Las unidades terminadas se filtran en estéril, se purgan con nitrógeno y se envasan en vidrio ámbar para garantizar la estabilidad molecular a largo plazo.`
@@ -1148,175 +1102,110 @@ export default async function ProductPage({ params }: { params: { locale: string
                   : `Every synthetic lot of ${product.name} undergoes an exhaustive, double-pass chromatography and verification process. We confirm molecular mass and exact peptide sequence alignment using High-Performance Liquid Chromatography (HPLC) and Liquid Chromatography-Mass Spectrometry (LC-MS). Finished samples are nitrogen-purged and vacuum-sealed for long-term stability.`
                 }
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-dm-sans font-bold uppercase tracking-wider text-black/75">
-                <div className="bg-black/[0.03] px-6 py-4 rounded-xl border border-black/5 flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> HPLC Purity Verified</div>
-                <div className="bg-black/[0.03] px-6 py-4 rounded-xl border border-black/5 flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> LC-MS Mass Checked</div>
-                <div className="bg-black/[0.03] px-6 py-4 rounded-xl border border-black/5 flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Nitrogen Purged Stability</div>
-              </div>
+              <ul className="grid grid-cols-1 gap-3 text-[13px] font-medium sm:grid-cols-3">
+                <li className="flex items-center gap-3 rounded-[0.9rem] border border-[#E6EAF1] px-5 py-4"><CheckCircle2 className="h-4 w-4 flex-shrink-0 text-[#0B6F7B]" /> HPLC Purity Verified</li>
+                <li className="flex items-center gap-3 rounded-[0.9rem] border border-[#E6EAF1] px-5 py-4"><CheckCircle2 className="h-4 w-4 flex-shrink-0 text-[#0B6F7B]" /> LC-MS Mass Checked</li>
+                <li className="flex items-center gap-3 rounded-[0.9rem] border border-[#E6EAF1] px-5 py-4"><CheckCircle2 className="h-4 w-4 flex-shrink-0 text-[#0B6F7B]" /> Nitrogen Purged Stability</li>
+              </ul>
             </div>
-          </FadeIn>
+          </div>
 
-          {/* COA Download Banner - Now Full Width! */}
-          <FadeIn className="bg-white border border-black/5 rounded-[2.2rem] p-8 md:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_15px_40px_rgba(0,0,0,0.02)] w-full">
+          {/* COA banner */}
+          <div className={`${card} flex w-full flex-col items-start justify-between gap-6 p-6 sm:flex-row sm:items-center md:p-8`}>
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-black/5 rounded-full flex items-center justify-center flex-shrink-0">
-                <FileText className="w-6 h-6 text-black/40" />
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                <FileText className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-absans text-xl font-bold text-black uppercase tracking-tight">{t('coaTitle')}</h4>
-                <p className="text-xs text-black/50 font-archia font-medium">{t('coaDesc')}</p>
+                <h2 className="text-[1.2rem] font-normal tracking-[-0.03em]">{t('coaTitle')}</h2>
+                <p className="text-[13px] text-[#0B0F14]/55">{t('coaDesc')}</p>
               </div>
             </div>
-            <button className="bg-black border border-black text-white hover:bg-transparent hover:text-black hover:border-black px-6 py-3 rounded-full font-dm-sans text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap">
+            <button className="whitespace-nowrap rounded-full bg-[#0B0F14] px-6 py-3 font-dm-sans text-[13px] font-medium text-white transition-colors hover:bg-[#4FC3D0] hover:text-[#0B0F14]">
               {t('requestCoa')}
             </button>
-          </FadeIn>
+          </div>
         </div>
       </section>
 
-      {/* Dynamic light-themed FAQ Section (Exactly 8 Localized B2B research FAQs for every single compound!) */}
-      <FaqSection 
+      {/* FAQ (localized B2B research FAQs for every compound) */}
+      <ProductFaq
         id="product-faq"
-        eyebrow={isEs ? "FAQ" : "FAQ"}
+        eyebrow="FAQ"
         title={isEs ? `${product.name} Preguntas Frecuentes` : `${product.name} Procurement FAQ`}
         subtitle={isEs ? `Orientación completa de adquisición institucional, verificación de calidad HPLC y detalles de entrega para ${product.name} al por mayor.` : `Complete institutional procurement guidance, quality verification protocols, and delivery details for bulk wholesale ${product.name}.`}
         items={faqs}
-        theme="light"
+        className="border-t border-[#E6EAF1]"
       />
 
-      {/* Related Products Grid */}
+      {/* Related products */}
       {relatedProducts.length > 0 && (
-        <section className="bg-[#F8F8F6] border-t border-black/5 py-20 relative overflow-hidden">
-          <div className="container mx-auto px-6 max-w-[1600px] relative z-10">
-            <h2 className="font-absans text-3xl md:text-4xl font-bold uppercase tracking-tight text-black mb-10">{t('relatedTitle')}</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className={`${SECTION} border-t border-[#E6EAF1]`}>
+          <div className={WRAP}>
+            <SplitHeading text={t('relatedTitle')} className={`${h2} mb-10 md:mb-14`} />
+            <RevealGroup className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-3">
               {relatedProducts.map(rp => {
                 const rpSpecMap = productSpecImagesMap[rp.slug as keyof typeof productSpecImagesMap] || {};
                 const rpImages = Object.values(rpSpecMap);
                 const productImage = rpImages.length > 0 ? rpImages[0] : "";
-                const firstSpec = rp.specs && rp.specs.length > 0 ? rp.specs[0] : "10mg×10 Vials";
-                const [spec, kitSizeStr] = firstSpec.split('×');
-                const kitSize = parseInt(kitSizeStr) || 10;
-
                 return (
-                  <div 
-                    key={rp.slug} 
-                    className="group relative bg-white border border-black/5 rounded-[2.2rem] p-6 hover:border-black/15 transition-all duration-500 flex flex-col hover:-translate-y-2 shadow-[0_15px_40px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.06)] overflow-hidden"
-                  >
-                    {/* Grainy Noise Overlay for premium luxury depth */}
-                    <div className="absolute inset-0 opacity-[0.01] pointer-events-none bg-[url('/images/noise.svg')]" />
-                    
-                    <Link href={`/products/${rp.slug}`} className="flex flex-col h-full relative z-10">
-                      {/* Luxury Product Thumbnail Showcase */}
-                      <div className="relative aspect-square w-full rounded-2xl bg-white overflow-hidden flex items-center justify-center mb-5 transition-all duration-500">
-                        {productImage ? (
-                          <Image 
-                            src={`/product-images/${productImage}`}
-                            alt={`${rp.name} High Purity Wholesale Research Peptide`}
-                            fill
-                            sizes="(max-width: 640px) 50vw, 250px"
-                            className="object-contain p-[5%] rounded-lg transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center justify-center text-center p-4 text-black/20 relative z-10">
-                            <FlaskConical className="w-10 h-10 text-black/10 mb-2 group-hover:text-brand-accent/50 transition-colors" />
-                            <span className="text-[9px] font-dm-mono uppercase tracking-[0.15em] text-black/20">Research Only</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="mb-3.5">
-                        <span className="text-[8px] font-dm-mono font-bold text-black/40 uppercase tracking-[0.2em] px-2.5 py-1 bg-black/5 rounded-full border border-black/5 group-hover:border-black/15 group-hover:text-black transition-all duration-300">
-                          {rp.category.replace(/-/g, ' ')}
-                        </span>
-                      </div>
-                      
-                      <h3 className="text-lg font-absans font-bold text-black mb-2 leading-tight group-hover:text-black/80 transition-colors duration-300 uppercase tracking-tight">
-                        {rp.name}
-                      </h3>
-                      
-                      <p className="text-xs text-black/50 font-archia leading-relaxed font-medium line-clamp-2 mb-6 group-hover:text-black/70 transition-colors duration-300 flex-grow">
-                        {t.has(`descriptions.${rp.slug}`) ? t(`descriptions.${rp.slug}`) : rp.description}
-                      </p>
-                    </Link>
-
-                    <div className="flex flex-col gap-4 pt-5 border-t border-black/5 mt-auto relative z-10">
-                      <AddToInquiryButton
-                        productId={rp.slug}
-                        productName={rp.name}
-                        category={rp.category}
-                        spec={spec}
-                        kitSize={kitSize}
-                        categoryPage={`/products/${rp.category}`}
-                      />
-                      
-                      <div className="flex items-center justify-between mt-1">
-                        <div className="text-[9px] font-dm-mono font-bold text-black/30 uppercase tracking-widest">
-                          {rp.specs.length} Specs
-                        </div>
-                        
-                        <Link 
-                          href={`/products/${rp.slug}`} 
-                          className="flex items-center gap-1 text-black/50 text-[10px] font-dm-mono font-bold uppercase tracking-widest transition-colors hover:text-black"
-                        >
-                          Details <ChevronRight className="w-3.5 h-3.5 ml-0.5 transform transition-transform group-hover:translate-x-0.5" />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+                  <ProductCard
+                    key={rp.slug}
+                    product={rp}
+                    imageSrc={productImage ? `/product-images/${productImage}` : null}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    description={t.has(`descriptions.${rp.slug}`) ? t(`descriptions.${rp.slug}`) : rp.description}
+                  />
                 );
               })}
-            </div>
+            </RevealGroup>
           </div>
         </section>
       )}
 
-      {/* Available For Wholesale In — Location Cross-Links */}
-      <section className="bg-white border-t border-black/5 py-16 relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-[1600px] relative z-10">
-          <h2 className="font-absans text-2xl md:text-3xl font-bold uppercase tracking-tight text-black mb-2">
+      {/* Available for wholesale in: location cross-links */}
+      <section className="border-t border-[#E6EAF1] bg-white py-14 md:py-16">
+        <div className={WRAP}>
+          <h2 className="mb-3 text-[clamp(1.5rem,2.6vw,2.2rem)] font-light leading-tight tracking-[-0.04em]">
             {isEs ? `${product.name} Al Por Mayor Disponible En` : `Wholesale ${product.name} Available In`}
           </h2>
-          <p className="text-black/50 font-archia font-medium text-sm mb-8 max-w-2xl">
+          <p className="mb-8 max-w-2xl text-[14px] leading-relaxed text-[#0B0F14]/60">
             {isEs
               ? 'Suministramos a instituciones y laboratorios autorizados en todo Estados Unidos. Explore nuestros centros regionales para conocer los plazos de entrega y la cobertura local.'
               : 'We supply licensed institutions and laboratories nationwide. Browse our regional hubs for local delivery timelines and coverage.'}
           </p>
-          <div className="flex flex-wrap gap-3">
-            {matchedLocations.length > 0 ? (
-              matchedLocations.map((loc) => (
-                <Link
-                  key={loc.href}
-                  href={loc.href}
-                  className="inline-flex items-center gap-2 bg-[#F8F8F6] border border-black/5 hover:border-[#13a7b7]/30 hover:bg-white text-black/70 hover:text-[#13a7b7] px-5 py-2.5 rounded-full font-archia text-xs font-semibold transition-all"
-                >
-                  <MapPin className="w-3.5 h-3.5 text-[#13a7b7]/60" />
-                  {loc.label}
-                </Link>
-              ))
-            ) : null}
+          <div className="flex flex-wrap gap-2.5">
+            {matchedLocations.map((loc) => (
+              <Link
+                key={loc.href}
+                href={loc.href}
+                className="inline-flex items-center gap-2 rounded-full border border-[#E6EAF1] bg-[#F3F5FA] px-4 py-2.5 text-[13px] font-medium text-[#0B0F14]/70 transition-colors hover:border-[#4FC3D0] hover:text-[#0B6F7B]"
+              >
+                <MapPin className="h-3.5 w-3.5 text-[#0B6F7B]" />
+                {loc.label}
+              </Link>
+            ))}
             <Link
               href="/locations"
-              className="inline-flex items-center gap-2 bg-black text-white hover:bg-black/80 px-5 py-2.5 rounded-full font-archia text-xs font-bold transition-all"
+              className="inline-flex items-center gap-2 rounded-full bg-[#0B0F14] px-5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-[#1b232d]"
             >
-              {isEs ? 'Ver Todas las Ubicaciones' : 'Browse All Locations'} <ChevronRight className="w-3.5 h-3.5" />
+              {isEs ? 'Ver Todas las Ubicaciones' : 'Browse All Locations'} <ArrowUpRight className="h-3.5 w-3.5 text-[#4FC3D0]" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Mobile Sticky CTA Footer (only visible on small screens) */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-black/10 z-50 lg:hidden shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
-        <a 
-          href={`https://wa.me/${(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '18433307365').replace(/\D/g, '')}?text=${encodeURIComponent(t('whatsappMsg', { name: product.name }))}`} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="w-full bg-black border border-black text-white font-bold py-3.5 rounded-full transition-all font-dm-sans text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg"
+      {/* Mobile sticky CTA (small screens only) */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#E6EAF1] bg-white/95 p-4 backdrop-blur lg:hidden">
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0B0F14] py-3.5 font-dm-sans text-[13px] font-medium text-white"
         >
-          <Zap className="w-4 h-4" /> {t('requestPricingTitle')}
+          <Zap className="h-4 w-4 text-[#4FC3D0]" /> {t('requestPricingTitle')}
         </a>
       </div>
-    </div>
+    </PageShell>
   );
 }

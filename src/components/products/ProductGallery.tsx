@@ -65,12 +65,12 @@ export default function ProductGallery({ images, productName, categoryName, spec
 
   if (!images || images.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 text-center text-black/35 w-full aspect-square bg-black/[0.01] border border-black/5 rounded-2xl">
-        <div className="w-16 h-16 rounded-2xl bg-black/5 border border-black/5 flex items-center justify-center mb-4 text-black/40">
+      <div className="flex flex-col items-center justify-center p-8 text-center text-[#0B0F14]/35 w-full aspect-square bg-[#F3F5FA] border border-[#E6EAF1] rounded-[1rem]">
+        <div className="w-16 h-16 rounded-full bg-white border border-[#E6EAF1] flex items-center justify-center mb-4 text-[#0B6F7B]">
           <Beaker className="w-8 h-8" />
         </div>
-        <span className="text-[10px] font-dm-mono uppercase tracking-[0.2em] text-black/50">Pure Compound</span>
-        <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-black/20 mt-1">Research Reference</span>
+        <span className="text-[10px] font-dm-mono uppercase tracking-[0.2em] text-[#0B0F14]/50">Pure Compound</span>
+        <span className="text-[9px] font-dm-mono uppercase tracking-[0.3em] text-[#0B0F14]/30 mt-1">Research Reference</span>
       </div>
     );
   }
@@ -86,7 +86,7 @@ export default function ProductGallery({ images, productName, categoryName, spec
         onMouseEnter={() => setIsZoomed(true)}
         onMouseLeave={() => { setIsZoomed(false); setZoomPos({ x: 50, y: 50 }); }}
         onMouseMove={handleMouseMove}
-        className={`relative aspect-square w-full rounded-2xl bg-black/[0.01] border border-black/5 overflow-hidden flex items-center justify-center group/img ${isZoomed ? 'cursor-none' : 'cursor-default'}`}
+        className={`relative aspect-square w-full rounded-[1rem] bg-[#F3F5FA] overflow-hidden flex items-center justify-center group/img ${isZoomed ? 'cursor-none' : 'cursor-default'}`}
       >
         <Image 
           src={`/product-images/${currentImage}`}
@@ -94,7 +94,7 @@ export default function ProductGallery({ images, productName, categoryName, spec
           fill
           priority
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-contain p-[5%] rounded-2xl transition-transform duration-200 ease-out mix-blend-multiply brightness-[1.05] contrast-[1.02]"
+          className="object-contain p-[5%] transition-transform duration-200 ease-out mix-blend-multiply"
           style={{
             transform: isZoomed ? 'scale(1.8)' : 'scale(1)',
             transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
@@ -123,12 +123,12 @@ export default function ProductGallery({ images, productName, categoryName, spec
         )}
 
         {/* Category Pill Tag */}
-        <div className="absolute top-6 left-6 bg-black border border-black px-4 py-1.5 rounded-full text-[9px] font-dm-mono uppercase tracking-[0.2em] text-white select-none pointer-events-none">
+        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[9px] font-dm-mono uppercase tracking-[0.14em] text-[#0B0F14] select-none pointer-events-none">
           {categoryName}
         </div>
 
         {/* Dynamic Dosage Indicator Badge */}
-        <div className="absolute top-6 right-6 bg-emerald-500/10 border border-emerald-500/25 px-4 py-1.5 rounded-full text-[9px] font-dm-mono uppercase tracking-[0.2em] text-emerald-700 font-bold select-none pointer-events-none">
+        <div className="absolute top-4 right-4 bg-[#4FC3D0]/25 px-3 py-1 rounded-full text-[9px] font-dm-mono uppercase tracking-[0.14em] text-[#0B6F7B] select-none pointer-events-none">
           {getDosageLabel(currentImage)}
         </div>
       </div>

@@ -13,8 +13,10 @@ import {
 } from 'lucide-react';
 import productsData from '@/data/products.json';
 import ProductDirectory from '@/components/products/ProductDirectory';
-import GlobalCTA from '@/components/layout/GlobalCTA';
-import FaqSection from '@/components/shared/FaqSection';
+import ProductsCta from '@/components/products/ProductsCta';
+import ProductFaq from '@/components/products/ProductFaq';
+import { PageShell, PageHero, Section, CardGrid, InfoCard, Eyebrow, SplitHeading, RevealGroup, h2, card, WRAP } from '@/components/home/page-kit';
+import { ArrowUpRight } from 'lucide-react';
 
 export async function generateMetadata(props: any) {
   const params = props?.params || {};
@@ -77,98 +79,36 @@ export default async function ProductsPage({ params: { locale } }: { params: { l
   // FAQ JSON-LD is emitted by the <FaqSection> below (which renders this same faqs array) — no separate script here.
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#05080C] text-brand-text -mt-24 md:-mt-32">
-      {/* Cinematic Dark Hero Section */}
-      <section className="relative min-h-[45vh] flex flex-col justify-center items-center overflow-hidden bg-[#090C11] text-white px-6 pt-36 md:pt-48 pb-20 md:pb-28 border-b border-white/5">
-        {/* Cinematic Dark Background & Vignette */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-radial-vignette opacity-80 z-10" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-accent/15 via-[#090C11] to-[#090C11] z-10" />
-          <div className="absolute inset-0 opacity-[0.015] bg-[url('/images/noise.svg')] z-10" />
-        </div>
+    <PageShell>
+      <PageHero
+        eyebrow="Institutional Sourcing Catalog"
+        title={t('title')}
+        intro={t('subtitle')}
+      />
 
-        <div className="relative z-20 max-w-4xl w-full text-center flex flex-col items-center">
-          {/* Premium Status Badge */}
-          <div>
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl mb-6">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-accent"></span>
-              </span>
-              <span className="text-[9px] font-dm-mono font-bold uppercase tracking-[0.3em] text-white/60">
-                Institutional Sourcing Catalog
-              </span>
-            </div>
-          </div>
-
-          <div>
-             <h1 className="reveal-text font-absans text-3xl sm:text-5xl md:text-7xl font-bold leading-[1.1] tracking-tighter uppercase mb-6 text-white drop-shadow-lg break-words w-full">
-              {t('title')}
-            </h1>
-          </div>
-
-          <div>
-            <p className="reveal-text font-archia text-base md:text-lg text-white/60 leading-relaxed max-w-2xl mx-auto font-medium">
-              {t('subtitle')}
-            </p>
-          </div>
+      {/* MOQ / wholesale info */}
+      <section className="pb-4">
+        <div className={WRAP}>
+          <CardGrid cols={3}>
+            <InfoCard icon={<ShieldCheck className="h-4 w-4" />} title={t('moqTitle')}>{t('moqText')}</InfoCard>
+            <InfoCard icon={<Truck className="h-4 w-4" />} title="Nationwide Fulfillment">Secure 50-state U.S. priority logistics</InfoCard>
+            <InfoCard icon={<Award className="h-4 w-4" />} title="Purity Guaranteed">Batch-matched COA and HPLC verification</InfoCard>
+          </CardGrid>
         </div>
       </section>
 
-      {/* MOQ/Wholesale Info Banner - Redesigned as Cinematic Dark Cards */}
-      <section className="relative z-20 bg-[#090C11] border-b border-white/5 py-10">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="reveal-grid grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-             <div className="reveal-card group flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">
-                <div className="w-10 h-10 rounded-lg bg-white/10 text-white flex items-center justify-center flex-shrink-0 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500">
-                   <ShieldCheck className="w-4 h-4" />
-                </div>
-                <div>
-                   <h3 className="text-xs font-dm-mono font-bold uppercase tracking-widest text-white mb-1.5">{t('moqTitle')}</h3>
-                   <p className="text-white/60 text-xs font-archia leading-relaxed font-medium">{t('moqText')}</p>
-                </div>
-             </div>
-             <div className="reveal-card group flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">
-                <div className="w-10 h-10 rounded-lg bg-white/10 text-white flex items-center justify-center flex-shrink-0 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500">
-                   <Truck className="w-4 h-4" />
-                </div>
-                <div>
-                   <h3 className="text-xs font-dm-mono font-bold uppercase tracking-widest text-white mb-1.5">Nationwide Fulfillment</h3>
-                   <p className="text-white/60 text-xs font-archia leading-relaxed font-medium">Secure 50-state U.S. priority logistics</p>
-                </div>
-             </div>
-             <div className="reveal-card group flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">
-                <div className="w-10 h-10 rounded-lg bg-white/10 text-white flex items-center justify-center flex-shrink-0 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500">
-                   <Award className="w-4 h-4" />
-                </div>
-                <div>
-                   <h3 className="text-xs font-dm-mono font-bold uppercase tracking-widest text-white mb-1.5">Purity Guaranteed</h3>
-                   <p className="text-white/60 text-xs font-archia leading-relaxed font-medium">Batch-matched COA and HPLC verification</p>
-                </div>
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Search Directory Module */}
-      <section className="bg-[#F8F8F6] py-16 border-b border-black/5 relative overflow-hidden">
-        {/* Subtle Light Grain Texture */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          <div className="text-center mb-10">
-            <span className="text-[10px] font-dm-mono font-bold uppercase tracking-[0.3em] text-black/40 block mb-3">
-              [ laboratory procurement terminal ]
-            </span>
-            <h2 className="reveal-text font-absans text-3xl md:text-5xl font-bold text-black uppercase tracking-tight">
-              Instant Compound Discovery
-            </h2>
+      {/* Search directory */}
+      <section className="pb-16 pt-16 md:pb-24 md:pt-24">
+        <div className={WRAP}>
+          <div className="mb-10 max-w-3xl md:mb-12">
+            <Eyebrow className="mb-5">laboratory procurement terminal</Eyebrow>
+            <SplitHeading text="Instant Compound Discovery" className={h2} />
           </div>
         </div>
         <div className="min-h-[400px]">
           <React.Suspense fallback={
             <div className="flex items-center justify-center py-20">
-              <div className="w-10 h-10 border-4 border-brand-accent/20 border-t-brand-accent rounded-full animate-spin"></div>
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4FC3D0]/20 border-t-[#4FC3D0]"></div>
             </div>
           }>
             <ProductDirectory products={productsData} categories={categoriesForDirectory} />
@@ -176,74 +116,50 @@ export default async function ProductsPage({ params: { locale } }: { params: { l
         </div>
       </section>
 
-      {/* Redesigned Categories Library */}
-      <section className="relative z-10 overflow-hidden bg-[#060B17] py-24 md:py-32 border-b border-white/5">
-        <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <div className="container mx-auto px-6 lg:px-12 relative z-10">
-          <div className="mb-24 flex flex-col justify-between gap-12 md:flex-row md:items-end">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <div className="w-10 h-px bg-white/20" />
-                <span className="text-[10px] font-dm-mono font-bold uppercase tracking-[0.4em] text-white/40">RESEARCH LIBRARY</span>
-              </div>
-              <h2 className="reveal-text font-absans text-4xl md:text-7xl font-bold text-white leading-none tracking-tighter uppercase">
-                Product
-                <span className="text-white/20 italic font-medium lowercase ml-4">Categories</span>
-              </h2>
-              <p className="reveal-text mt-8 max-w-xl font-archia text-lg text-white/40 leading-relaxed font-medium">
-                Explore our specialized catalog of domestic-manufactured research compounds verified for purity.
-              </p>
-            </div>
-          </div>
-
-          <div className="reveal-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {categories.map((cat) => (
-              <div key={cat.id} className="reveal-card">
-                <div className="group relative h-[460px] w-full block rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-10 overflow-hidden transition-all duration-700 hover:-translate-y-2 hover:bg-white/[0.05] hover:border-white/20">
-                  <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/noise.svg')]" />
-
-                  <div className="flex h-full flex-col justify-between relative z-10">
-                    <div>
-                      <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 border border-white/10 group-hover:bg-white group-hover:text-black transition-all duration-500">
-                        <cat.icon className="h-6 w-6 text-white group-hover:text-black transition-colors duration-500" />
-                      </div>
-                      <h4 className="font-absans text-2xl font-bold leading-tight text-white tracking-tight mb-4">{cat.name}</h4>
-                      <p className="line-clamp-4 font-archia text-sm leading-relaxed text-white/40 group-hover:text-white/60 transition-colors font-medium mb-6">{cat.longDesc}</p>
-                    </div>
-                    
-                    <div className="pt-6 border-t border-white/5">
-                      <span className="block text-[8px] text-white/20 uppercase tracking-widest mb-2 font-dm-mono">Compounds</span>
-                      <p className="text-xs text-white/50 font-archia leading-relaxed italic line-clamp-1">{cat.compounds}</p>
-                    </div>
-                  </div>
-
-                  <Link href={`/products/${cat.id}`} className="absolute inset-0 z-20"></Link>
+      {/* Categories library */}
+      <Section
+        eyebrow="RESEARCH LIBRARY"
+        title="Product Categories"
+        description="Explore our specialized catalog of domestic-manufactured research compounds verified for purity."
+      >
+        <RevealGroup className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {categories.map((cat) => (
+            <Link key={cat.id} data-reveal href={`/products/${cat.id}`} id={cat.id} className={`${card} group flex min-h-[320px] scroll-mt-32 flex-col justify-between p-7 transition-shadow duration-500 hover:shadow-[0_24px_60px_rgba(11,15,20,0.08)] md:p-8`}>
+              <div>
+                <div className="mb-6 flex items-center justify-between">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                    <cat.icon className="h-5 w-5" />
+                  </span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0B0F14] text-white transition-colors duration-300 group-hover:bg-[#4FC3D0] group-hover:text-[#0B0F14]">
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
+                  </span>
                 </div>
+                <h3 className="mb-3 text-[1.35rem] font-normal leading-tight tracking-[-0.03em]">{cat.name}</h3>
+                <p className="line-clamp-4 text-[13.5px] leading-relaxed text-[#0B0F14]/60">{cat.longDesc}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="mt-6 border-t border-[#E6EAF1] pt-4">
+                <span className="mb-1.5 block font-dm-mono text-[9px] uppercase tracking-[0.18em] text-[#0B0F14]/40">Compounds</span>
+                <p className="line-clamp-1 text-[12px] text-[#0B0F14]/60">{cat.compounds}</p>
+              </div>
+            </Link>
+          ))}
+        </RevealGroup>
+      </Section>
 
-      {/* Redesigned FAQ Section using unified component */}
-      <FaqSection 
+      <ProductFaq
         title="Peptide Sourcing FAQ"
         subtitle="Essential information for clinical directors and research procurement teams regarding bulk compound sourcing."
         items={faqs}
-        eyebrow="(PRODUCTS FAQ)"
-        theme="light"
+        eyebrow="PRODUCTS FAQ"
       />
 
-      <GlobalCTA 
-        badge="Institutional Sourcing"
+      <ProductsCta
+        eyebrow="Institutional Sourcing"
         title="Bulk Sourcing Redefined"
-        subtitle="Access tiered pricing, verified purity, and priority domestic fulfillment for your research institution or clinical practice."
-        primaryCtaText="WhatsApp Sales"
-        primaryCtaHref="https://wa.me/18433307365"
-        secondaryCtaText="Wholesale Application"
-        secondaryCtaHref="/wholesale-application"
+        description="Access tiered pricing, verified purity, and priority domestic fulfillment for your research institution or clinical practice."
+        primary={{ label: 'WhatsApp Sales', href: 'https://wa.me/18433307365', external: true }}
+        secondary={{ label: 'Wholesale Application', href: '/wholesale-application' }}
       />
-    </div>
+    </PageShell>
   );
 }

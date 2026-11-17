@@ -5,16 +5,16 @@ import { Beaker, ShieldAlert, FlaskConical, Stethoscope, Clock, Thermometer, Dro
 
 export default function CalculatorContent() {
   return (
-    <div className="max-w-4xl mx-auto mt-24 space-y-16 pb-24">
+    <div className="max-w-4xl mx-auto mt-16 space-y-12 pb-16 md:mt-24 md:space-y-16 md:pb-24">
       {/* Introduction */}
-      <section className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-12 shadow-sm">
+      <section className="bg-white border border-[#E6EAF1] rounded-[1.25rem] p-8 md:p-12">
         <div className="flex items-center gap-3 mb-6">
-          <FlaskConical className="w-6 h-6 text-[#13a7b7]" />
-          <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+          <FlaskConical className="w-6 h-6 text-[#0B6F7B]" />
+          <h2 className="text-2xl md:text-3xl font-dm-sans font-light tracking-[-0.03em] text-black">
             The Complete Guide to Peptide Reconstitution
           </h2>
         </div>
-        <div className="space-y-6 text-black/70 font-archia font-medium leading-relaxed md:text-lg">
+        <div className="space-y-6 text-black/70 leading-relaxed md:text-lg">
           <p>
             When operating a clinical research facility or compounding pharmacy, absolute precision in peptide reconstitution is non-negotiable. Whether you are dealing with metabolic regulators like <strong>Semaglutide</strong> or regenerative compounds like <strong>BPC-157</strong>, the mathematical translation from lyophilized milligrams (mg) to liquid micrograms (mcg) dictates the integrity of your entire research protocol.
           </p>
@@ -29,37 +29,37 @@ export default function CalculatorContent() {
 
       {/* Bacteriostatic Water */}
       <section className="space-y-8">
-        <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight border-b border-black/10 pb-4">
+        <h2 className="text-[clamp(1.6rem,3vw,2.2rem)] font-dm-sans font-light tracking-[-0.03em] text-black border-b border-[#E6EAF1] pb-4">
           Understanding Bacteriostatic Water (BAC)
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-[#F8F8F6] border border-black/5 p-8 rounded-3xl">
-            <h3 className="text-xl font-absans font-bold text-black mb-4 flex items-center gap-2">
-              <Droplet className="w-5 h-5 text-[#13a7b7]" /> What is BAC Water?
+          <div className="bg-[#F3F5FA] border border-[#E6EAF1] p-8 rounded-[1.25rem]">
+            <h3 className="text-xl font-dm-sans font-light tracking-[-0.03em] text-black mb-4 flex items-center gap-2">
+              <Droplet className="w-5 h-5 text-[#0B6F7B]" /> What is BAC Water?
             </h3>
-            <p className="text-black/60 font-archia leading-relaxed">
+            <p className="text-black/60 leading-relaxed">
               Bacteriostatic Water for Injection is sterile, non-pyrogenic water containing 0.9% benzyl alcohol (9mg/mL). The benzyl alcohol serves as a bacteriostatic preservative, actively inhibiting the growth of most bacteria and fungi.
             </p>
           </div>
           
-          <div className="bg-[#F8F8F6] border border-black/5 p-8 rounded-3xl">
-            <h3 className="text-xl font-absans font-bold text-black mb-4 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-[#13a7b7]" /> Shelf Life & Expiration
+          <div className="bg-[#F3F5FA] border border-[#E6EAF1] p-8 rounded-[1.25rem]">
+            <h3 className="text-xl font-dm-sans font-light tracking-[-0.03em] text-black mb-4 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-[#0B6F7B]" /> Shelf Life & Expiration
             </h3>
-            <p className="text-black/60 font-archia leading-relaxed">
+            <p className="text-black/60 leading-relaxed">
               Once a multi-dose vial of BAC water is punctured, its sterile integrity begins to degrade. The FDA strictly mandates a <strong>28-day discard rule</strong> for all multi-dose BAC vials, regardless of how much liquid remains. 
             </p>
           </div>
         </div>
 
-        <div className="bg-amber-500/5 border border-amber-500/10 rounded-3xl p-6 md:p-8 flex gap-4 md:gap-6 mt-6">
+        <div className="bg-amber-500/5 border border-amber-500/10 rounded-[1.25rem] p-6 md:p-8 flex gap-4 md:gap-6 mt-6">
           <ShieldAlert className="w-8 h-8 text-amber-600 flex-shrink-0" />
           <div>
-            <h4 className="font-absans font-bold text-amber-700 text-lg uppercase tracking-wider mb-2">
+            <h4 className="font-dm-sans font-light tracking-[-0.03em] text-amber-700 text-lg mb-2">
               Sterile Water vs. Bacteriostatic Water
             </h4>
-            <p className="text-amber-950/70 font-archia leading-relaxed">
+            <p className="text-amber-950/70 leading-relaxed">
               Never confuse Bacteriostatic Water with Sterile Water. Sterile water does <em>not</em> contain benzyl alcohol. If a peptide is reconstituted with plain sterile water, it must be utilized immediately as a single-use dose. Bacteria will begin to colonize a sterile water solution almost instantly once exposed to the environment, completely ruining expensive research compounds like Tirzepatide or Retatrutide.
             </p>
           </div>
@@ -67,27 +67,27 @@ export default function CalculatorContent() {
       </section>
 
       {/* The Mathematics */}
-      <section className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-12 shadow-sm">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight mb-8">
+      <section className="bg-white border border-[#E6EAF1] rounded-[1.25rem] p-8 md:p-12">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light tracking-[-0.03em] text-black mb-8">
           The Mathematics of Reconstitution
         </h2>
-        <div className="space-y-6 text-black/70 font-archia font-medium leading-relaxed">
+        <div className="space-y-6 text-black/70 leading-relaxed">
           <p>
             The fundamental challenge of peptide reconstitution lies in the conversion of <strong>mass (mg/mcg)</strong> to <strong>volume (mL/units)</strong>. To calculate accurate dosage, you must first establish the concentration of the vial post-reconstitution.
           </p>
           
-          <div className="bg-black text-white p-6 rounded-2xl font-dm-mono text-sm overflow-x-auto my-8 border border-white/10">
+          <div className="bg-[#0B0D10] text-white p-6 rounded-2xl font-dm-mono text-sm overflow-x-auto my-8 border border-white/10">
             <div className="text-white/50 mb-2">// Formula 1: Establishing Vial Concentration</div>
-            <div className="mb-4 text-[#13a7b7]">Concentration (mg/mL) = Vial Mass (mg) ÷ Added Volume (mL)</div>
+            <div className="mb-4 text-[#4FC3D0]">Concentration (mg/mL) = Vial Mass (mg) ÷ Added Volume (mL)</div>
             
             <div className="text-white/50 mb-2">// Formula 2: Converting to Micrograms</div>
-            <div className="mb-4 text-[#13a7b7]">mcg per mL = Concentration (mg/mL) × 1,000</div>
+            <div className="mb-4 text-[#4FC3D0]">mcg per mL = Concentration (mg/mL) × 1,000</div>
             
             <div className="text-white/50 mb-2">// Formula 3: Calculating Syringe Units</div>
-            <div className="text-[#13a7b7]">mcg per Unit = mcg per mL ÷ Syringe Volume in Units (e.g., 100)</div>
+            <div className="text-[#4FC3D0]">mcg per Unit = mcg per mL ÷ Syringe Volume in Units (e.g., 100)</div>
           </div>
 
-          <h3 className="text-xl font-absans font-bold text-black uppercase tracking-tight mt-8 mb-4">
+          <h3 className="text-xl font-dm-sans font-light tracking-[-0.03em] text-black mt-8 mb-4">
             Practical Example: 10mg Semaglutide
           </h3>
           <p>
@@ -106,38 +106,38 @@ export default function CalculatorContent() {
 
       {/* Syringe Types Table */}
       <section className="space-y-8">
-        <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight border-b border-black/10 pb-4">
+        <h2 className="text-[clamp(1.6rem,3vw,2.2rem)] font-dm-sans font-light tracking-[-0.03em] text-black border-b border-[#E6EAF1] pb-4">
           Syringe Capacities & Tick Marks
         </h2>
-        <p className="text-black/70 font-archia leading-relaxed">
+        <p className="text-black/70 leading-relaxed">
           Not all insulin syringes are created equal. Reading the barrel incorrectly is the most common source of clinical dosing errors. Insulin syringes are measured in "Units" (U), which correlate directly to Milliliters (mL).
         </p>
         
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[600px]">
             <thead>
-              <tr className="border-b-2 border-black/10">
-                <th className="py-4 px-4 font-absans font-bold text-black uppercase tracking-wider text-sm">Syringe Type</th>
-                <th className="py-4 px-4 font-absans font-bold text-black uppercase tracking-wider text-sm">Total Volume</th>
-                <th className="py-4 px-4 font-absans font-bold text-black uppercase tracking-wider text-sm">Total Units</th>
-                <th className="py-4 px-4 font-absans font-bold text-black uppercase tracking-wider text-sm">Scale Increments</th>
+              <tr className="border-b-2 border-[#E6EAF1]">
+                <th className="py-4 px-4 font-dm-sans font-light tracking-[-0.03em] text-black text-sm">Syringe Type</th>
+                <th className="py-4 px-4 font-dm-sans font-light tracking-[-0.03em] text-black text-sm">Total Volume</th>
+                <th className="py-4 px-4 font-dm-sans font-light tracking-[-0.03em] text-black text-sm">Total Units</th>
+                <th className="py-4 px-4 font-dm-sans font-light tracking-[-0.03em] text-black text-sm">Scale Increments</th>
               </tr>
             </thead>
             <tbody className="font-archia text-black/70">
-              <tr className="border-b border-black/5 hover:bg-black/[0.02] transition-colors">
-                <td className="py-4 px-4 font-bold text-black">U-100 (Standard)</td>
+              <tr className="border-b border-[#E6EAF1] hover:bg-black/[0.02] transition-colors">
+                <td className="py-4 px-4 font-medium text-black">U-100 (Standard)</td>
                 <td className="py-4 px-4">1.0 mL</td>
                 <td className="py-4 px-4">100 Units</td>
                 <td className="py-4 px-4">Counted in 2-unit increments</td>
               </tr>
-              <tr className="border-b border-black/5 hover:bg-black/[0.02] transition-colors">
-                <td className="py-4 px-4 font-bold text-black">U-50 (Half)</td>
+              <tr className="border-b border-[#E6EAF1] hover:bg-black/[0.02] transition-colors">
+                <td className="py-4 px-4 font-medium text-black">U-50 (Half)</td>
                 <td className="py-4 px-4">0.5 mL</td>
                 <td className="py-4 px-4">50 Units</td>
                 <td className="py-4 px-4">Counted in 1-unit increments</td>
               </tr>
               <tr className="hover:bg-black/[0.02] transition-colors">
-                <td className="py-4 px-4 font-bold text-black">U-30 (Micro)</td>
+                <td className="py-4 px-4 font-medium text-black">U-30 (Micro)</td>
                 <td className="py-4 px-4">0.3 mL</td>
                 <td className="py-4 px-4">30 Units</td>
                 <td className="py-4 px-4">Counted in 1-unit or 0.5-unit increments</td>
@@ -148,10 +148,8 @@ export default function CalculatorContent() {
       </section>
 
       {/* Reconstitution Best Practices */}
-      <section className="bg-black text-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-white uppercase tracking-tight mb-8 relative z-10">
+      <section className="bg-[#0B0D10] text-white rounded-[1.25rem] p-8 md:p-12 shadow-none relative overflow-hidden">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light tracking-[-0.03em] text-white mb-8 relative z-10">
           Clinical Best Practices: Mixing & Storage
         </h2>
         
@@ -160,8 +158,8 @@ export default function CalculatorContent() {
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
               <RefreshCw className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-absans font-bold text-lg uppercase tracking-wide">1. The Vacuum Effect</h3>
-            <p className="text-white/60 font-archia text-sm leading-relaxed">
+            <h3 className="font-dm-sans font-light tracking-[-0.03em] text-lg">1. The Vacuum Effect</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
               Lyophilized peptide vials are packaged under negative pressure (a vacuum). When you pierce the stopper with a BAC water syringe, the water will automatically pull into the vial. <strong>Do not blast the water directly onto the peptide puck.</strong> Angle the needle so the water runs slowly down the side of the glass. Aggressive water pressure can shear fragile amino acid bonds.
             </p>
           </div>
@@ -170,8 +168,8 @@ export default function CalculatorContent() {
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
               <Stethoscope className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-absans font-bold text-lg uppercase tracking-wide">2. Swirl, Never Shake</h3>
-            <p className="text-white/60 font-archia text-sm leading-relaxed">
+            <h3 className="font-dm-sans font-light tracking-[-0.03em] text-lg">2. Swirl, Never Shake</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
               Once the BAC water is added, the lyophilized "puck" will dissolve rapidly. <strong>Never aggressively shake the vial.</strong> Shaking introduces air bubbles and mechanical stress capable of degrading the compound. Gently swirl the vial in a circular motion until the solution is completely clear and free of particulates.
             </p>
           </div>
@@ -180,8 +178,8 @@ export default function CalculatorContent() {
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
               <Thermometer className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-absans font-bold text-lg uppercase tracking-wide">3. Cold-Chain Storage</h3>
-            <p className="text-white/60 font-archia text-sm leading-relaxed">
+            <h3 className="font-dm-sans font-light tracking-[-0.03em] text-lg">3. Cold-Chain Storage</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
               Prior to reconstitution, lyophilized peptides can survive at room temperature, though long-term storage should be in a freezer (-20°C). <strong>Post-reconstitution, all peptides must immediately enter cold storage.</strong> Reconstituted vials should be kept in a medical-grade refrigerator between 2°C and 8°C (36°F - 46°F) and kept completely away from direct UV or sunlight.
             </p>
           </div>
@@ -190,8 +188,8 @@ export default function CalculatorContent() {
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
               <Beaker className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-absans font-bold text-lg uppercase tracking-wide">4. Recognizing Degradation</h3>
-            <p className="text-white/60 font-archia text-sm leading-relaxed">
+            <h3 className="font-dm-sans font-light tracking-[-0.03em] text-lg">4. Recognizing Degradation</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
               A properly reconstituted peptide should be 100% translucent and clear. If your reconstituted vial appears cloudy, milky, or contains visible floating "floaties" or particulate matter, the compound has fallen out of suspension. This is indicative of degradation, improper pH in the BAC water, or a compromised seal. The vial must be discarded.
             </p>
           </div>
@@ -200,10 +198,10 @@ export default function CalculatorContent() {
 
       {/* Advanced Research & Carrier Molecules */}
       <section className="space-y-6">
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light tracking-[-0.03em] text-black">
           Advanced Reconstitution: Mannitol & Carrier Molecules
         </h2>
-        <div className="space-y-6 text-black/70 font-archia font-medium leading-relaxed">
+        <div className="space-y-6 text-black/70 leading-relaxed">
           <p>
             When utilizing high-purity wholesale peptides from a supplier like <strong>99 Purity Wholesale</strong>, you may notice the physical "puck" inside the vial varies in size, even if the milligram count is identical. This is due to the use of carrier molecules, primarily <strong>Mannitol</strong>.
           </p>

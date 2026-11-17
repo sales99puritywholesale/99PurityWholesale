@@ -71,12 +71,12 @@ export default function WholesaleOrderingProcess({ locationName }: WholesaleOrde
   return (
     <section className="space-y-8">
       <FadeIn>
-        <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight mb-4">
+        <h2 className="text-2xl md:text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-4">
           {isEs 
             ? `Proceso de Pedidos al Por Mayor para Compradores de ${locationName}` 
             : `Wholesale Ordering Process for ${locationName} Buyers`}
         </h2>
-        <p className="text-black/60 font-archia font-medium leading-relaxed max-w-3xl mb-8">
+        <p className="text-black/60 leading-relaxed max-w-3xl mb-8">
           {isEs
             ? 'Abrir una cuenta al por mayor con 99 Purity Wholesale es un proceso sencillo de cuatro pasos, desde la solicitud inicial hasta su primer pedido con envío prioritario.'
             : 'Opening a wholesale account with 99 Purity Wholesale is a straightforward four-step process, from initial application to your first priority-shipped order.'}
@@ -84,17 +84,17 @@ export default function WholesaleOrderingProcess({ locationName }: WholesaleOrde
       </FadeIn>
       <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {steps.map((s) => (
-          <StaggerItem key={s.step} className="bg-white border border-black/5 rounded-[2rem] p-6 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-4 text-[64px] font-absans font-bold text-black/5 leading-none pointer-events-none">
+          <StaggerItem key={s.step} className="bg-white border border-black/5 rounded-[1.25rem] p-6 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 text-[64px] font-dm-sans font-medium text-black/5 leading-none pointer-events-none">
               {s.step}
             </div>
-            <div className="w-10 h-10 rounded-xl bg-[#F8F8F6] border border-black/5 flex items-center justify-center mb-5 relative z-10">
-              <s.icon className="w-5 h-5 text-[#13a7b7]" />
+            <div className="w-10 h-10 rounded-xl bg-[#F3F5FA] border border-black/5 flex items-center justify-center mb-5 relative z-10">
+              <s.icon className="w-5 h-5 text-[#0B6F7B]" />
             </div>
-            <h3 className="text-sm font-absans font-bold text-black uppercase tracking-wide mb-2 relative z-10">
+            <h3 className="text-sm font-dm-sans font-medium text-black uppercase tracking-wide mb-2 relative z-10">
               {s.title}
             </h3>
-            <p className="text-black/55 font-archia text-xs leading-relaxed relative z-10">
+            <p className="text-black/55 text-xs leading-relaxed relative z-10">
               {s.desc}
             </p>
           </StaggerItem>

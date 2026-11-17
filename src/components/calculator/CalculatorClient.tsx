@@ -116,24 +116,22 @@ export default function CalculatorClient() {
       {/* Input Controls Column (Left) */}
       <div className="lg:col-span-7 flex flex-col gap-6">
         {/* Card 1: Reconstitution Parameters */}
-        <div className="bg-white border border-black/5 rounded-[2.5rem] p-8 shadow-sm relative overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('/images/noise.svg')]" />
-          
+        <div className="bg-white border border-[#E6EAF1] rounded-[1.25rem] p-8 shadow-sm relative overflow-hidden">
           <div className="relative z-10 flex flex-col gap-8">
             {/* Vial size input */}
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                 <div>
-                  <label id="vial-size-label" htmlFor="vial-size-slider" className="text-sm font-bold text-black uppercase tracking-wider block">
+                  <label id="vial-size-label" htmlFor="vial-size-slider" className="text-[15px] font-medium text-[#0B0F14] block">
                     {t('vialSizeLabel')}
                   </label>
-                  <span id="vial-size-desc" className="text-xs text-black/40 font-archia font-medium">
+                  <span id="vial-size-desc" className="text-[13px] text-black/50">
                     {t('vialSizeSub')}
                   </span>
                 </div>
-                <div className="flex items-baseline gap-1 self-start sm:self-auto bg-black/[0.03] px-4 py-1.5 rounded-xl border border-black/5">
-                  <span className="text-2xl font-bold font-absans text-black">{vialSize}</span>
-                  <span className="text-sm font-bold text-black/50">mg</span>
+                <div className="flex items-baseline gap-1 self-start sm:self-auto bg-black/[0.03] px-4 py-1.5 rounded-xl border border-[#E6EAF1]">
+                  <span className="text-2xl font-light tracking-[-0.04em] text-black">{vialSize}</span>
+                  <span className="text-sm font-medium text-black/50">mg</span>
                 </div>
               </div>
 
@@ -152,7 +150,7 @@ export default function CalculatorClient() {
                 aria-valuemax={30}
                 aria-valuenow={vialSize}
                 aria-valuetext={`${vialSize} mg`}
-                className="w-full h-1 bg-black/10 rounded-lg appearance-none cursor-pointer accent-black mb-4"
+                className="w-full h-1 bg-black/10 rounded-lg appearance-none cursor-pointer accent-[#0B6F7B] mb-4"
               />
 
               {/* Presets */}
@@ -163,10 +161,10 @@ export default function CalculatorClient() {
                     type="button"
                     onClick={() => handleVialSizeChange(preset)}
                     aria-label={`Select ${preset} milligram vial preset`}
-                    className={`px-4 py-2 text-[10px] font-bold font-dm-mono uppercase tracking-widest rounded-xl transition-all border ${
+                    className={`px-4 py-2 text-[10px] font-medium font-dm-mono uppercase tracking-widest rounded-xl transition-all border ${
                       vialSize === preset
-                        ? 'bg-black text-white border-black'
-                        : 'bg-black/[0.02] text-black/60 border-black/5 hover:border-black/20 hover:bg-black/[0.04]'
+                        ? 'bg-[#0B0F14] text-white border-[#0B0F14]'
+                        : 'bg-black/[0.02] text-black/60 border-[#E6EAF1] hover:border-black/20 hover:bg-black/[0.04]'
                     }`}
                   >
                     {preset} mg
@@ -181,16 +179,16 @@ export default function CalculatorClient() {
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                 <div>
-                  <label id="water-volume-label" htmlFor="water-volume-slider" className="text-sm font-bold text-black uppercase tracking-wider block">
+                  <label id="water-volume-label" htmlFor="water-volume-slider" className="text-[15px] font-medium text-[#0B0F14] block">
                     {t('waterVolumeLabel')}
                   </label>
-                  <span id="water-volume-desc" className="text-xs text-black/40 font-archia font-medium">
+                  <span id="water-volume-desc" className="text-[13px] text-black/50">
                     {t('waterVolumeSub')}
                   </span>
                 </div>
-                <div className="flex items-baseline gap-1 self-start sm:self-auto bg-black/[0.03] px-4 py-1.5 rounded-xl border border-black/5">
-                  <span className="text-2xl font-bold font-absans text-black">{bacWater}</span>
-                  <span className="text-sm font-bold text-black/50">mL</span>
+                <div className="flex items-baseline gap-1 self-start sm:self-auto bg-black/[0.03] px-4 py-1.5 rounded-xl border border-[#E6EAF1]">
+                  <span className="text-2xl font-light tracking-[-0.04em] text-black">{bacWater}</span>
+                  <span className="text-sm font-medium text-black/50">mL</span>
                 </div>
               </div>
 
@@ -209,7 +207,7 @@ export default function CalculatorClient() {
                 aria-valuemax={10}
                 aria-valuenow={bacWater}
                 aria-valuetext={`${bacWater} mL`}
-                className="w-full h-1 bg-black/10 rounded-lg appearance-none cursor-pointer accent-black mb-4"
+                className="w-full h-1 bg-black/10 rounded-lg appearance-none cursor-pointer accent-[#0B6F7B] mb-4"
               />
 
               {/* Presets */}
@@ -220,10 +218,10 @@ export default function CalculatorClient() {
                     type="button"
                     onClick={() => setBacWater(preset)}
                     aria-label={`Select ${preset} milliliter diluent volume preset`}
-                    className={`px-4 py-2 text-[10px] font-bold font-dm-mono uppercase tracking-widest rounded-xl transition-all border ${
+                    className={`px-4 py-2 text-[10px] font-medium font-dm-mono uppercase tracking-widest rounded-xl transition-all border ${
                       bacWater === preset
-                        ? 'bg-black text-white border-black'
-                        : 'bg-black/[0.02] text-black/60 border-black/5 hover:border-black/20 hover:bg-black/[0.04]'
+                        ? 'bg-[#0B0F14] text-white border-[#0B0F14]'
+                        : 'bg-black/[0.02] text-black/60 border-[#E6EAF1] hover:border-black/20 hover:bg-black/[0.04]'
                     }`}
                   >
                     {preset} mL
@@ -238,10 +236,10 @@ export default function CalculatorClient() {
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                 <div>
-                  <label id="syringe-size-label" className="text-sm font-bold text-black uppercase tracking-wider block">
+                  <label id="syringe-size-label" className="text-[15px] font-medium text-[#0B0F14] block">
                     {t('syringeSizeLabel')}
                   </label>
-                  <span id="syringe-size-desc" className="text-xs text-black/40 font-archia font-medium">
+                  <span id="syringe-size-desc" className="text-[13px] text-black/50">
                     {t('syringeSizeSub')}
                   </span>
                 </div>
@@ -268,11 +266,11 @@ export default function CalculatorClient() {
                     onClick={() => setSyringeSize(option.value)}
                     className={`p-4 flex flex-col items-center justify-center text-center rounded-2xl transition-all border ${
                       syringeSize === option.value
-                        ? 'bg-black text-white border-black shadow-md'
-                        : 'bg-black/[0.02] text-black border-black/5 hover:border-black/20 hover:bg-black/[0.04]'
+                        ? 'bg-[#0B0F14] text-white border-[#0B0F14] shadow-none'
+                        : 'bg-black/[0.02] text-black border-[#E6EAF1] hover:border-black/20 hover:bg-black/[0.04]'
                     }`}
                   >
-                    <span className="text-base font-bold font-absans">{option.desc}</span>
+                    <span className="text-base font-light tracking-[-0.04em]">{option.desc}</span>
                     <span className={`text-xs font-medium mt-1 ${syringeSize === option.value ? 'text-white/60' : 'text-black/40'}`}>
                       {option.label}
                     </span>
@@ -287,14 +285,14 @@ export default function CalculatorClient() {
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                 <div>
-                  <label id="target-dose-label" htmlFor="target-dose-input" className="text-sm font-bold text-black uppercase tracking-wider block">
+                  <label id="target-dose-label" htmlFor="target-dose-input" className="text-[15px] font-medium text-[#0B0F14] block">
                     {t('targetDoseLabel')}
                   </label>
-                  <span id="target-dose-desc" className="text-xs text-black/40 font-archia font-medium">
+                  <span id="target-dose-desc" className="text-[13px] text-black/50">
                     {t('targetDoseSub')}
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5 self-start sm:self-auto bg-black/[0.03] px-4 py-1.5 rounded-xl border border-black/5">
+                <div className="flex items-center gap-1.5 self-start sm:self-auto bg-black/[0.03] px-4 py-1.5 rounded-xl border border-[#E6EAF1]">
                   <input
                     id="target-dose-input"
                     type="number"
@@ -305,15 +303,15 @@ export default function CalculatorClient() {
                     onChange={(e) => handleTargetDoseChange(e.target.value)}
                     aria-labelledby="target-dose-label"
                     aria-describedby="target-dose-desc"
-                    className="w-28 bg-transparent text-2xl font-bold font-absans text-black outline-none border-none text-right"
+                    className="w-28 bg-transparent text-2xl font-light tracking-[-0.04em] text-black outline-none border-none text-right"
                   />
-                  <span className="text-sm font-bold text-black/50">mcg</span>
+                  <span className="text-sm font-medium text-black/50">mcg</span>
                 </div>
               </div>
 
               {/* Input Validation Feedback */}
               {!isValidDose && trimmedInput !== '' && (
-                <p className="text-xs text-amber-700 font-archia font-medium mb-3">
+                <p className="text-xs text-amber-700 mb-3">
                   Please enter a valid positive dosage amount in micrograms (mcg).
                 </p>
               )}
@@ -332,7 +330,7 @@ export default function CalculatorClient() {
                 aria-valuemax={totalMcg}
                 aria-valuenow={isValidDose ? numericDose : 0}
                 aria-valuetext={`${isValidDose ? numericDose : 0} mcg`}
-                className="w-full h-1 bg-black/10 rounded-lg appearance-none cursor-pointer accent-black mb-4"
+                className="w-full h-1 bg-black/10 rounded-lg appearance-none cursor-pointer accent-[#0B6F7B] mb-4"
               />
 
               {/* Presets */}
@@ -346,12 +344,12 @@ export default function CalculatorClient() {
                       disabled={!isAvailable}
                       onClick={() => handleTargetDoseChange(preset.toString())}
                       aria-label={`Select ${preset} microgram target dose preset`}
-                      className={`px-4 py-2 text-[10px] font-bold font-dm-mono uppercase tracking-widest rounded-xl transition-all border ${
+                      className={`px-4 py-2 text-[10px] font-medium font-dm-mono uppercase tracking-widest rounded-xl transition-all border ${
                         !isAvailable
-                          ? 'opacity-30 cursor-not-allowed border-black/5 text-black/40 bg-black/[0.01]'
+                          ? 'opacity-30 cursor-not-allowed border-[#E6EAF1] text-black/40 bg-black/[0.01]'
                           : isValidDose && numericDose === preset
-                          ? 'bg-black text-white border-black'
-                          : 'bg-black/[0.02] text-black/60 border-black/5 hover:border-black/20 hover:bg-black/[0.04]'
+                          ? 'bg-[#0B0F14] text-white border-[#0B0F14]'
+                          : 'bg-black/[0.02] text-black/60 border-[#E6EAF1] hover:border-black/20 hover:bg-black/[0.04]'
                       }`}
                     >
                       {preset} mcg
@@ -364,23 +362,21 @@ export default function CalculatorClient() {
         </div>
 
         {/* Card 2: B2B Procurement Ancillaries */}
-        <div className="bg-[#0D0E10] text-white border border-white/5 rounded-[2.5rem] p-8 shadow-xl relative overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-          
+        <div className="bg-[#0B0D10] text-white border border-white/5 rounded-[1.25rem] p-8 shadow-none relative overflow-hidden">
           <div className="relative z-10">
-            <h3 className="text-xl font-bold font-absans uppercase tracking-wider mb-3">
+            <h3 className="text-xl font-light tracking-[-0.04em] tracking-[-0.005em] mb-3">
               {t('procureCta')}
             </h3>
-            <p className="text-white/60 font-archia text-sm leading-relaxed mb-6 font-medium">
+            <p className="text-white/60 text-sm leading-relaxed mb-6 font-medium">
               {t('procureDesc')}
             </p>
             <a 
               href={`https://wa.me/18433307365?text=${encodeURIComponent(t('procureMsg'))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-white hover:bg-white/90 text-black rounded-xl font-bold uppercase tracking-[0.2em] text-[11px] lg:text-sm transition-all active:scale-98"
+              className="inline-flex items-center gap-3 rounded-full bg-[#4FC3D0] px-6 py-3 text-[13px] font-medium text-[#0B0F14] transition-colors hover:bg-[#6fd2dd]"
             >
-              <PhoneCall className="w-4 h-4 text-black" />
+              <PhoneCall className="h-4 w-4" />
               {t('procureCta')}
             </a>
           </div>
@@ -394,48 +390,46 @@ export default function CalculatorClient() {
           role="status" 
           aria-live="polite" 
           aria-atomic="true"
-          className="bg-white border border-black/5 rounded-[2.5rem] p-8 shadow-sm relative overflow-hidden flex flex-col gap-6"
+          className="bg-white border border-[#E6EAF1] rounded-[1.25rem] p-8 shadow-sm relative overflow-hidden flex flex-col gap-6"
         >
-          <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('/images/noise.svg')]" />
-
           <div className="relative z-10">
-            <h3 className="text-sm font-bold text-black/40 uppercase tracking-widest mb-6">
+            <h3 className="text-sm font-medium text-black/40 uppercase tracking-widest mb-6">
               {t('results.title')}
             </h3>
 
             <div className="flex flex-col gap-5">
               {/* Target draw result (The Big Highlight) */}
-              <div className="p-6 bg-black/[0.02] border border-black/5 rounded-3xl flex flex-col relative overflow-hidden">
-                <span className="text-xs font-bold text-black/50 uppercase tracking-widest mb-1">{t('results.unitsRequired')}</span>
+              <div className="p-6 bg-black/[0.02] border border-[#E6EAF1] rounded-2xl flex flex-col relative overflow-hidden">
+                <span className="text-xs font-medium text-black/50 uppercase tracking-widest mb-1">{t('results.unitsRequired')}</span>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-6xl md:text-7xl font-bold font-absans text-black leading-none">
+                  <span className="text-6xl md:text-7xl font-light tracking-[-0.04em] text-black leading-none">
                     {isValidDose ? unitsRequired : '—'}
                   </span>
-                  <span className="text-base font-bold text-black/50 uppercase tracking-wider">Units</span>
+                  <span className="text-base font-medium text-black/50 tracking-[-0.005em]">Units</span>
                 </div>
-                <p className="text-xs text-black/40 mt-3 font-archia font-medium">
+                <p className="text-[13px] text-black/50 mt-3">
                   {t('results.unitsRequiredDesc')}
                 </p>
               </div>
 
               {/* Grid with other calculations */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-5 border border-black/5 rounded-3xl flex flex-col">
-                  <span className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">{t('results.mcgPerUnit')}</span>
-                  <span className="text-2xl font-bold font-absans text-black leading-none">
+                <div className="p-5 border border-[#E6EAF1] rounded-2xl flex flex-col">
+                  <span className="text-[10px] font-medium text-black/40 tracking-[-0.005em] mb-2">{t('results.mcgPerUnit')}</span>
+                  <span className="text-2xl font-light tracking-[-0.04em] text-black leading-none">
                     {Math.round(mcgPerUnit * 100) / 100} mcg
                   </span>
-                  <p className="text-[10px] text-black/40 mt-2 font-archia leading-normal font-medium">
+                  <p className="text-[10px] text-black/40 mt-2 leading-normal font-medium">
                     {t('results.mcgPerUnitDesc')}
                   </p>
                 </div>
  
-                <div className="p-5 border border-black/5 rounded-3xl flex flex-col">
-                  <span className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">{t('results.dosesPerVial')}</span>
-                  <span className="text-2xl font-bold font-absans text-black leading-none">
+                <div className="p-5 border border-[#E6EAF1] rounded-2xl flex flex-col">
+                  <span className="text-[10px] font-medium text-black/40 tracking-[-0.005em] mb-2">{t('results.dosesPerVial')}</span>
+                  <span className="text-2xl font-light tracking-[-0.04em] text-black leading-none">
                     {isValidDose ? dosesPerVial : '—'}
                   </span>
-                  <p className="text-[10px] text-black/40 mt-2 font-archia leading-normal font-medium">
+                  <p className="text-[10px] text-black/40 mt-2 leading-normal font-medium">
                     {t('results.dosesPerVialDesc')}
                   </p>
                 </div>
@@ -445,9 +439,7 @@ export default function CalculatorClient() {
         </div>
 
         {/* Syringe SVG Artboard */}
-        <div className="bg-white border border-black/5 rounded-[2.5rem] p-8 shadow-sm flex flex-col items-center justify-center relative overflow-hidden min-h-[580px]">
-          <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('/images/noise.svg')]" />
-          
+        <div className="bg-white border border-[#E6EAF1] rounded-[1.25rem] p-8 shadow-sm flex flex-col items-center justify-center relative overflow-hidden min-h-[580px]">
           <div className="relative z-10 w-full flex flex-col items-center">
             {/* SVG Visualizer */}
             <svg
@@ -704,9 +696,9 @@ export default function CalculatorClient() {
                 >
                   <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold uppercase tracking-wider">Warning</span>
-                    <span className="text-[11px] leading-normal font-archia mt-1 font-medium">
-                      Calculated dose of <strong className="font-bold">{unitsRequired} units</strong> exceeds selected syringe capacity ({syringeSize} units). Consider drawing multiple smaller volumes or using a higher concentration.
+                    <span className="text-xs font-medium tracking-[-0.005em]">Warning</span>
+                    <span className="text-[11px] leading-normal mt-1 font-medium">
+                      Calculated dose of <strong className="font-medium">{unitsRequired} units</strong> exceeds selected syringe capacity ({syringeSize} units). Consider drawing multiple smaller volumes or using a higher concentration.
                     </span>
                   </div>
                 </motion.div>
@@ -721,13 +713,13 @@ export default function CalculatorClient() {
         </div>
 
         {/* Warning card disclaimer */}
-        <div className="bg-[#FAF9F5] border border-black/5 rounded-[2rem] p-6 flex gap-4">
+        <div className="bg-white border border-[#E6EAF1] rounded-[1.25rem] p-6 flex gap-4">
           <Info className="w-5 h-5 text-black/40 flex-shrink-0 mt-0.5" />
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-black uppercase tracking-wider mb-1">
+            <span className="text-xs font-medium text-black tracking-[-0.005em] mb-1">
               {t('warningTitle')}
             </span>
-            <span className="text-xs text-black/50 leading-relaxed font-archia font-medium">
+            <span className="text-xs text-black/50 leading-relaxed">
               {t('warningText')}
             </span>
           </div>

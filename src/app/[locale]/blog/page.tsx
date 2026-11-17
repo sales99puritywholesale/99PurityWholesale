@@ -1,10 +1,11 @@
 import { getAllPosts } from '@/utils/mdx';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
-import { ArrowRight } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
-import GlobalCTA from '@/components/layout/GlobalCTA';
-import FaqSection from '@/components/shared/FaqSection';
+import FaqSchema from '@/components/seo/FaqSchema';
+import { PageShell, PageHero, Section, CardGrid, CtaBand, Eyebrow, SplitHeading, h2, card, WRAP } from '@/components/home/page-kit';
+import { ArrowDot } from '@/components/home/ui';
 
 export async function generateMetadata(props: any) {
   const params = props?.params || {};
@@ -78,9 +79,31 @@ function getPostCardImage(slug: string, index: number, meta?: any): string {
   return defaults[index % defaults.length];
 }
 
+interface FaqItem {
+  q: string;
+  a: string;
+  link?: string;
+  linkText?: string;
+}
+
+// Renders [label](href) markdown links inside FAQ answers
+function renderAnswer(text: string) {
+  return text.split(/(\[[^\]]+\]\([^)]+\))/g).map((segment, i) => {
+    const m = segment.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!m) return <span key={i}>{segment}</span>;
+    const external = m[2].startsWith('http');
+    return (
+      <a key={i} href={m[2]} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="text-[#0B6F7B] underline underline-offset-2">
+        {m[1]}
+      </a>
+    );
+  });
+}
+
 export default async function BlogIndex({ params }: { params: { locale: string } }) {
   const t = await getTranslations({ locale: params.locale, namespace: 'Blog' });
   const posts = await getAllPosts(params.locale);
+  const faqItems = (t.raw('FAQ.items') as FaqItem[]) || [];
 
   const tags = [
     t('tags.pricing'),
@@ -92,147 +115,114 @@ export default async function BlogIndex({ params }: { params: { locale: string }
   ];
 
   return (
-    <main className="min-h-screen bg-[#F8F8F6] text-black -mt-24 md:-mt-32">
-      
-      {/* Hero Section - Elegant Light Off-White Linen */}
-      <section className="relative overflow-hidden pt-52 pb-24 md:pt-64 md:pb-32 border-b border-black/5 bg-[#F8F8F6]">
-        {/* Light Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <div className="container mx-auto px-6 max-w-5xl relative z-10 text-center">
-          <div>
-            <div className="inline-block bg-black/5 border border-black/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-black/60 mb-6">
-              {t('badge')}
-            </div>
-            
-            <h1 className="reveal-text text-4xl sm:text-6xl md:text-7xl font-bold font-absans text-black uppercase tracking-tight leading-none mb-6 break-words w-full">
-              {t('title')}
-            </h1>
-            
-            <p className="reveal-text text-lg md:text-xl font-archia font-semibold text-black/75 max-w-3xl mx-auto leading-relaxed mb-10">
-              {t('subtitle')}
-            </p>
-            
-            {/* Elegant Tag Filters Tray */}
-            <div className="reveal-grid flex flex-wrap items-center justify-center gap-3 max-w-2xl mx-auto">
-              {tags.map((tag) => (
-                <span 
-                  key={tag} 
-                  className="reveal-card bg-white border border-black/5 text-black/60 px-4 py-1.5 rounded-full font-dm-mono text-[10px] font-bold uppercase tracking-wider shadow-sm hover:border-black/15 transition-all"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Standalone Widescreen Clinical Laboratory Breakout Card */}
-      <section className="bg-[#F8F8F6] py-8 relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="reveal-card-3d relative overflow-hidden rounded-[2.5rem] h-[320px] md:h-[480px] border border-black/5 shadow-sm group">
-            <Image 
+    <PageShell>
+      <PageHero
+        eyebrow={t('badge')}
+        title={t('title')}
+        intro={t('subtitle')}
+        actions={
+          <ul className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <li key={tag} className="rounded-full border border-[#E6EAF1] bg-white px-3.5 py-1.5 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/60">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        }
+        aside={
+          <div className={`${card} relative aspect-[4/3] overflow-hidden`}>
+            <Image
               src="/lab_quality_bg_1778896760027.png"
               alt="99 Purity Wholesale Analytical Research Compendium"
               fill
-              sizes="(max-width: 1200px) 100vw, 1200px"
-              className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+              priority
+              sizes="(max-width: 1024px) 100vw, 560px"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
           </div>
-        </div>
-      </section>
+        }
+      />
 
-      {/* Blog Cards Grid - Stealth Luxury Dark Section */}
-      <section className="py-24 md:py-32 bg-[#05080C] text-white border-t border-white/5 relative overflow-hidden">
-        {/* Dark Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <div className="container mx-auto px-6 max-w-7xl relative z-20">
-          <div className="reveal-grid grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {posts.map((post, idx) => (
-              <div key={post.slug} className="reveal-card h-full">
-                <Link href={`/blog/${post.slug}`} className="group block h-full">
-                  <div className="bg-[#090C12] border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-brand-accent/30 hover:bg-[#0E131C] transition-all duration-500 shadow-2xl flex flex-col h-full group">
-                    
-                    {/* Top Portion: Rich Visual Image Header */}
-                    <div className="h-56 relative overflow-hidden bg-black/10">
-                      <Image 
-                        src={getPostCardImage(post.slug, idx, post.meta)} 
-                        alt={post.meta.title} 
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#090C12] via-transparent to-transparent pointer-events-none" />
-                      
-                      {/* Floating Lot Tag */}
-                      <div className="absolute top-6 left-6 z-10">
-                        <span className="bg-black/40 backdrop-blur-md text-brand-accent border border-brand-accent/20 px-3 py-1 rounded-full text-[9px] font-bold font-dm-mono uppercase tracking-wider">
-                          Article Lot
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Bottom Portion: Editorial Text Context */}
-                    <div className="p-8 flex-1 flex flex-col justify-between">
-                      <div>
-                        {/* Post Date */}
-                        <time className="text-white/40 font-dm-mono text-[9px] font-bold uppercase tracking-widest mb-3 block">
-                          {new Date(post.meta.date).toLocaleDateString(params.locale === 'es' ? 'es-ES' : 'en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
-                        </time>
-                        
-                        {/* Title */}
-                        <h2 className="text-2xl font-bold font-absans text-white uppercase tracking-tight mb-3 group-hover:text-brand-accent transition-colors leading-tight line-clamp-2">
-                          {post.meta.title}
-                        </h2>
-                        
-                        {/* Description */}
-                        <p className="text-white/55 font-archia font-medium text-xs leading-relaxed mb-6 line-clamp-3">
-                          {post.meta.description}
-                        </p>
-                      </div>
-
-                      {/* Read More Trigger */}
-                      <div className="inline-flex items-center gap-2 text-brand-accent font-bold font-dm-sans text-[9px] uppercase tracking-[0.2em] transition-all group-hover:text-white mt-auto">
-                        {t('readMore')} <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1.5 transition-transform" />
-                      </div>
-                    </div>
-
-                  </div>
-                </Link>
+      <Section className="!pt-4 md:!pt-6">
+        <CardGrid cols={3}>
+          {posts.map((post, idx) => (
+            <Link key={post.slug} data-reveal href={`/blog/${post.slug}`} className={`${card} group flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-[0_18px_50px_rgba(11,15,20,0.08)]`}>
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#E6EAF1]">
+                <Image
+                  src={getPostCardImage(post.slug, idx, post.meta)}
+                  alt={post.meta.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+                />
+                <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 font-dm-mono text-[9px] uppercase tracking-[0.16em] text-[#0B0F14]/70 backdrop-blur">
+                  Article Lot
+                </span>
               </div>
-            ))}
+              <div className="flex flex-1 flex-col p-6">
+                <time dateTime={post.meta.date} className="mb-3 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/45">
+                  {new Date(post.meta.date).toLocaleDateString(params.locale === 'es' ? 'es-ES' : 'en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+                <h2 className="mb-3 line-clamp-3 text-[1.2rem] font-normal leading-snug tracking-[-0.03em]">{post.meta.title}</h2>
+                <p className="mb-6 line-clamp-3 text-[13px] leading-relaxed text-[#0B0F14]/60">{post.meta.description}</p>
+                <div className="mt-auto flex items-center justify-between gap-3 text-[13px] font-medium">
+                  <span>{t('readMore')}</span>
+                  <ArrowDot />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </CardGrid>
+      </Section>
+
+      {faqItems.length > 0 && (
+        <section id="blog-faq" className="pb-16 md:pb-24">
+          <FaqSchema items={faqItems} />
+          <div className={`${WRAP} grid gap-10 lg:grid-cols-12`}>
+            <div className="lg:col-span-4">
+              <Eyebrow className="mb-5">(FAQ)</Eyebrow>
+              <SplitHeading text={t('FAQ.title')} className={`${h2} mb-5`} />
+              <p className="max-w-xs text-[13px] leading-relaxed text-[#0B0F14]/60">{t('FAQ.subtitle')}</p>
+            </div>
+            <div className="space-y-2 lg:col-span-8">
+              {faqItems.map((f, i) => (
+                <details key={i} className={`${card} group px-6 py-5 open:shadow-[0_18px_50px_rgba(11,15,20,0.06)]`}>
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[15px] font-normal tracking-[-0.02em] [&::-webkit-details-marker]:hidden">
+                    <h3 className="font-normal">{f.q}</h3>
+                    <Plus className="h-4 w-4 shrink-0 transition-transform duration-300 group-open:rotate-45" aria-hidden="true" />
+                  </summary>
+                  <p className="mt-4 max-w-2xl text-[13px] leading-relaxed text-[#0B0F14]/60">{renderAnswer(f.a)}</p>
+                  {f.link && (
+                    <a
+                      href={f.link}
+                      {...(f.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="mt-4 inline-block font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B6F7B]"
+                    >
+                      {f.linkText ?? 'Learn more'} →
+                    </a>
+                  )}
+                </details>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* FAQ Section */}
-      <FaqSection
-        id="blog-faq"
-        eyebrow="(FAQ)"
-        title={t('FAQ.title')}
-        subtitle={t('FAQ.subtitle')}
-        items={t.raw('FAQ.items') as any[]}
-        theme="light"
-      />
-
-      {/* Global B2B Call-To-Action Segment */}
-      <GlobalCTA
-        badge={t('ctaBadge')}
+      <CtaBand
+        eyebrow={t('ctaBadge')}
         title={t('ctaTitle')}
-        subtitle={t('ctaSubtitle')}
-        primaryCtaText="WhatsApp Sales"
-        primaryCtaHref="https://wa.me/18433307365?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20verified%20batch%20quality%20and%20receiving%20the%20wholesale%20price%20list."
-        secondaryCtaText="Email Laboratory"
-        secondaryCtaHref="mailto:sales@99puritywholesale.com"
+        description={t('ctaSubtitle')}
+        primary={{
+          label: 'WhatsApp Sales',
+          href: "https://wa.me/18433307365?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20verified%20batch%20quality%20and%20receiving%20the%20wholesale%20price%20list.",
+          external: true,
+        }}
+        secondary={{ label: 'Email Laboratory', href: 'mailto:sales@99puritywholesale.com' }}
       />
-
-    </main>
+    </PageShell>
   );
 }

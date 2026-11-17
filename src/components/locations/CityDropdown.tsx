@@ -41,8 +41,8 @@ export default function CityDropdown({ cities, stateLink, isCountryCard, viewReg
   // If there are no cities for this state, just render the standard text link
   if (cities.length === 0) {
     return (
-      <span className={`font-absans font-bold uppercase tracking-widest text-[10px] transition-colors duration-300 ${
-        isCountryCard ? 'text-white/50 group-hover:text-[#1ed4e8]' : 'text-black/45 group-hover:text-[#13a7b7]'
+      <span className={`font-dm-sans font-medium tracking-[-0.01em] text-[10px] transition-colors duration-300 ${
+        isCountryCard ? 'text-white/50 group-hover:text-[#1ed4e8]' : 'text-black/45 group-hover:text-[#0B6F7B]'
       }`}>
         {viewRegionalHubText}
       </span>
@@ -58,10 +58,10 @@ export default function CityDropdown({ cities, stateLink, isCountryCard, viewReg
           e.stopPropagation();
           setIsOpen(!isOpen);
         }}
-        className={`flex items-center gap-2 font-absans font-bold uppercase tracking-widest text-[10px] outline-none transition-colors duration-300 ${
+        className={`flex items-center gap-2 font-dm-sans font-medium tracking-[-0.01em] text-[10px] outline-none transition-colors duration-300 ${
           isCountryCard 
             ? isOpen ? 'text-[#1ed4e8]' : 'text-white/50 hover:text-[#1ed4e8]' 
-            : isOpen ? 'text-[#13a7b7]' : 'text-black/45 hover:text-[#13a7b7]'
+            : isOpen ? 'text-[#0B6F7B]' : 'text-black/45 hover:text-[#0B6F7B]'
         }`}
       >
         {isEs ? 'VER CIUDADES' : 'VIEW CITIES'}
@@ -83,7 +83,7 @@ export default function CityDropdown({ cities, stateLink, isCountryCard, viewReg
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className={`absolute left-0 bottom-full mb-3 min-w-[220px] rounded-2xl border backdrop-blur-xl shadow-2xl overflow-hidden ${
               isCountryCard 
-                ? 'bg-[#05080C]/90 border-white/10 shadow-black/50' 
+                ? 'bg-[#0B0D10]/90 border-white/10 shadow-black/50' 
                 : 'bg-white/95 border-black/10 shadow-[0_20px_60px_rgba(0,0,0,0.08)]'
             }`}
           >
@@ -100,7 +100,7 @@ export default function CityDropdown({ cities, stateLink, isCountryCard, viewReg
                   : 'border-black/5 hover:bg-black/5'
               }`}
             >
-              <span className={`font-absans font-bold uppercase tracking-wider text-[10px] ${
+              <span className={`font-dm-sans font-medium tracking-[-0.01em] text-[10px] ${
                 isCountryCard ? 'text-white/60 group-hover:text-white' : 'text-black/50 group-hover:text-black'
               }`}>
                 {viewRegionalHubText}
@@ -125,12 +125,12 @@ export default function CityDropdown({ cities, stateLink, isCountryCard, viewReg
                     }}
                     className={`px-4 py-3 transition-colors flex items-center gap-3 ${
                       isCountryCard
-                        ? 'hover:bg-[#13a7b7]/10 text-white/80 hover:text-white'
-                        : 'hover:bg-[#13a7b7]/5 text-black/70 hover:text-[#13a7b7]'
+                        ? 'hover:bg-[#0B6F7B]/10 text-white/80 hover:text-white'
+                        : 'hover:bg-[#0B6F7B]/5 text-black/70 hover:text-[#0B6F7B]'
                     }`}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#13a7b7] opacity-50" />
-                    <span className="font-archia font-semibold text-sm tracking-wide">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0B6F7B] opacity-50" />
+                    <span className="font-semibold text-sm tracking-wide">
                       {city.city}
                     </span>
                   </Link>

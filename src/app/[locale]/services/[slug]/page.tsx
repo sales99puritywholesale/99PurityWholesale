@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import {
   Package, Rocket, MonitorSmartphone, TrendingUp, Tag, Settings,
-  CheckCircle2, XCircle, ArrowRight, PhoneCall, ChevronRight,
+  CheckCircle2, XCircle, ArrowRight, ChevronRight,
   ShieldCheck, Award, Zap, BarChart3, Globe, Users, Map, Handshake,
   ClipboardCheck, Truck, FlaskConical, Code, Search
 } from 'lucide-react';
-import GlobalCTA from '@/components/layout/GlobalCTA';
+import { PageShell, PageHero, Section, CardGrid, InfoCard, CtaBand, PillButton, Eyebrow, RevealGroup, SplitHeading, WRAP, SECTION, h2, card } from '@/components/home/page-kit';
 import FaqSection from '@/components/shared/FaqSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import servicesRegistry, { getServiceByLocale } from '@/data/services-content/index';
@@ -96,11 +96,10 @@ export default function ServiceDetailPage({ params }: { params: { locale: string
   };
 
   // FAQ JSON-LD is emitted by the <FaqSection> below (which renders this same faqItems array) — no separate script here.
-  const HeroIcon = SERVICE_ICONS[params.slug] || Package;
   const faqItems = service.faqs.map((f) => ({ q: f.q, a: f.a }));
 
   return (
-    <main className="min-h-screen bg-[#F8F8F6] text-black -mt-24 md:-mt-32">
+    <PageShell>
       {/* Schemas */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <BreadcrumbSchema items={[
@@ -108,260 +107,176 @@ export default function ServiceDetailPage({ params }: { params: { locale: string
         { name: service.hero.h1, item: `${baseUrl}/${localePrefix}services/${service.slug}` },
       ]} />
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pt-44 pb-20 md:pt-56 md:pb-32 bg-[#05080C] text-white">
-        {/* Abstract Dark Gradients / Noise */}
-        <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('/images/noise.svg')]" />
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
-        
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          {/* Breadcrumb nav */}
-          <nav className="flex items-center gap-2 text-[10px] font-dm-mono font-bold uppercase tracking-widest text-white/30 mb-12">
-            <Link href="/services" className="hover:text-white transition-colors">{isEs ? 'Servicios' : 'Services'}</Link>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-white/70">{service.hero.eyebrow}</span>
-          </nav>
+      {/* Breadcrumb nav */}
+      <div className={`${WRAP} pt-4 md:pt-6`}>
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/45">
+          <Link href="/services" className="transition-colors hover:text-[#0B0F14]">{isEs ? 'Servicios' : 'Services'}</Link>
+          <ChevronRight className="h-3 w-3" />
+          <span className="text-[#0B0F14]/70">{service.hero.eyebrow}</span>
+        </nav>
+      </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-            <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-dm-mono font-bold uppercase tracking-widest text-white/70 mb-8 backdrop-blur-sm">
-                <HeroIcon className="w-4 h-4 text-white" />
-                {service.hero.eyebrow}
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-absans font-bold text-white uppercase tracking-tighter leading-[0.9] mb-8 drop-shadow-sm">
-                {service.hero.h1}
-              </h1>
-              
-              <p className="text-base md:text-xl font-archia text-white/60 leading-relaxed mb-12 max-w-2xl">
-                {service.hero.subtitle}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href={`https://wa.me/18433307365?text=${encodeURIComponent(service.hero.ctaMsg)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-3 px-8 py-5 bg-white text-black hover:bg-transparent hover:text-white border border-white transition-all duration-300 rounded-xl font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs shadow-[0_0_40px_rgba(255,255,255,0.1)] hover:shadow-none active:scale-95"
-                >
-                  <PhoneCall className="w-4 h-4" />
-                  {service.hero.ctaText}
-                </a>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-5 bg-transparent border border-white/10 text-white/70 rounded-xl font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs transition-all duration-300 hover:border-white/30 hover:text-white hover:bg-white/5"
-                >
-                  {isEs ? 'Todos los Servicios' : 'All Services'}
-                </Link>
-              </div>
-            </div>
-            
-            {/* Trust Stats Glassmorphism Grid */}
-            <div className="lg:col-span-5 grid grid-cols-2 gap-4 relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent blur-3xl -z-10" />
-              {[
-                { val: '≥99%', label: isEs ? 'Estándar de Pureza' : 'Purity Standard', icon: Award },
-                { val: 'COA', label: isEs ? 'En Cada Pedido' : 'On Every Order', icon: ClipboardCheck },
-                { val: 'U.S.', label: isEs ? 'Fabricado en EE. UU.' : 'Manufactured', icon: Globe },
-                { val: 'B2B', label: isEs ? 'Programa Exclusivo' : 'Exclusive Program', icon: ShieldCheck },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-white/[0.02] border border-white/5 backdrop-blur-md rounded-3xl p-6 md:p-8 flex flex-col gap-3 hover:bg-white/[0.04] hover:border-white/15 transition-all duration-500 group cursor-default">
-                  <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-500">
-                    <stat.icon className="w-4 h-4 text-white/70" />
-                  </div>
-                  <div className="font-absans text-3xl md:text-4xl font-bold text-white tracking-tighter drop-shadow-sm">{stat.val}</div>
-                  <div className="text-[9px] md:text-[10px] font-dm-mono font-bold uppercase tracking-widest text-white/40">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow={service.hero.eyebrow}
+        title={service.hero.h1}
+        intro={service.hero.subtitle}
+        actions={
+          <>
+            <PillButton href={`https://wa.me/18433307365?text=${encodeURIComponent(service.hero.ctaMsg)}`} external>
+              {service.hero.ctaText}
+            </PillButton>
+            <PillButton href="/services" variant="outline">
+              {isEs ? 'Todos los Servicios' : 'All Services'}
+            </PillButton>
+          </>
+        }
+        facts={[
+          { value: '≥99%', label: isEs ? 'Estándar de Pureza' : 'Purity Standard' },
+          { value: 'COA', label: isEs ? 'En Cada Pedido' : 'On Every Order' },
+          { value: 'U.S.', label: isEs ? 'Fabricado en EE. UU.' : 'Manufactured' },
+          { value: 'B2B', label: isEs ? 'Programa Exclusivo' : 'Exclusive Program' },
+        ]}
+      />
 
-      {/* ── INTRODUCTION ─────────────────────────────────────── */}
-      <section className="py-24 md:py-32 border-b border-black/5 bg-white">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            <div className="lg:col-span-4">
-              <div className="sticky top-32">
-                <div className="w-10 h-px bg-black/10 mb-6" />
-                <h2 className="font-absans text-3xl md:text-4xl font-bold text-black uppercase tracking-tighter leading-tight">
-                  {service.intro.heading}
-                </h2>
-              </div>
+      {/* Introduction */}
+      <section className={SECTION}>
+        <div className={WRAP}>
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-5">
+              <Eyebrow className="mb-5">{service.hero.eyebrow}</Eyebrow>
+              <SplitHeading text={service.intro.heading} className={h2} />
             </div>
-            <div className="lg:col-span-8 space-y-6">
+            <RevealGroup className="space-y-5 lg:col-span-7">
               {service.intro.body.map((paragraph, i) => (
-                <p key={i} className="font-archia text-base md:text-lg text-black/65 leading-relaxed">
+                <p key={i} data-reveal className="text-[15px] leading-[1.75] text-[#0B0F14]/65 md:text-[16px]">
                   {paragraph}
                 </p>
               ))}
-            </div>
+            </RevealGroup>
           </div>
         </div>
       </section>
 
-      {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="py-24 md:py-32 border-b border-black/5 bg-[#F4F6F4]">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="mb-16">
-            <div className="w-10 h-px bg-black/10 mb-6" />
-            <h2 className="font-absans text-3xl md:text-5xl font-bold text-black uppercase tracking-tighter">
-              {isEs ? 'Beneficios Clave' : 'Key Benefits'}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {service.benefits.map((benefit, i) => {
-              const BenIcon = ICON_MAP[benefit.icon] || ShieldCheck;
-              return (
-                <div key={i} className="group bg-white border border-black/5 rounded-2xl p-8 hover:border-black/15 hover:shadow-[0_20px_50px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-1">
-                  <div className="w-12 h-12 rounded-xl bg-black text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <BenIcon className="w-5 h-5" />
-                  </div>
-                  <h3 className="font-absans text-xl font-bold text-black uppercase tracking-tight mb-3">{benefit.title}</h3>
-                  <p className="font-archia text-sm text-black/55 leading-relaxed">{benefit.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* Benefits */}
+      <Section eyebrow={isEs ? 'Beneficios' : 'Benefits'} title={isEs ? 'Beneficios Clave' : 'Key Benefits'} className="pt-0 md:pt-0">
+        <CardGrid cols={3}>
+          {service.benefits.map((benefit, i) => {
+            const BenIcon = ICON_MAP[benefit.icon] || ShieldCheck;
+            return (
+              <InfoCard key={i} icon={<BenIcon className="h-4 w-4" />} title={benefit.title}>
+                {benefit.description}
+              </InfoCard>
+            );
+          })}
+        </CardGrid>
+      </Section>
 
-      {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="py-24 md:py-32 border-b border-black/5 bg-white">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="mb-16">
-            <div className="w-10 h-px bg-black/10 mb-6" />
-            <h2 className="font-absans text-3xl md:text-5xl font-bold text-black uppercase tracking-tighter">
-              {isEs ? 'Cómo Funciona' : 'How It Works'}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {service.howItWorks.map((step, i) => (
-              <div key={i} className="group flex gap-6 p-8 bg-[#F8F8F6] border border-black/5 rounded-2xl hover:bg-white hover:border-black/10 hover:shadow-[0_15px_40px_rgba(0,0,0,0.03)] transition-all duration-500">
-                <div className="shrink-0 font-dm-mono text-4xl font-bold text-black/10 group-hover:text-black/20 transition-colors leading-none pt-1">
-                  {step.number}
-                </div>
-                <div>
-                  <h3 className="font-absans text-lg font-bold text-black uppercase tracking-tight mb-3">{step.title}</h3>
-                  <p className="font-archia text-sm text-black/55 leading-relaxed">{step.description}</p>
-                </div>
+      {/* How it works */}
+      <Section eyebrow={isEs ? 'Proceso' : 'Process'} title={isEs ? 'Cómo Funciona' : 'How It Works'} className="pt-0 md:pt-0">
+        <CardGrid cols={2}>
+          {service.howItWorks.map((step, i) => (
+            <div key={i} data-reveal className={`${card} flex gap-5 p-6 md:gap-7 md:p-8`}>
+              <div className="shrink-0 pt-1 font-dm-mono text-[1.6rem] font-light leading-none tracking-[-0.04em] text-[#0B6F7B]">
+                {step.number}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── COMPARISON TABLE ─────────────────────────────────── */}
-      <section className="py-24 md:py-32 border-b border-black/5 bg-[#F4F6F4]">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="mb-12">
-            <div className="w-10 h-px bg-black/10 mb-6" />
-            <h2 className="font-absans text-3xl md:text-5xl font-bold text-black uppercase tracking-tighter">
-              {service.comparisonTable.heading}
-            </h2>
-          </div>
-          <div className="bg-white border border-black/5 rounded-2xl overflow-hidden">
-            <div className="grid grid-cols-12 bg-black/[0.03] border-b border-black/5 px-6 py-3">
-              <div className="col-span-5 text-[9px] font-dm-mono font-bold uppercase tracking-widest text-black/40">{isEs ? 'Perfil / Caso de Uso' : 'Profile / Use Case'}</div>
-              <div className="col-span-2 text-[9px] font-dm-mono font-bold uppercase tracking-widest text-black/40 text-center">{isEs ? 'Adecuado' : 'Suitable'}</div>
-              <div className="col-span-5 text-[9px] font-dm-mono font-bold uppercase tracking-widest text-black/40">{isEs ? 'Motivo' : 'Why'}</div>
-            </div>
-            {service.comparisonTable.rows.map((row, i) => (
-              <div key={i} className={`grid grid-cols-12 px-6 py-5 gap-4 border-b border-black/5 last:border-b-0 ${i % 2 === 0 ? '' : 'bg-black/[0.01]'}`}>
-                <div className="col-span-5 font-archia text-sm font-semibold text-black">{row.businessType}</div>
-                <div className="col-span-2 flex items-center justify-center">
-                  {row.suitable
-                    ? <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                    : <XCircle className="w-5 h-5 text-red-400" />}
-                </div>
-                <div className="col-span-5 font-archia text-sm text-black/50">{row.reason}</div>
+              <div>
+                <h3 className="mb-2 text-[1.15rem] font-medium leading-snug tracking-[-0.02em]">{step.title}</h3>
+                <p className="text-[13.5px] leading-relaxed text-[#0B0F14]/60">{step.description}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
+          ))}
+        </CardGrid>
+      </Section>
 
-      {/* ── PRICING TIERS (conditional) ───────────────────────── */}
+      {/* Comparison table */}
+      <Section eyebrow={isEs ? 'Idoneidad' : 'Fit'} title={service.comparisonTable.heading} className="pt-0 md:pt-0">
+        <div className={`${card} overflow-hidden`}>
+          <div className="hidden grid-cols-12 gap-4 border-b border-[#E6EAF1] bg-[#F3F5FA] px-6 py-3 md:grid">
+            <div className="col-span-5 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/50">{isEs ? 'Perfil / Caso de Uso' : 'Profile / Use Case'}</div>
+            <div className="col-span-2 text-center font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/50">{isEs ? 'Adecuado' : 'Suitable'}</div>
+            <div className="col-span-5 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/50">{isEs ? 'Motivo' : 'Why'}</div>
+          </div>
+          {service.comparisonTable.rows.map((row, i) => (
+            <div key={i} className="grid grid-cols-[auto_1fr] items-start gap-x-4 gap-y-1 border-b border-[#E6EAF1] px-5 py-5 last:border-b-0 md:grid-cols-12 md:items-center md:gap-4 md:px-6">
+              <div className="col-start-2 text-[14px] font-medium md:col-span-5 md:col-start-auto">{row.businessType}</div>
+              <div className="col-start-1 row-start-1 flex items-center md:col-span-2 md:col-start-auto md:row-start-auto md:justify-center">
+                {row.suitable
+                  ? <CheckCircle2 className="h-5 w-5 text-emerald-600" aria-label={isEs ? 'Adecuado' : 'Suitable'} />
+                  : <XCircle className="h-5 w-5 text-red-400" aria-label={isEs ? 'No adecuado' : 'Not suitable'} />}
+              </div>
+              <div className="col-start-2 text-[13.5px] leading-relaxed text-[#0B0F14]/55 md:col-span-5 md:col-start-auto">{row.reason}</div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Pricing tiers (conditional) */}
       {service.pricingSection && (
-        <section className="py-24 md:py-32 border-b border-black/5 bg-white">
-          <div className="container mx-auto px-6 max-w-6xl">
-            <div className="mb-4">
-              <div className="w-10 h-px bg-black/10 mb-6" />
-              <h2 className="font-absans text-3xl md:text-5xl font-bold text-black uppercase tracking-tighter mb-4">
-                {service.pricingSection.heading}
-              </h2>
-              <p className="font-archia text-base text-black/50 max-w-2xl">{service.pricingSection.subheading}</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-              {service.pricingSection.tiers.map((tier, i) => (
-                <div key={i} className={`rounded-2xl p-8 border transition-all duration-300 ${tier.highlight ? 'bg-black text-white border-black/20' : 'bg-[#F8F8F6] border-black/5 hover:border-black/15 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)]'}`}>
-                  <div className={`text-[9px] font-dm-mono font-bold uppercase tracking-widest mb-3 ${tier.highlight ? 'text-white/40' : 'text-black/30'}`}>{isEs ? 'Volumen' : 'Volume'}</div>
-                  <div className={`font-absans text-2xl font-bold uppercase tracking-tighter mb-1 ${tier.highlight ? 'text-white' : 'text-black'}`}>{tier.name}</div>
-                  <div className={`font-dm-mono text-xs font-bold mb-5 ${tier.highlight ? 'text-white/50' : 'text-black/40'}`}>{tier.volume}</div>
-                  <p className={`font-archia text-sm leading-relaxed ${tier.highlight ? 'text-white/60' : 'text-black/50'}`}>{tier.description}</p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 text-[10px] font-dm-mono font-bold uppercase tracking-widest text-black/30">{service.pricingSection.footer}</p>
-          </div>
-        </section>
+        <Section title={service.pricingSection.heading} description={service.pricingSection.subheading} className="pt-0 md:pt-0">
+          <CardGrid cols={4}>
+            {service.pricingSection.tiers.map((tier, i) => (
+              <div
+                key={i}
+                data-reveal
+                className={`rounded-[1.25rem] border p-7 ${tier.highlight ? 'border-[#0B0D10] bg-[#0B0D10] text-white' : 'border-[#E6EAF1] bg-white'}`}
+              >
+                <div className={`mb-3 font-dm-mono text-[10px] uppercase tracking-[0.16em] ${tier.highlight ? 'text-white/50' : 'text-[#0B0F14]/45'}`}>{isEs ? 'Volumen' : 'Volume'}</div>
+                <div className="mb-1 text-[1.5rem] font-light tracking-[-0.03em]">{tier.name}</div>
+                <div className={`mb-5 font-dm-mono text-[11px] ${tier.highlight ? 'text-[#4FC3D0]' : 'text-[#0B6F7B]'}`}>{tier.volume}</div>
+                <p className={`text-[13.5px] leading-relaxed ${tier.highlight ? 'text-white/65' : 'text-[#0B0F14]/60'}`}>{tier.description}</p>
+              </div>
+            ))}
+          </CardGrid>
+          <p className="mt-6 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/45">{service.pricingSection.footer}</p>
+        </Section>
       )}
 
-      {/* ── TECHNICAL DEEP DIVE ───────────────────────────────── */}
-      <section className="py-24 md:py-32 border-b border-black/5 bg-[#0B0E14] text-white">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="mb-16">
-            <div className="w-10 h-px bg-white/10 mb-6" />
-            <h2 className="font-absans text-3xl md:text-5xl font-bold text-white uppercase tracking-tighter mb-4">
-              {service.technicalDeepDive.heading}
-            </h2>
-            <p className="font-archia text-base text-white/40 max-w-2xl">{service.technicalDeepDive.subheading}</p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="space-y-6">
-              {service.technicalDeepDive.body.map((para, i) => (
-                <p key={i} className="font-archia text-base text-white/60 leading-relaxed">{para}</p>
-              ))}
+      {/* Technical deep dive: the single dark panel */}
+      <section className="px-3 py-6 md:px-4">
+        <div className="mx-auto max-w-[1760px] rounded-[1.75rem] bg-[#0B0D10] px-6 py-16 text-white md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1360px]">
+            <div className="mb-12 max-w-3xl">
+              <Eyebrow light className="mb-5">{isEs ? 'Detalle Técnico' : 'Technical Detail'}</Eyebrow>
+              <h2 className={`${h2} mb-5 !text-white`}>{service.technicalDeepDive.heading}</h2>
+              <p className="text-[14px] leading-relaxed text-white/55">{service.technicalDeepDive.subheading}</p>
             </div>
-            {service.technicalDeepDive.statsTable && (
-              <div className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden">
-                <div className="px-6 py-3 border-b border-white/10 bg-white/[0.02]">
-                  <span className="text-[9px] font-dm-mono font-bold uppercase tracking-widest text-white/30">{isEs ? 'Especificaciones Operativas' : 'Operational Specifications'}</span>
-                </div>
-                {service.technicalDeepDive.statsTable.map((row, i) => (
-                  <div key={i} className={`flex justify-between gap-4 px-6 py-4 border-b border-white/5 last:border-0 ${i % 2 === 0 ? '' : 'bg-white/[0.01]'}`}>
-                    <span className="font-archia text-sm text-white/40 shrink-0">{row.label}</span>
-                    <span className="font-dm-mono text-xs font-bold text-white text-right">{row.value}</span>
-                  </div>
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+              <div className="space-y-5">
+                {service.technicalDeepDive.body.map((para, i) => (
+                  <p key={i} className="text-[15px] leading-relaxed text-white/65">{para}</p>
                 ))}
               </div>
-            )}
+              {service.technicalDeepDive.statsTable && (
+                <div className="self-start overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.03]">
+                  <div className="border-b border-white/10 px-6 py-3">
+                    <span className="font-dm-mono text-[10px] uppercase tracking-[0.16em] text-white/45">{isEs ? 'Especificaciones Operativas' : 'Operational Specifications'}</span>
+                  </div>
+                  {service.technicalDeepDive.statsTable.map((row, i) => (
+                    <div key={i} className="flex justify-between gap-4 border-b border-white/5 px-6 py-4 last:border-0">
+                      <span className="text-[13.5px] text-white/50">{row.label}</span>
+                      <span className="text-right font-dm-mono text-[12px] text-white">{row.value}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── TRUST SECTION ────────────────────────────────────── */}
-      <section className="py-24 md:py-32 border-b border-black/5 bg-[#F8F8F6]">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="mb-12">
-            <div className="w-10 h-px bg-black/10 mb-6" />
-            <h2 className="font-absans text-3xl md:text-4xl font-bold text-black uppercase tracking-tighter">
-              {service.trustSection.heading}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {service.trustSection.points.map((point, i) => (
-              <div key={i} className="flex items-start gap-4 p-6 bg-white border border-black/5 rounded-2xl">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                <p className="font-archia text-sm text-black/65 leading-relaxed">{point}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Trust */}
+      <Section eyebrow={isEs ? 'Confianza' : 'Trust'} title={service.trustSection.heading}>
+        <CardGrid cols={2}>
+          {service.trustSection.points.map((point, i) => (
+            <div key={i} data-reveal className={`${card} flex items-start gap-4 p-6`}>
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#0B6F7B]" />
+              <p className="text-[14px] leading-relaxed text-[#0B0F14]/65">{point}</p>
+            </div>
+          ))}
+        </CardGrid>
+      </Section>
 
-      {/* ── FAQ SECTION ──────────────────────────────────────── */}
+      {/* FAQ */}
       <FaqSection
         id={`${service.slug}-faq`}
         eyebrow="(FAQ)"
@@ -371,44 +286,35 @@ export default function ServiceDetailPage({ params }: { params: { locale: string
         theme="light"
       />
 
-      {/* ── RELATED SERVICES ─────────────────────────────────── */}
-      <section className="py-24 md:py-32 border-b border-black/5 bg-white">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="mb-12">
-            <div className="w-10 h-px bg-black/10 mb-6" />
-            <h2 className="font-absans text-3xl font-bold text-black uppercase tracking-tighter">{isEs ? 'Servicios Relacionados' : 'Related Services'}</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {service.relatedServices.map((rel) => {
-              const RelIcon = SERVICE_ICONS[rel.slug] || Package;
-              return (
-                <Link key={rel.slug} href={`/services/${rel.slug}` as any} className="group flex flex-col gap-5 p-8 bg-[#F8F8F6] border border-black/5 rounded-2xl hover:bg-white hover:border-black/10 hover:shadow-[0_20px_50px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-1">
-                  <div className="w-11 h-11 rounded-xl bg-black text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <RelIcon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-absans text-lg font-bold text-black uppercase tracking-tight mb-2 leading-tight">{rel.title}</h3>
-                    <p className="font-archia text-sm text-black/50 leading-relaxed">{rel.description}</p>
-                  </div>
-                  <div className="flex items-center gap-2 text-[9px] font-dm-mono font-bold uppercase tracking-widest text-black/30 group-hover:text-black transition-colors mt-auto">
-                    <div className="w-5 h-px bg-black/20 group-hover:w-8 transition-all" />
-                    {isEs ? 'Más Información' : 'Learn More'}
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* Related services */}
+      <Section eyebrow={isEs ? 'Explorar' : 'Explore'} title={isEs ? 'Servicios Relacionados' : 'Related Services'}>
+        <CardGrid cols={3}>
+          {service.relatedServices.map((rel) => {
+            const RelIcon = SERVICE_ICONS[rel.slug] || Package;
+            return (
+              <Link key={rel.slug} href={`/services/${rel.slug}` as any} data-reveal className={`${card} group flex flex-col gap-5 p-7 transition-colors duration-300 hover:border-[#4FC3D0]`}>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                  <RelIcon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="mb-2 text-[1.2rem] font-medium leading-snug tracking-[-0.02em]">{rel.title}</h3>
+                  <p className="text-[13.5px] leading-relaxed text-[#0B0F14]/60">{rel.description}</p>
+                </div>
+                <div className="mt-auto flex items-center gap-2 text-[13px] font-medium text-[#0B0F14]/60 transition-colors group-hover:text-[#0B0F14]">
+                  {isEs ? 'Más Información' : 'Learn More'} <ArrowRight className="h-3.5 w-3.5" />
+                </div>
+              </Link>
+            );
+          })}
+        </CardGrid>
+      </Section>
 
-      {/* ── FINAL CTA ─────────────────────────────────────────── */}
-      <GlobalCTA
-        badge={isEs ? 'Servicios B2B' : 'B2B Services'}
+      <CtaBand
+        eyebrow={isEs ? 'Servicios B2B' : 'B2B Services'}
         title={isEs ? '¿Listo para Comenzar?' : 'Ready to Get Started?'}
-        subtitle={isEs ? 'Póngase en contacto con nuestro equipo B2B a través de WhatsApp o correo electrónico para analizar sus requisitos. Respondemos a todas las consultas en 1 día hábil.' : 'Contact our B2B team via WhatsApp or email to discuss your requirements. We respond to all qualified inquiries within 1 business day.'}
-        primaryCtaText={service.hero.ctaText}
-        primaryCtaHref={`https://wa.me/18433307365?text=${encodeURIComponent(service.hero.ctaMsg)}`}
+        description={isEs ? 'Póngase en contacto con nuestro equipo B2B a través de WhatsApp o correo electrónico para analizar sus requisitos. Respondemos a todas las consultas en 1 día hábil.' : 'Contact our B2B team via WhatsApp or email to discuss your requirements. We respond to all qualified inquiries within 1 business day.'}
+        primary={{ label: service.hero.ctaText, href: `https://wa.me/18433307365?text=${encodeURIComponent(service.hero.ctaMsg)}`, external: true }}
       />
-    </main>
+    </PageShell>
   );
 }

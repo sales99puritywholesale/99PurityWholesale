@@ -47,17 +47,17 @@ export default function NationwideLogisticsTable({
   return (
     <section className="space-y-8">
       <FadeIn>
-        <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+        <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
           {heading || defaultHeading}
         </h2>
-        <p className="text-black/70 font-archia font-medium leading-relaxed mb-8 max-w-4xl">
+        <p className="text-black/70 leading-relaxed mb-8 max-w-4xl">
           {intro || defaultIntro}
         </p>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
-              <tr className="bg-black text-white">
+              <tr className="bg-[#0B0D10] text-white">
                 <th className="py-5 px-6 font-dm-mono text-[10px] uppercase tracking-widest rounded-tl-2xl">
                   {isEs ? 'Región' : 'Region'}
                 </th>
@@ -74,11 +74,11 @@ export default function NationwideLogisticsTable({
             </thead>
             <tbody className="bg-white border-b border-l border-r border-black/5">
               {rows.map((row, i) => (
-                <tr key={i} className="border-b border-black/5 hover:bg-[#F8F8F6] transition-colors">
-                  <td className="py-5 px-6 font-absans font-bold text-sm uppercase tracking-wider">{row.region}</td>
-                  <td className="py-5 px-6 font-archia text-sm text-black/60">{row.states}</td>
-                  <td className="py-5 px-6 font-archia text-sm text-black/80 font-semibold">{row.time}</td>
-                  <td className="py-5 px-6 font-dm-mono text-[10px] uppercase tracking-widest text-[#13a7b7]">{row.support}</td>
+                <tr key={i} className="border-b border-black/5 hover:bg-[#F3F5FA] transition-colors">
+                  <td className="py-5 px-6 font-dm-sans font-medium text-sm uppercase tracking-wider">{row.region}</td>
+                  <td className="py-5 px-6 text-sm text-black/60">{row.states}</td>
+                  <td className="py-5 px-6 text-sm text-black/80 font-semibold">{row.time}</td>
+                  <td className="py-5 px-6 font-dm-mono text-[10px] uppercase tracking-widest text-[#0B6F7B]">{row.support}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,7 +1,3 @@
-'use client';
-
-import React, { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
 
 const faqs = [
   {
@@ -46,15 +42,8 @@ const faqs = [
   }
 ];
 
-import FaqSection from '@/components/shared/FaqSection';
+import FaqLight from '@/components/shared/FaqLight';
 
 export default function CalculatorFaq() {
-  return (
-    <div className="w-full">
-      <FaqSection 
-        title="Real-World Troubleshooting"
-        items={faqs}
-      />
-    </div>
-  );
+  return <FaqLight id="calculator-faq" title="Real-World Troubleshooting" items={faqs} />;
 }

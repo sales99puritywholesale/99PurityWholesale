@@ -40,12 +40,12 @@ export default function WholesaleForm() {
   const volumeTiers = Array.isArray(volumeTiersRaw) ? volumeTiersRaw : [];
 
   return (
-    <div className="reveal-card">
+    <div>
       {isSuccess && (
-        <div className="p-6 bg-emerald-50 border border-emerald-200/50 text-emerald-800 rounded-[2rem] flex items-start gap-3.5 mb-6">
+        <div className="p-6 bg-emerald-50 border border-emerald-200/50 text-emerald-800 rounded-[1.25rem] flex items-start gap-3.5 mb-6">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider">{isEs ? "¡Solicitud Recibida!" : "Application Received!"}</h4>
+            <h4 className="font-medium text-sm">{isEs ? "¡Solicitud Recibida!" : "Application Received!"}</h4>
             <p className="text-xs text-emerald-700/90 font-medium mt-1 leading-relaxed">
               {isEs 
                 ? "Gracias por registrar su interés. Evaluaremos sus credenciales comerciales y le enviaremos la confirmación del portal por correo electrónico." 
@@ -56,12 +56,12 @@ export default function WholesaleForm() {
       )}
 
       {errorMessage && (
-        <div className="p-6 bg-rose-50 border border-rose-200/50 text-rose-800 rounded-[2rem] flex items-start gap-3.5 mb-6">
+        <div className="p-6 bg-rose-50 border border-rose-200/50 text-rose-800 rounded-[1.25rem] flex items-start gap-3.5 mb-6">
           <div className="w-5 h-5 bg-rose-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
             <span className="text-rose-700 font-bold text-xs">!</span>
           </div>
           <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider">{isEs ? "Error al Enviar" : "Submission Failed"}</h4>
+            <h4 className="font-medium text-sm">{isEs ? "Error al Enviar" : "Submission Failed"}</h4>
             <p className="text-xs text-rose-700/90 font-medium mt-1 leading-relaxed">{errorMessage}</p>
           </div>
         </div>
@@ -69,14 +69,14 @@ export default function WholesaleForm() {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-[#F8F8F6] border border-black/5 rounded-[2.5rem] p-6 md:p-12 shadow-sm space-y-6"
+        className="rounded-[1.25rem] border border-[#E6EAF1] bg-white p-6 md:p-10 space-y-6"
       >
         {/* Attestation disclaimer banner */}
-        <div className="bg-[#13a7b7]/5 border border-[#13a7b7]/10 rounded-2xl p-6 md:p-8">
-          <h3 className="text-[#0b7f8c] font-absans font-bold text-base uppercase tracking-tight mb-3">
+        <div className="bg-[#F3F5FA] border border-[#E6EAF1] rounded-2xl p-6 md:p-8">
+          <h3 className="font-dm-sans text-[1.15rem] font-medium tracking-[-0.02em] text-[#0B0F14] mb-3">
             {t('form.attestation.title')}
           </h3>
-          <p className="text-black/60 font-archia font-medium text-xs leading-relaxed mb-6">
+          <p className="text-[13.5px] leading-relaxed text-[#0B0F14]/60 mb-6">
             {t('form.attestation.content')}
           </p>
           <label className="flex items-start gap-3 cursor-pointer">
@@ -86,9 +86,9 @@ export default function WholesaleForm() {
               value="yes"
               required 
               disabled={isPending}
-              className="mt-1 w-4 h-4 accent-[#13a7b7] rounded cursor-pointer disabled:opacity-50" 
+              className="mt-1 w-4 h-4 accent-[#0B6F7B] rounded cursor-pointer disabled:opacity-50" 
             />
-            <span className="text-black font-archia font-bold text-xs select-none">
+            <span className="text-[13px] font-medium text-[#0B0F14] select-none">
               {t('form.attestation.label')}
             </span>
           </label>
@@ -97,27 +97,27 @@ export default function WholesaleForm() {
         {/* Form Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+            <label htmlFor="wf-businessName" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
               {t('form.fields.businessName')}
             </label>
             <input 
               type="text" 
-              name="businessName" 
+              id="wf-businessName" name="businessName" 
               required 
               disabled={isPending}
-              className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold placeholder:text-black/35 shadow-sm disabled:opacity-50" 
+              className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50" 
               placeholder={t('form.fields.businessNamePlaceholder')} 
             />
           </div>
           <div>
-            <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+            <label htmlFor="wf-businessType" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
               {t('form.fields.businessType')}
             </label>
             <select 
-              name="businessType" 
+              id="wf-businessType" name="businessType" 
               required 
               disabled={isPending}
-              className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold shadow-sm cursor-pointer disabled:opacity-50"
+              className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50"
             >
               <option value="">{t('form.fields.businessTypeDefault')}</option>
               {businessTypes.map(type => (
@@ -126,66 +126,66 @@ export default function WholesaleForm() {
             </select>
           </div>
           <div>
-            <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+            <label htmlFor="wf-fullName" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
               {t('form.fields.fullName')}
             </label>
             <input 
               type="text" 
-              name="fullName" 
+              id="wf-fullName" name="fullName" 
               required 
               disabled={isPending}
-              className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold placeholder:text-black/35 shadow-sm disabled:opacity-50" 
+              className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50" 
               placeholder={t('form.fields.fullNamePlaceholder')} 
             />
           </div>
           <div>
-            <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+            <label htmlFor="wf-email" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
               {t('form.fields.email')}
             </label>
             <input 
               type="email" 
-              name="email" 
+              id="wf-email" name="email" 
               required 
               disabled={isPending}
-              className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold placeholder:text-black/35 shadow-sm disabled:opacity-50" 
+              className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50" 
               placeholder={t('form.fields.emailPlaceholder')} 
             />
           </div>
           <div>
-            <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+            <label htmlFor="wf-phone" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
               {t('form.fields.phone')}
             </label>
             <input 
               type="tel" 
-              name="phone" 
+              id="wf-phone" name="phone" 
               required 
               disabled={isPending}
-              className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold placeholder:text-black/35 shadow-sm disabled:opacity-50" 
+              className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50" 
               placeholder={t('form.fields.phonePlaceholder')} 
             />
           </div>
           <div>
-            <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+            <label htmlFor="wf-state" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
               {t('form.fields.state')}
             </label>
             <input 
               type="text" 
-              name="state" 
+              id="wf-state" name="state" 
               required 
               disabled={isPending}
-              className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold placeholder:text-black/35 shadow-sm disabled:opacity-50" 
+              className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50" 
               placeholder={t('form.fields.statePlaceholder')} 
             />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+            <label htmlFor="wf-monthlyVolume" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
               {t('form.fields.volume')}
             </label>
             <select 
-              name="monthlyVolume" 
+              id="wf-monthlyVolume" name="monthlyVolume" 
               required 
               disabled={isPending}
-              className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold shadow-sm cursor-pointer disabled:opacity-50"
+              className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50"
             >
               <option value="">{t('form.fields.volumeDefault')}</option>
               {volumeTiers.map(tier => (
@@ -196,24 +196,24 @@ export default function WholesaleForm() {
         </div>
 
         <div>
-          <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+          <label htmlFor="wf-products" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
             {t('form.fields.products')}
           </label>
           <textarea 
-            name="products" 
+            id="wf-products" name="products" 
             required 
             rows={3} 
             disabled={isPending}
-            className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold placeholder:text-black/35 shadow-sm resize-none disabled:opacity-50" 
+            className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50" 
             placeholder={t('form.fields.productsPlaceholder')} 
           />
         </div>
 
         <div>
-          <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+          <span id="wf-contactMethod-label" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
             {t('form.fields.contactMethod')}
-          </label>
-          <div className="flex gap-6 mt-1">
+          </span>
+          <div role="radiogroup" aria-labelledby="wf-contactMethod-label" className="flex gap-6 mt-1">
             {['WhatsApp', 'Email'].map((m) => (
               <label key={m} className="flex items-center gap-2 cursor-pointer select-none">
                 <input 
@@ -222,23 +222,23 @@ export default function WholesaleForm() {
                   value={m} 
                   defaultChecked={m === 'WhatsApp'}
                   disabled={isPending}
-                  className="accent-[#13a7b7] w-4 h-4 cursor-pointer disabled:opacity-50" 
+                  className="accent-[#0B6F7B] w-4 h-4 cursor-pointer disabled:opacity-50" 
                 />
-                <span className="text-black/75 font-archia text-xs font-bold">{m}</span>
+                <span className="text-[13px] font-medium text-[#0B0F14]/75">{m}</span>
               </label>
             ))}
           </div>
         </div>
 
         <div>
-          <label className="block text-black/55 font-dm-mono text-[9px] uppercase tracking-widest mb-2 font-bold">
+          <label htmlFor="wf-notes" className="mb-2 block font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">
             {t('form.fields.notes')}
           </label>
           <textarea 
-            name="notes" 
+            id="wf-notes" name="notes" 
             rows={3} 
             disabled={isPending}
-            className="w-full bg-white border border-black/5 text-black rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#13a7b7] focus:ring-1 focus:ring-[#13a7b7] transition-all font-archia text-xs font-semibold placeholder:text-black/35 shadow-sm resize-none disabled:opacity-50" 
+            className="w-full rounded-xl border border-[#E6EAF1] bg-white px-4 py-3.5 text-[14px] text-[#0B0F14] outline-none transition-colors placeholder:text-[#0B0F14]/35 focus:border-[#4FC3D0] focus:ring-2 focus:ring-[#4FC3D0]/30 disabled:opacity-50" 
             placeholder={t('form.fields.notesPlaceholder')} 
           />
         </div>
@@ -246,12 +246,12 @@ export default function WholesaleForm() {
         <button 
           type="submit" 
           disabled={isPending}
-          className="w-full bg-black hover:bg-black/90 text-white font-bold py-4 rounded-xl font-absans text-[11px] uppercase tracking-widest transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full rounded-full bg-[#0B0F14] py-4 text-[13px] font-medium text-white transition-colors hover:bg-[#1b232d] cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {isPending ? (isEs ? "Enviando..." : "Sending...") : t('form.fields.submit')}
         </button>
 
-        <p className="text-black/45 font-archia font-semibold text-[10px] text-center leading-relaxed max-w-lg mx-auto">
+        <p className="text-[#0B0F14]/45 text-[11px] text-center leading-relaxed max-w-lg mx-auto">
           {t('form.footer')}
         </p>
       </form>

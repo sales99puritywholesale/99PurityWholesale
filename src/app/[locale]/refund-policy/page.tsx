@@ -41,7 +41,7 @@ export default function RefundPolicyPage() {
           <p>
             We take extreme care in packaging bulk glassware and vial kits. However, if transit damage occurs:
           </p>
-          <ul className="list-disc pl-5 space-y-2 mt-4">
+          <ul className="space-y-2 mt-4">
             <li>Any broken vials or kit damages must be reported to our operations desk within 48 hours of delivery.</li>
             <li>Reports must include photographic evidence of the unopened packaging and damaged contents.</li>
             <li>Upon verification, replacements will be shipped immediately via priority dispatch at no additional cost.</li>

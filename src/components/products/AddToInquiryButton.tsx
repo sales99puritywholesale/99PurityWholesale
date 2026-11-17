@@ -62,17 +62,17 @@ export default function AddToInquiryButton({
   };
 
   // Determine button styles based on state
-  let buttonClasses = "w-full font-dm-sans font-bold text-[11px] sm:text-sm py-3.5 sm:py-4 px-6 rounded-full transition-all duration-300 uppercase tracking-widest border flex items-center justify-center ";
+  let buttonClasses = "w-full font-dm-sans font-medium text-[12px] sm:text-[13px] tracking-[-0.01em] py-3 sm:py-3.5 px-5 rounded-full transition-colors duration-300 border flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[#4FC3D0] focus-visible:ring-offset-2 ";
   let buttonText = t('add');
 
   if (showAdded) {
-    buttonClasses += "bg-emerald-500/10 border-emerald-500/30 text-emerald-600";
+    buttonClasses += "bg-[#4FC3D0]/15 border-[#4FC3D0]/50 text-[#0B6F7B]";
     buttonText = t('added');
   } else if (isInCart) {
-    buttonClasses += "bg-transparent border-black/15 border text-black/80 hover:bg-black hover:text-white hover:border-black";
+    buttonClasses += "bg-transparent border-[#0B0F14]/15 text-[#0B0F14] hover:bg-[#0B0F14] hover:text-white hover:border-[#0B0F14]";
     buttonText = t('inInquiry');
   } else {
-    buttonClasses += "bg-black border-black text-white hover:bg-transparent hover:text-black hover:border-black";
+    buttonClasses += "bg-[#0B0F14] border-[#0B0F14] text-white hover:bg-[#4FC3D0] hover:border-[#4FC3D0] hover:text-[#0B0F14]";
   }
 
   return (

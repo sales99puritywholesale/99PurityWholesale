@@ -21,7 +21,7 @@ export default function ShareProduct({ title, url: propUrl }: ShareProductProps)
   // Client-side only URL detection
   const url = propUrl || (mounted ? window.location.href : '');
 
-  if (!mounted) return <div className="h-24 animate-pulse bg-black/5 rounded-2xl my-8"></div>;
+  if (!mounted) return <div className="h-24 animate-pulse bg-[#E6EAF1]/60 rounded-2xl my-8"></div>;
 
   const handleCopy = async () => {
     try {
@@ -73,27 +73,27 @@ export default function ShareProduct({ title, url: propUrl }: ShareProductProps)
   ];
 
   return (
-    <div className="flex flex-col gap-3.5 py-6 border-t border-black/5 mt-8">
+    <div className="flex flex-col gap-3.5 py-6 border-t border-[#E6EAF1] mt-8">
       <div className="flex items-center gap-2">
-        <Share2 className="w-3.5 h-3.5 text-black/30" />
-        <span className="text-[9px] font-absans font-bold uppercase tracking-widest text-black/40">{t('title')}</span>
+        <Share2 className="w-3.5 h-3.5 text-[#0B0F14]/40" />
+        <span className="font-dm-mono text-[10px] uppercase tracking-[0.2em] text-[#0B0F14]/50">{t('title')}</span>
       </div>
       
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 bg-black/5 hover:bg-black/10 border border-black/5 rounded-full px-5 py-2 text-xs font-bold transition-all group"
+          className="flex items-center gap-2 bg-white hover:bg-[#F3F5FA] border border-[#E6EAF1] rounded-full px-5 py-2 text-xs transition-all group"
           title={t('copy')}
         >
           {copied ? (
             <>
               <Check className="w-3.5 h-3.5 text-emerald-600 animate-scale" />
-              <span className="text-emerald-600 font-dm-sans text-[10px] uppercase tracking-wider font-bold">{t('copied')}</span>
+              <span className="text-emerald-600 font-dm-sans text-[11px] font-medium">{t('copied')}</span>
             </>
           ) : (
             <>
               <Link2 className="w-3.5 h-3.5 text-black/40 group-hover:text-black transition-colors" />
-              <span className="text-black/50 group-hover:text-black font-dm-sans text-[10px] uppercase tracking-wider font-bold transition-colors">{t('copy')}</span>
+              <span className="text-black/50 group-hover:text-black font-dm-sans text-[11px] font-medium transition-colors">{t('copy')}</span>
             </>
           )}
         </button>
@@ -105,8 +105,9 @@ export default function ShareProduct({ title, url: propUrl }: ShareProductProps)
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`w-9 h-9 flex items-center justify-center rounded-full bg-black/5 border border-black/5 text-black/40 transition-all ${link.color} hover:bg-black/10 hover:border-black/10`}
+              className={`w-9 h-9 flex items-center justify-center rounded-full bg-white border border-[#E6EAF1] text-[#0B0F14]/50 transition-all ${link.color} hover:bg-[#F3F5FA]`}
               title={`Share on ${link.name}`}
+              aria-label={`Share on ${link.name}`}
             >
               {link.icon}
             </a>

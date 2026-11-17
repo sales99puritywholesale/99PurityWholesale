@@ -1,8 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import { Book } from 'lucide-react';
-import FaqSection from '@/components/shared/FaqSection';
-import GlobalCTA from '@/components/layout/GlobalCTA';
-import { FadeIn } from '@/components/shared/Motion';
+import { PageShell, PageHero, CtaBand } from '@/components/home/page-kit';
+import FaqLight from '@/components/shared/FaqLight';
 import GlossaryClient, { GlossaryTerm, ValueBox } from '@/components/glossary/GlossaryClient';
 
 export async function generateMetadata(props: any) {
@@ -35,9 +33,7 @@ export default async function GlossaryPage({ params: { locale } }: { params: { l
   // Load value boxes
   const valueBoxes: ValueBox[] = await t.raw('ValueBoxes');
 
-  // Safely parse title structure
   const rawTitle = t('Hero.title');
-  const titleParts = rawTitle.includes('&') ? rawTitle.split('&') : [rawTitle, ''];
 
   const definedTermSetSchema = {
     '@context': 'https://schema.org',
@@ -52,65 +48,30 @@ export default async function GlossaryPage({ params: { locale } }: { params: { l
   };
 
   return (
-    <main className="min-h-screen bg-[#F8F8F6] text-black -mt-24 md:-mt-32 relative overflow-hidden">
+    <PageShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSetSchema) }}
       />
-      {/* Grain overlay */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-44 pb-20 md:pt-56 md:pb-32 border-b border-black/5 bg-[#F8F8F6]">
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          <FadeIn className="text-center max-w-4xl mx-auto">
-            {/* Tag Badge */}
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#13a7b7]/10 border border-[#13a7b7]/15 text-[#0b7f8c] rounded-full text-[10px] font-dm-mono font-bold uppercase tracking-widest mb-6">
-              <Book className="w-3.5 h-3.5 text-[#0b7f8c]" />
-              {t('Hero.badge')}
-            </div>
-
-            {/* Title */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-absans font-bold text-black uppercase tracking-tighter leading-[0.95] mb-6">
-              {titleParts[0]}
-              {titleParts[1] && (
-                <>
-                  <br />
-                  <span className="text-[#13a7b7]">& {titleParts[1]}</span>
-                </>
-              )}
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-base md:text-lg text-black/60 font-archia font-medium leading-relaxed max-w-2xl mx-auto">
-              {t('Hero.subtitle')}
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <PageHero eyebrow={t('Hero.badge')} title={rawTitle} intro={t('Hero.subtitle')} />
 
       {/* Glossary Interactive Client: search, filters, cards grid, values boxes */}
       <GlossaryClient terms={terms} valueBoxes={valueBoxes} />
 
-      {/* FAQ Section */}
-      <FaqSection
+      <FaqLight
         id="glossary-faq"
-        eyebrow="(FAQ)"
         title={indexT('FAQ.title')}
         subtitle={indexT('FAQ.subtitle')}
         items={indexT.raw('FAQ.items') as any[]}
-        theme="light"
       />
 
-      {/* Global B2B Call-To-Action Segment */}
-      <GlobalCTA
-        badge="Science & Research"
+      <CtaBand
+        eyebrow="Science & Research"
         title={t('Cta.title')}
-        subtitle={t('Cta.subtitle')}
-        primaryCtaText={t('Cta.button')}
-        primaryCtaHref="/products"
+        description={t('Cta.subtitle')}
+        primary={{ label: t('Cta.button'), href: '/products' }}
       />
-
-    </main>
+    </PageShell>
   );
 }

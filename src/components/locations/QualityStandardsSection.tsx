@@ -17,12 +17,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
     return (
       <>
         {/* Solid-Phase Peptide Synthesis (SPPS) - ES */}
-        <section className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+        <section className="bg-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
           <FadeIn>
-            <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+            <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
               Síntesis Avanzada de Péptidos en Fase Sólida (SPPS)
             </h2>
-            <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed">
+            <div className="prose prose-lg max-w-none text-black/70 leading-relaxed">
               <p className="mb-4">
                 {isAlabama ? (
                   <>La integridad estructural de un péptido de investigación depende fundamentalmente de su proceso de síntesis. En 99 Purity Wholesale, nuestros compuestos se producen utilizando síntesis de péptidos en fase sólida (SPPS) de última generación con química FMOC (fluorenilmetiloxicarbonilo). Este método constituye el estándar de referencia en ingeniería bioquímica, permitiendo la construcción rápida y controlada de cadenas de aminoácidos complejas sin reacciones secundarias ni errores de plegado.</>
@@ -42,7 +42,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
                 ) : isArizona ? (
                   <>Frente a los procesos en fase líquida obsoletos, el método SPPS fija el extremo C-terminal del péptido a una resina insoluble. La eliminación temporal del grupo protector FMOC antes de cada acoplamiento asegura que cada aminoácido forme un enlace peptídico altamente específico. Repetimos este ciclo de forma automatizada para lograr la secuencia exacta, algo crucial en péptidos complejos de 39 aminoácidos como Tirzepatide para asegurar su pureza.</>
                 ) : (
-                  <>A diferencia de los métodos anticuados de síntesis en fase líquida, la SPPS ancla el extremo C-terminal de la cadena peptídica en crecimiento a un soporte de resina insoluble. A medida que se introduce cada aminoácido subsiguiente, el grupo protector FMOC se retira temporalmente, lo que permite la formación de un enlace covalente altamente específico. Este ciclo se repite con meticulosa precisión hasta lograr la secuencia molecular exacta deseada. Para secuencias complejas como <Link href="/products/tirzepatide" className="text-[#13a7b7] hover:underline font-semibold">Tirzepatide</Link> (que consta de 39 aminoácidos individuales), este entorno controlado es la única manera de garantizar un perfil molecular intachable.</>
+                  <>A diferencia de los métodos anticuados de síntesis en fase líquida, la SPPS ancla el extremo C-terminal de la cadena peptídica en crecimiento a un soporte de resina insoluble. A medida que se introduce cada aminoácido subsiguiente, el grupo protector FMOC se retira temporalmente, lo que permite la formación de un enlace covalente altamente específico. Este ciclo se repite con meticulosa precisión hasta lograr la secuencia molecular exacta deseada. Para secuencias complejas como <Link href="/products/tirzepatide" className="text-[#0B6F7B] hover:underline font-semibold">Tirzepatide</Link> (que consta de 39 aminoácidos individuales), este entorno controlado es la única manera de garantizar un perfil molecular intachable.</>
                 )}
               </p>
               <p className="mb-4">
@@ -61,12 +61,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
         </section>
 
         {/* Lyophilization & Cold Chain Integrity - ES */}
-        <section className="bg-[#F8F8F6] border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+        <section className="bg-[#F3F5FA] border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
           <FadeIn>
-            <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+            <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
               Protocolos de Liofilización y Estabilización Molecular
             </h2>
-            <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed">
+            <div className="prose prose-lg max-w-none text-black/70 leading-relaxed">
               <p className="mb-4">
                 {isAlabama ? (
                   <>La pureza inicial del péptido se ve comprometida si se degrada durante el transporte. Las soluciones acuosas son propensas a la hidrólisis, oxidación y descomposición enzimática rápida. Para detener este proceso, todos los compuestos de 99 Purity Wholesale se liofilizan antes de salir de nuestras instalaciones.</>
@@ -97,7 +97,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
                 ) : isArizona ? (
                   <>Para evitar la degradación estructural en el secado, empleamos Manitol de grado médico como protector. El manitol evita la formación de cristales que dañen el péptido y asegura una reconstitución inmediata con agua bacteriostática. En los envíos a Arizona durante los meses de verano, incluimos de forma automática aislamiento térmico y acumuladores de frío para contrarrestar las temperaturas extremas en ruta.</>
                 ) : (
-                  <>Para proteger aún más la frágil estructura molecular durante las fases de congelación y secado, utilizamos Manitol de grado médico como lio-protector y agente de carga. El manitol forma una matriz amorfa alrededor del péptido, evitando la formación de cristales de hielo dañinos y garantizando una disolución rápida y completa cuando el investigador reconstituye el compuesto con <Link href="/products/bac-water" className="text-[#13a7b7] hover:underline font-semibold">agua bacteriostática</Link>. Para compuestos especialmente frágiles o rutas de tránsito extremas durante los meses de verano, nuestra red logística nacional devuelve automáticamente los envíos a protocolos especializados de cadena de frío, utilizando embalajes isotérmicos y regulación térmica focalizada para garantizar que la integridad molecular nunca se vea comprometida.</>
+                  <>Para proteger aún más la frágil estructura molecular durante las fases de congelación y secado, utilizamos Manitol de grado médico como lio-protector y agente de carga. El manitol forma una matriz amorfa alrededor del péptido, evitando la formación de cristales de hielo dañinos y garantizando una disolución rápida y completa cuando el investigador reconstituye el compuesto con <Link href="/products/bac-water" className="text-[#0B6F7B] hover:underline font-semibold">agua bacteriostática</Link>. Para compuestos especialmente frágiles o rutas de tránsito extremas durante los meses de verano, nuestra red logística nacional devuelve automáticamente los envíos a protocolos especializados de cadena de frío, utilizando embalajes isotérmicos y regulación térmica focalizada para garantizar que la integridad molecular nunca se vea comprometida.</>
                 )}
               </p>
             </div>
@@ -105,12 +105,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
         </section>
 
         {/* Strict "Research Use Only" (RUO) Compliance - ES */}
-        <section className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+        <section className="bg-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
           <FadeIn>
-            <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+            <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
               Cumplimiento Estricto de &quot;Solo para Uso en Investigación&quot; (RUO) y Normativa Federal
             </h2>
-            <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed">
+            <div className="prose prose-lg max-w-none text-black/70 leading-relaxed">
               <p className="mb-4">
                 {isAlabama ? (
                   <>El entorno regulatorio sobre la distribución de reactivos químicos en EE. UU. es complejo y estricto. Es fundamental que los compradores entiendan la diferencia entre principios activos clínicos (API) y productos exclusivos para investigación (RUO). Operamos únicamente bajo la categoría RUO.</>
@@ -119,7 +119,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
                 ) : isArizona ? (
                   <>La distribución de reactivos de investigación en EE. UU. se rige por marcos regulatorios estrictos. Los departamentos de compras deben reconocer la diferencia entre compuestos activos farmacéuticos clínicos (API) y materiales destinados únicamente para investigación (RUO). 99 Purity Wholesale opera exclusivamente dentro del canal RUO.</>
                 ) : (
-                  <>El <Link href="/compliance" className="text-[#13a7b7] hover:underline font-semibold">marco regulatorio</Link> que rige la distribución bioquímica en los Estados Unidos es complejo y de estricta aplicación. Es imperativo que los compradores institucionales comprendan la distinción entre los principios activos farmacéuticos (API) destinados al uso clínico y los productos químicos clasificados como &quot;Solo para Uso en Investigación&quot; (RUO). 99 Purity Wholesale opera exclusivamente bajo el marco de RUO.</>
+                  <>El <Link href="/compliance" className="text-[#0B6F7B] hover:underline font-semibold">marco regulatorio</Link> que rige la distribución bioquímica en los Estados Unidos es complejo y de estricta aplicación. Es imperativo que los compradores institucionales comprendan la distinción entre los principios activos farmacéuticos (API) destinados al uso clínico y los productos químicos clasificados como &quot;Solo para Uso en Investigación&quot; (RUO). 99 Purity Wholesale opera exclusivamente bajo el marco de RUO.</>
                 )}
               </p>
               <p className="mb-4">
@@ -141,7 +141,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
                 ) : isArizona ? (
                   <>Por razones de cumplimiento legal, no realizamos ventas al por menor ni al público general. El registro de cuentas B2B requiere un número de EIN corporativo, dirección verificable y una declaración firmada de intención de investigación. El uso no autorizado de estos productos causa la suspensión definitiva de la cuenta de compras. Así protegemos la integridad de las investigaciones y a nuestra red de distribución.</>
                 ) : (
-                  <>Debido a nuestro compromiso absoluto con el cumplimiento normativo, no vendemos al público general. Nuestro <Link href="/wholesale-application" className="text-[#13a7b7] hover:underline font-semibold">proceso de incorporación B2B</Link> requiere la verificación rigurosa de todos los clientes potenciales: solicitamos un Número de Identificación de Empleador (EIN) comercial válido, direcciones corporativas verificables y declaraciones juradas que confirmen el uso exclusivo en investigación. Cualquier indicio de uso indebido dará lugar a la cancelación inmediata y permanente de la cuenta mayorista. Al mantener este estándar inquebrantable, protegemos nuestra cadena de suministro, a nuestros socios institucionales y a la comunidad científica en general.</>
+                  <>Debido a nuestro compromiso absoluto con el cumplimiento normativo, no vendemos al público general. Nuestro <Link href="/wholesale-application" className="text-[#0B6F7B] hover:underline font-semibold">proceso de incorporación B2B</Link> requiere la verificación rigurosa de todos los clientes potenciales: solicitamos un Número de Identificación de Empleador (EIN) comercial válido, direcciones corporativas verificables y declaraciones juradas que confirmen el uso exclusivo en investigación. Cualquier indicio de uso indebido dará lugar a la cancelación inmediata y permanente de la cuenta mayorista. Al mantener este estándar inquebrantable, protegemos nuestra cadena de suministro, a nuestros socios institucionales y a la comunidad científica en general.</>
                 )}
               </p>
             </div>
@@ -154,12 +154,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
   return (
     <>
       {/* Solid-Phase Peptide Synthesis (SPPS) - EN */}
-      <section className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+      <section className="bg-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
         <FadeIn>
-          <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+          <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
             Advanced Solid-Phase Peptide Synthesis (SPPS)
           </h2>
-          <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed">
+          <div className="prose prose-lg max-w-none text-black/70 leading-relaxed">
             <p className="mb-4">
               {isAlabama ? (
                 <>The structural integrity of a research peptide relies fundamentally on its synthesis. At 99 Purity Wholesale, our compounds are produced using state-of-the-art Solid-Phase Peptide Synthesis (SPPS) with FMOC (Fluorenylmethyloxycarbonyl) chemistry. This method is the premier standard in biochemical engineering, enabling the rapid and tightly controlled construction of complex amino acid chains without unwanted side reactions or structural folding errors.</>
@@ -179,7 +179,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
               ) : isArizona ? (
                 <>In contrast to outdated liquid-phase methods, the SPPS process covalently anchors the growing peptide chain&apos;s C-terminus to an insoluble solid support. The temporary removal of the FMOC group before each addition ensures that each subsequent amino acid forms a highly specific peptide bond. We repeat this cycle meticulously to construct the exact sequence desired, which is critical for complex 39-amino-acid sequences like Tirzepatide to ensure a zero-defect purity profile.</>
               ) : (
-                <>Unlike outdated liquid-phase synthesis methods, SPPS anchors the C-terminus of the growing peptide chain to an insoluble resin support. As each subsequent amino acid is introduced, the FMOC protecting group is temporarily removed, allowing for a highly specific covalent bond to form. This cycle is repeated with painstaking precision until the desired molecular sequence is achieved. For complex sequences like <Link href="/products/tirzepatide" className="text-[#13a7b7] hover:underline font-semibold">Tirzepatide</Link> (which consists of 39 distinct amino acids), this controlled environment is the only way to guarantee a flawless molecular profile.</>
+                <>Unlike outdated liquid-phase synthesis methods, SPPS anchors the C-terminus of the growing peptide chain to an insoluble resin support. As each subsequent amino acid is introduced, the FMOC protecting group is temporarily removed, allowing for a highly specific covalent bond to form. This cycle is repeated with painstaking precision until the desired molecular sequence is achieved. For complex sequences like <Link href="/products/tirzepatide" className="text-[#0B6F7B] hover:underline font-semibold">Tirzepatide</Link> (which consists of 39 distinct amino acids), this controlled environment is the only way to guarantee a flawless molecular profile.</>
               )}
             </p>
             <p className="mb-4">
@@ -198,12 +198,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
       </section>
 
       {/* Lyophilization & Cold Chain Integrity - EN */}
-      <section className="bg-[#F8F8F6] border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+      <section className="bg-[#F3F5FA] border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
         <FadeIn>
-          <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+          <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
             Lyophilization & Molecular Stabilization Protocols
           </h2>
-          <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed">
+          <div className="prose prose-lg max-w-none text-black/70 leading-relaxed">
             <p className="mb-4">
               {isAlabama ? (
                 <>A peptide&apos;s initial purity is compromised if it degrades during shipping. Aqueous peptide solutions are highly vulnerable to hydrolysis, oxidation, and rapid enzymatic breakdown. To completely halt these processes, every compound supplied by 99 Purity Wholesale undergoes a thorough lyophilization (freeze-drying) procedure before leaving the lab.</>
@@ -234,7 +234,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
               ) : isArizona ? (
                 <>To protect the delicate peptide structure during freeze-drying, we introduce medical-grade Mannitol as a lyoprotectant and bulking agent. Mannitol forms a protective matrix that prevents crystalline damage and ensures immediate solubility upon reconstitution with bacteriostatic water. For Arizona shipments during high-temperature months, we automatically upgrade transit packaging to include thermal insulation and phase-change cooling packs to counter desert heat.</>
               ) : (
-                <>To further protect the fragile molecular structure during the freezing and drying phases, we utilize medical-grade Mannitol as a lyoprotectant and bulking agent. Mannitol forms an amorphous matrix around the peptide, preventing the formation of damaging ice crystals and ensuring rapid, complete dissolution when the researcher eventually reconstitutes the compound with <Link href="/products/bac-water" className="text-[#13a7b7] hover:underline font-semibold">bacteriostatic water</Link>. For particularly fragile compounds or extreme transit routes during peak summer months, our nationwide logistics network automatically upgrades shipments to specialized cold-chain protocols, utilizing insulated packaging and targeted thermal regulation to guarantee that molecular integrity is never compromised.</>
+                <>To further protect the fragile molecular structure during the freezing and drying phases, we utilize medical-grade Mannitol as a lyoprotectant and bulking agent. Mannitol forms an amorphous matrix around the peptide, preventing the formation of damaging ice crystals and ensuring rapid, complete dissolution when the researcher eventually reconstitutes the compound with <Link href="/products/bac-water" className="text-[#0B6F7B] hover:underline font-semibold">bacteriostatic water</Link>. For particularly fragile compounds or extreme transit routes during peak summer months, our nationwide logistics network automatically upgrades shipments to specialized cold-chain protocols, utilizing insulated packaging and targeted thermal regulation to guarantee that molecular integrity is never compromised.</>
               )}
             </p>
           </div>
@@ -242,12 +242,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
       </section>
 
       {/* Strict "Research Use Only" (RUO) Compliance - EN */}
-      <section className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+      <section className="bg-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
         <FadeIn>
-          <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+          <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
             Strict &quot;Research Use Only&quot; (RUO) & Federal Compliance
           </h2>
-          <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed">
+          <div className="prose prose-lg max-w-none text-black/70 leading-relaxed">
             <p className="mb-4">
               {isAlabama ? (
                 <>The regulatory landscape surrounding biochemical distribution in the United States is complex and rigidly enforced. It is imperative that institutional buyers understand the distinction between active pharmaceutical ingredients (APIs) intended for clinical use and chemicals designated as &quot;Research Use Only&quot; (RUO). 99 Purity Wholesale operates exclusively within the RUO framework.</>
@@ -256,7 +256,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
               ) : isArizona ? (
                 <>Biochemical distribution in the U.S. is subject to strict regulatory frameworks. Institutional procurement officers must recognize the regulatory boundary separating clinical-grade active pharmaceutical ingredients (APIs) from compounds designated strictly for Research Use Only (RUO). 99 Purity Wholesale distributes its catalog exclusively under this RUO designation.</>
               ) : (
-                <>The <Link href="/compliance" className="text-[#13a7b7] hover:underline font-semibold">regulatory landscape</Link> surrounding biochemical distribution in the United States is complex and rigidly enforced. It is imperative that institutional buyers understand the distinction between active pharmaceutical ingredients (APIs) intended for clinical use and chemicals designated as &quot;Research Use Only&quot; (RUO). 99 Purity Wholesale operates exclusively within the RUO framework.</>
+                <>The <Link href="/compliance" className="text-[#0B6F7B] hover:underline font-semibold">regulatory landscape</Link> surrounding biochemical distribution in the United States is complex and rigidly enforced. It is imperative that institutional buyers understand the distinction between active pharmaceutical ingredients (APIs) intended for clinical use and chemicals designated as &quot;Research Use Only&quot; (RUO). 99 Purity Wholesale operates exclusively within the RUO framework.</>
               )}
             </p>
             <p className="mb-4">
@@ -278,7 +278,7 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
               ) : isArizona ? (
                 <>We enforce compliance protocols strictly and do not sell to individual consumers. Our B2B onboarding process requires all accounts to provide a valid Employer Identification Number (EIN), verifiable business addresses, and a signed declaration of research intent. Any indication of intended non-laboratory use leads to immediate, permanent account closure. These standards protect our operations, our clients, and the integrity of scientific research.</>
               ) : (
-                <>Because we take regulatory compliance incredibly seriously, we do not sell to the general public. Our <Link href="/wholesale-application" className="text-[#13a7b7] hover:underline font-semibold">B2B onboarding process</Link> involves rigorous vetting of all prospective clients. We require valid Business Employer Identification Numbers (EIN), verifiable corporate addresses, and signed declarations affirming the intended research use of the compounds. Any indication that a buyer intends to misuse these chemicals will result in the immediate and permanent termination of their wholesale account. By maintaining this unwavering standard of compliance, we protect our supply chain, our institutional partners, and the broader scientific community.</>
+                <>Because we take regulatory compliance incredibly seriously, we do not sell to the general public. Our <Link href="/wholesale-application" className="text-[#0B6F7B] hover:underline font-semibold">B2B onboarding process</Link> involves rigorous vetting of all prospective clients. We require valid Business Employer Identification Numbers (EIN), verifiable corporate addresses, and signed declarations affirming the intended research use of the compounds. Any indication that a buyer intends to misuse these chemicals will result in the immediate and permanent termination of their wholesale account. By maintaining this unwavering standard of compliance, we protect our supply chain, our institutional partners, and the broader scientific community.</>
               )}
             </p>
           </div>
@@ -286,12 +286,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
       </section>
 
       {/* The Criticality of Longitudinal Batch Consistency - EN */}
-      <section className="bg-black text-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+      <section className="bg-[#0B0D10] text-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
         <FadeIn>
-          <h2 className="text-3xl font-absans font-bold text-white uppercase tracking-tight mb-6">
+          <h2 className="text-3xl font-dm-sans font-light text-white tracking-[-0.03em] mb-6">
             The Criticality of Longitudinal Batch Consistency
           </h2>
-          <div className="prose prose-lg max-w-none text-white/70 font-archia font-medium leading-relaxed">
+          <div className="prose prose-lg max-w-none text-white/70 leading-relaxed">
             <p className="mb-4">
               In the realm of rigorous scientific inquiry, variability is the enemy of progress. When a university laboratory or private research firm embarks on a multi-year longitudinal study — whether modeling metabolic pathways with <Link href="/products/retatrutide" className="text-[#1ed4e8] hover:underline font-semibold">Retatrutide</Link> or tissue-repair assays with <Link href="/products/bpc-157" className="text-[#1ed4e8] hover:underline font-semibold">BPC-157</Link> — the chemical compounds they utilize must remain absolutely identical from day one to year five. Even a fractional change in peptide purity, or the introduction of a new synthesis byproduct, can introduce confounding variables that skew assay results, invalidate data sets, and ultimately jeopardize years of expensive research and peer-reviewed publication.
             </p>
@@ -309,12 +309,12 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
       <section className="space-y-8">
         <FadeIn>
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+            <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
               The 99% Purity Mandate: Our Testing Protocol
             </h2>
-            <p className="text-black/60 font-archia font-medium leading-relaxed">
+            <p className="text-black/60 leading-relaxed">
               We do not rely on manufacturer claims. Every compound that enters our national distribution network is subjected to rigorous, independent third-party testing within the United States. Our multi-tiered validation process guarantees that you receive exactly what you ordered, at the highest possible purity — browse our published{' '}
-              <Link href="/certificates-of-analysis" className="text-[#13a7b7] underline underline-offset-2 hover:text-black transition-colors">
+              <Link href="/certificates-of-analysis" className="text-[#0B6F7B] underline underline-offset-2 hover:text-black transition-colors">
                 Certificate of Analysis library
               </Link>{' '}
               to verify a specific batch before you order.
@@ -322,10 +322,10 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white border border-black/5 p-8 rounded-[2rem] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-6 text-[100px] font-absans font-bold text-black/5 group-hover:text-[#13a7b7]/10 transition-colors pointer-events-none leading-none -mt-4 -mr-4">01</div>
-              <h3 className="text-xl font-absans font-bold text-black uppercase tracking-tight mb-4 relative z-10">HPLC Analysis</h3>
-              <p className="text-black/60 font-archia text-sm leading-relaxed relative z-10">
+            <div className="bg-white border border-black/5 p-8 rounded-[1.25rem] relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-6 text-[100px] font-dm-sans font-medium text-black/5 group-hover:text-[#0B6F7B]/10 transition-colors pointer-events-none leading-none -mt-4 -mr-4">01</div>
+              <h3 className="text-xl font-dm-sans font-light text-black tracking-[-0.03em] mb-4 relative z-10">HPLC Analysis</h3>
+              <p className="text-black/60 text-sm leading-relaxed relative z-10">
                 {isAlaska ? (
                   <>HPLC testing separates, identifies, and measures each component in the peptide batch, verifying that the active compound&apos;s concentration meets our strict 99% purity benchmark before release.</>
                 ) : isArizona ? (
@@ -338,10 +338,10 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
               </p>
             </div>
 
-            <div className="bg-white border border-black/5 p-8 rounded-[2rem] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-6 text-[100px] font-absans font-bold text-black/5 group-hover:text-[#13a7b7]/10 transition-colors pointer-events-none leading-none -mt-4 -mr-4">02</div>
-              <h3 className="text-xl font-absans font-bold text-black uppercase tracking-tight mb-4 relative z-10">Mass Spectrometry</h3>
-              <p className="text-black/60 font-archia text-sm leading-relaxed relative z-10">
+            <div className="bg-white border border-black/5 p-8 rounded-[1.25rem] relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-6 text-[100px] font-dm-sans font-medium text-black/5 group-hover:text-[#0B6F7B]/10 transition-colors pointer-events-none leading-none -mt-4 -mr-4">02</div>
+              <h3 className="text-xl font-dm-sans font-light text-black tracking-[-0.03em] mb-4 relative z-10">Mass Spectrometry</h3>
+              <p className="text-black/60 text-sm leading-relaxed relative z-10">
                 {isAlaska ? (
                   <>Mass spectrometry validates the synthesized compound&apos;s molecular weight and chain structure, confirming there are no sequence mutations or truncated chains in the final batch.</>
                 ) : isArizona ? (
@@ -354,10 +354,10 @@ export default function QualityStandardsSection({ locationSlug }: { locationSlug
               </p>
             </div>
 
-            <div className="bg-white border border-black/5 p-8 rounded-[2rem] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-6 text-[100px] font-absans font-bold text-black/5 group-hover:text-[#13a7b7]/10 transition-colors pointer-events-none leading-none -mt-4 -mr-4">03</div>
-              <h3 className="text-xl font-absans font-bold text-black uppercase tracking-tight mb-4 relative z-10">Batch Documentation</h3>
-              <p className="text-black/60 font-archia text-sm leading-relaxed relative z-10">
+            <div className="bg-white border border-black/5 p-8 rounded-[1.25rem] relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-6 text-[100px] font-dm-sans font-medium text-black/5 group-hover:text-[#0B6F7B]/10 transition-colors pointer-events-none leading-none -mt-4 -mr-4">03</div>
+              <h3 className="text-xl font-dm-sans font-light text-black tracking-[-0.03em] mb-4 relative z-10">Batch Documentation</h3>
+              <p className="text-black/60 text-sm leading-relaxed relative z-10">
                 {isAlaska ? (
                   <>All analytical testing data is compiled into a batch-specific Certificate of Analysis (COA). We permanently archive these files and include the matching COA with every order.</>
                 ) : isArizona ? (

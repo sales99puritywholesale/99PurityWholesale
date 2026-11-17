@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
           <p>
             To establish a wholesale account and fulfill research compound orders, we collect relevant professional information, including:
           </p>
-          <ul className="list-disc pl-5 space-y-2 mt-4">
+          <ul className="space-y-2 mt-4">
             <li><strong>Corporate Credentials:</strong> Business name, state registration, employer identification numbers (EIN), and clinic licensing information.</li>
             <li><strong>Operational Contact Info:</strong> Work email addresses, shipping/billing physical addresses, and corporate telephone numbers.</li>
             <li><strong>Compliance Materials:</strong> Professional attestations, laboratory credentials, and intended research descriptions.</li>
@@ -60,7 +60,7 @@ export default function PrivacyPolicyPage() {
           <p>
             We do not sell, rent, or trade your corporate information with marketing companies. Data sharing is limited to essential operational partners, specifically:
           </p>
-          <ul className="list-disc pl-5 space-y-2 mt-4">
+          <ul className="space-y-2 mt-4">
             <li><strong>HPLC Verification Laboratories:</strong> Only when validating research credentials or verifying batch documentation.</li>
             <li><strong>LTL Logistics & Shipping Carriers:</strong> To transport and deliver wholesale research kits.</li>
             <li><strong>Legal Counsel:</strong> In compliance with federal audits or regulatory verification requirements.</li>

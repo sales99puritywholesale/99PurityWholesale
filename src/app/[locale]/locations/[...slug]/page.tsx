@@ -6,8 +6,7 @@ import citiesData from '@/data/cities.json';
 import productsData from '@/data/products.json';
 import { getTranslations } from 'next-intl/server';
 import FaqSection from '@/components/shared/FaqSection';
-import GlobalCTA from '@/components/layout/GlobalCTA';
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/shared/Motion';
+import { PageShell, PageHero, Section, CardGrid, PillButton, WRAP, SECTION, card } from '@/components/home/page-kit';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import UnitedStatesHubContent from '@/components/locations/UnitedStatesHubContent';
 import DelawareContent from '@/components/locations/DelawareContent';
@@ -198,8 +197,12 @@ export default async function LocationTemplatePage({ params }: { params: { local
         ? ['🇺🇸 Fabricado en EE. UU.', 'Pureza ≥99%', 'COA de Lote Verificado', 'Solo B2B', 'Entrega en 2–4 Días']
         : ['🇺🇸 U.S. Manufactured', '≥99% Purity', 'Batch COA Verified', 'B2B Only', '2–4 Day Delivery']);
 
+  const H2 = 'text-[clamp(1.6rem,2.8vw,2.3rem)] font-light leading-tight tracking-[-0.03em] text-[#0B0F14]';
+  const H3 = 'text-[1.3rem] font-light leading-tight tracking-[-0.03em] text-[#0B0F14]';
+  const crumb = 'transition-colors hover:text-[#0B6F7B]';
+
   return (
-    <main className="min-h-screen bg-[#F8F8F6] text-black -mt-24 md:-mt-32">
+    <PageShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -216,173 +219,150 @@ export default async function LocationTemplatePage({ params }: { params: { local
         ] : []),
         { name: location.city, item: `${baseUrl}/${localePrefix}locations/${params.slug.join('/')}` }
       ]} />
-      
-      {/* Grain overlay */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-44 pb-20 md:pt-56 md:pb-32 border-b border-black/5 bg-[#F8F8F6]">
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          <FadeIn>
-            {/* Breadcrumb */}
-            <div className="flex flex-wrap items-center gap-2 mb-8 text-black/35 font-dm-mono text-[10px] uppercase tracking-[0.2em] font-bold">
-              <Link href="/" className="hover:text-[#13a7b7] transition-colors">{t('home')}</Link>
+      {/* Breadcrumb */}
+      <div className={`${WRAP} pt-4 md:pt-6`}>
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/45">
+          <Link href="/" className={crumb}>{t('home')}</Link>
+          <span>/</span>
+          <Link href="/locations" className={crumb}>{t('locations')}</Link>
+          <span>/</span>
+          {location.city !== location.region ? (
+            <>
+              <Link href={`/locations/${location.region.toLowerCase().replace(/ /g, '-')}`} className={crumb}>
+                {translatedRegion}
+              </Link>
               <span>/</span>
-              <Link href="/locations" className="hover:text-[#13a7b7] transition-colors">{t('locations')}</Link>
-              <span>/</span>
-              {location.city !== location.region ? (
+              {isCity && (
                 <>
-                  <Link href={`/locations/${location.region.toLowerCase().replace(/ /g, '-')}`} className="hover:text-[#13a7b7] transition-colors">
-                    {translatedRegion}
+                  <Link href={`/locations/${location.region.toLowerCase().replace(/ /g, '-')}/${location.stateSlug}`} className={crumb}>
+                    {location.state}
                   </Link>
                   <span>/</span>
-                  {isCity && (
-                    <>
-                      <Link href={`/locations/${location.region.toLowerCase().replace(/ /g, '-')}/${location.stateSlug}`} className="hover:text-[#13a7b7] transition-colors">
-                        {location.state}
-                      </Link>
-                      <span>/</span>
-                    </>
-                  )}
-                  <span className="text-[#13a7b7]">{location.city}</span>
                 </>
-              ) : (
-                <span className="text-[#13a7b7]">{translatedRegion}</span>
               )}
-            </div>
+              <span className="text-[#0B6F7B]">{location.city}</span>
+            </>
+          ) : (
+            <span className="text-[#0B6F7B]">{translatedRegion}</span>
+          )}
+        </nav>
+      </div>
 
-            <div className="flex items-center gap-2 mb-4">
-              <MapPin className="w-4 h-4 text-[#13a7b7]" />
-              <span className="text-[#13a7b7] font-dm-mono text-[10px] font-bold uppercase tracking-widest">
-                {location.city !== location.region ? `${location.city} · ` : ''}{translatedRegion}
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-absans text-black uppercase tracking-tight max-w-5xl leading-tight mb-8">
-              {locData.h1}
-            </h1>
-            <p className="text-base md:text-lg text-black/60 font-archia leading-relaxed max-w-3xl font-medium mb-10">
-              {locData.intro}
-            </p>
+      <PageHero
+        eyebrow={`${location.city !== location.region ? `${location.city} · ` : ''}${translatedRegion}`}
+        title={locData.h1}
+        intro={locData.intro}
+        actions={
+          <>
+            <a href="#wholesale-inquiry" className="group inline-flex items-center gap-3 rounded-full bg-[#0B0F14] py-2 pl-5 pr-2 text-[13px] font-medium text-white transition-colors hover:bg-[#1b232d]">
+              <span>{t('requestPricing')}</span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#4FC3D0] text-[#0B0F14] transition-transform duration-300 group-hover:-rotate-45"><ArrowRight className="h-3.5 w-3.5" /></span>
+            </a>
+            <PillButton href="/products" variant="outline">{t('exploreCatalog')}</PillButton>
+          </>
+        }
+      />
 
-            {/* Hero CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 mb-10">
-              <a
-                href="#wholesale-inquiry"
-                className="inline-flex items-center justify-center gap-3 bg-[#0D0E10] hover:bg-[#13a7b7] text-white px-8 py-4 rounded-2xl font-absans text-xs uppercase tracking-widest font-bold shadow-[0_10px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_10px_30px_rgba(19,167,183,0.3)] transition-all duration-300 group"
-              >
-                <span>{t('requestPricing')}</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
+      {/* Trust badges */}
+      <div className={WRAP}>
+        <ul className="flex flex-wrap gap-2">
+          {trustBadges.map((badge) => (
+            <li key={badge} className="rounded-full border border-[#E6EAF1] bg-white px-4 py-2 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/60">
+              {badge}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-              <Link
-                href="/products"
-                className="inline-flex items-center justify-center gap-3 bg-white hover:bg-black/5 text-black/80 hover:text-black border border-black/10 px-8 py-4 rounded-2xl font-absans text-xs uppercase tracking-widest font-bold shadow-sm hover:border-[#13a7b7]/30 transition-all duration-300 group"
-              >
-                <FlaskConical className="w-4 h-4 text-[#13a7b7] transition-transform duration-300 group-hover:scale-110" />
-                <span>{t('exploreCatalog')}</span>
-              </Link>
-            </div>
+      {/* Main content grid */}
+      <section className={`${SECTION} relative z-10`}>
+        <div className={WRAP}>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
 
-            {/* Quick Trust Badges */}
-            <div className="flex flex-wrap gap-2">
-              {trustBadges.map((badge) => (
-                <span key={badge} className="bg-white border border-black/5 text-black/60 px-4 py-2 rounded-full font-dm-mono text-[9px] uppercase tracking-wider font-semibold shadow-sm">
-                  {badge}
-                </span>
-              ))}
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* Main Content Grid */}
-      <section className="py-20 relative z-10">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
-            {/* Left: Rich Content */}
-            <div className="lg:col-span-8 space-y-16">
+            {/* Left: rich content */}
+            <div className="space-y-14 lg:col-span-8 md:space-y-16">
               {location.slug === 'united-states' ? (
                 <UnitedStatesHubContent />
               ) : location.slug === 'delaware' ? (
                 <DelawareContent locale={params.locale} />
               ) : (
                 <>
-              {/* Body Content */}
-              <FadeIn className="space-y-6">
-                <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight">
+              {/* Body content */}
+              <div className="space-y-6">
+                <h2 className={H2}>
                   {t('contactTitle', { city: location.city })}
                 </h2>
-                <div className="space-y-4 text-black/60 font-archia font-medium leading-relaxed text-sm md:text-base">
-                  <p className="text-black/85 font-semibold leading-relaxed">{linkifyText(locData.bodyP1, { excludeTerms: selfExcludeTerms, usedHrefs: usedLinkHrefs })}</p>
+                <div className="space-y-4 text-[15px] leading-[1.75] text-[#0B0F14]/65">
+                  <p className="text-[#0B0F14]/85">{linkifyText(locData.bodyP1, { excludeTerms: selfExcludeTerms, usedHrefs: usedLinkHrefs })}</p>
                   <p>{linkifyText(locData.bodyP2, { excludeTerms: selfExcludeTerms, usedHrefs: usedLinkHrefs })}</p>
                   <p>{linkifyText(locData.bodyP3, { excludeTerms: selfExcludeTerms, usedHrefs: usedLinkHrefs })}</p>
                   {locData.bodyP4 && <p>{linkifyText(locData.bodyP4, { excludeTerms: selfExcludeTerms, usedHrefs: usedLinkHrefs })}</p>}
                   {locData.bodyP5 && <p>{linkifyText(locData.bodyP5, { excludeTerms: selfExcludeTerms, usedHrefs: usedLinkHrefs })}</p>}
                 </div>
-              </FadeIn>
-
-              {/* Popular Products */}
-              <div id="popular-compounds" className="scroll-mt-36">
-                <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm">
-                <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight mb-4">
-                  {t('topTitle', { city: location.city })}
-                </h2>
-                <p className="text-black/50 font-archia font-semibold text-sm mb-8">
-                  {t('topDesc', { city: location.city })}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {(location.popularProducts || []).map((product: any, idx: number) => {
-                    const matchedProduct = productsData.find(
-                      (p: any) => p.name.toLowerCase() === product.toLowerCase()
-                    );
-                    const href = matchedProduct 
-                      ? `/products/${matchedProduct.slug}`
-                      : '/products';
-
-                    return (
-                      <Link 
-                        key={idx} 
-                        href={href}
-                        className="bg-[#F8F8F6] border border-black/5 p-6 rounded-2xl flex items-center justify-between group hover:border-[#13a7b7]/30 hover:bg-white hover:shadow-md transition-all duration-300"
-                      >
-                        <div>
-                          <span className="font-absans font-bold text-black text-lg uppercase tracking-tight group-hover:text-[#13a7b7] transition-colors">{product}</span>
-                          <div className="text-[#13a7b7] font-dm-mono text-[9px] font-bold uppercase tracking-widest mt-1.5">{t('researchGrade')} · {t('puritySuffix')}</div>
-                        </div>
-                        <div className="w-8 h-8 rounded-full bg-white border border-black/5 flex items-center justify-center group-hover:border-[#13a7b7]/30 transition-colors shadow-sm">
-                          <CheckCircle2 className="w-4 h-4 text-black/30 group-hover:text-[#13a7b7] transition-colors" />
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-                <div className="mt-8 pt-6 border-t border-black/5">
-                  <Link href="/products" className="inline-flex items-center gap-2 text-[#13a7b7] font-dm-mono text-xs uppercase tracking-widest hover:text-black transition-colors font-bold">
-                    {t('viewCatalog')} <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </FadeIn>
               </div>
 
-              {/* Why Choose Us for This Location */}
+              {/* Popular products */}
+              <div id="popular-compounds" className="scroll-mt-28">
+                <div className={`${card} p-6 md:p-9`}>
+                  <h2 className={`${H2} mb-3`}>
+                    {t('topTitle', { city: location.city })}
+                  </h2>
+                  <p className="mb-8 text-[14px] text-[#0B0F14]/60">
+                    {t('topDesc', { city: location.city })}
+                  </p>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {(location.popularProducts || []).map((product: any, idx: number) => {
+                      const matchedProduct = productsData.find(
+                        (p: any) => p.name.toLowerCase() === product.toLowerCase()
+                      );
+                      const href = matchedProduct
+                        ? `/products/${matchedProduct.slug}`
+                        : '/products';
+
+                      return (
+                        <Link
+                          key={idx}
+                          href={href}
+                          className="group flex items-center justify-between gap-3 rounded-[1rem] border border-[#E6EAF1] bg-[#F3F5FA] p-5 transition-colors duration-300 hover:border-[#4FC3D0] hover:bg-white"
+                        >
+                          <div>
+                            <span className="text-[1.15rem] font-light tracking-[-0.02em] text-[#0B0F14]">{product}</span>
+                            <div className="mt-1.5 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B6F7B]">{t('researchGrade')} · {t('puritySuffix')}</div>
+                          </div>
+                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0B0F14] text-white transition-colors group-hover:bg-[#4FC3D0] group-hover:text-[#0B0F14]">
+                            <ArrowRight className="h-3.5 w-3.5" />
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-8 border-t border-[#E6EAF1] pt-6">
+                    <Link href="/products" className="inline-flex items-center gap-2 text-[13px] font-medium text-[#0B6F7B] transition-colors hover:text-[#0B0F14]">
+                      {t('viewCatalog')} <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Why choose us for this location */}
               {locData.whyUs && locData.whyUs.length > 0 && (
-                <FadeIn className="bg-[#13a7b7]/5 border border-[#13a7b7]/10 rounded-[2.5rem] p-8 md:p-10">
-                  <h2 className="text-2xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+                <div className="rounded-[1.25rem] border border-[#4FC3D0]/30 bg-[#4FC3D0]/10 p-6 md:p-9">
+                  <h2 className={`${H3} mb-6`}>
                     {t('whyTitle', { city: location.city })}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {locData.whyUs.map((point: string, i: number) => (
                       <div key={i} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-[#13a7b7] mt-0.5 flex-shrink-0" />
-                        <span className="text-black/75 font-archia text-sm font-semibold leading-relaxed">{point}</span>
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#0B6F7B]" />
+                        <span className="text-[14px] leading-relaxed text-[#0B0F14]/75">{point}</span>
                       </div>
                     ))}
                   </div>
-                </FadeIn>
+                </div>
               )}
 
-              {/* Compound Spotlight (State only) */}
+              {/* Compound spotlight (state only) */}
               {!isCity && (
                 <CompoundSpotlight
                   heading={isEs ? `Compuestos de Investigación Destacados — Suministro para ${location.city}` : `Featured Research Compounds — Supply for ${location.city}`}
@@ -392,69 +372,69 @@ export default async function LocationTemplatePage({ params }: { params: { local
                 />
               )}
 
-              {/* Institutions Served (GEO Content) */}
+              {/* Institutions served (GEO content) */}
               {(locData.researchInstitutions || locData.universities || locData.biotechOverview || locData.industriesWeSupply) ? (
-                <FadeIn className="space-y-6">
-                  <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight border-b border-black/10 pb-4">
+                <div className="space-y-6">
+                  <h2 className={`${H2} border-b border-[#E6EAF1] pb-4`}>
                     {isEs ? `A Quién Servimos en ${location.city}` : `Who We Serve in ${location.city}`}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {[
                       { icon: Microscope, title: isEs ? 'Instituciones de Investigación' : 'Research Institutions', body: locData.researchInstitutions },
                       { icon: GraduationCap, title: isEs ? 'Universidades' : 'Universities', body: locData.universities },
                       { icon: Building2, title: isEs ? 'Panorama de la Industria Biotecnológica' : 'Biotech Industry Overview', body: locData.biotechOverview },
                       { icon: Briefcase, title: isEs ? 'Industrias a las que Suministramos' : 'Industries We Supply', body: locData.industriesWeSupply },
                     ].filter((cat) => cat.body).map((cat, i) => (
-                      <div key={i} className="bg-white border border-black/5 rounded-2xl p-6 shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-[#F8F8F6] border border-black/5 flex items-center justify-center flex-shrink-0">
-                            <cat.icon className="w-4 h-4 text-[#13a7b7]" />
+                      <div key={i} className={`${card} p-6`}>
+                        <div className="mb-3 flex items-center gap-3">
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                            <cat.icon className="h-4 w-4" />
                           </div>
-                          <h3 className="font-absans font-bold text-black text-sm uppercase tracking-wide">{cat.title}</h3>
+                          <h3 className="text-[15px] font-medium tracking-[-0.01em]">{cat.title}</h3>
                         </div>
-                        <p className="text-black/65 font-archia font-medium leading-relaxed text-xs md:text-sm">
+                        <p className="text-[13.5px] leading-relaxed text-[#0B0F14]/65">
                           {linkifyText(cat.body!, { excludeTerms: selfExcludeTerms, maxLinks: 3, usedHrefs: usedLinkHrefs })}
                         </p>
                       </div>
                     ))}
                   </div>
-                </FadeIn>
+                </div>
               ) : locData.institutionsServed && (
-                <FadeIn className="space-y-4">
-                  <h3 className="text-xl md:text-2xl font-absans font-bold text-black uppercase tracking-tight border-b border-black/10 pb-4">
+                <div className="space-y-4">
+                  <h3 className={`${H3} border-b border-[#E6EAF1] pb-4`}>
                     {isEs ? `Instituciones a las que Servimos en ${location.city}` : `Institutions Served in ${location.city}`}
                   </h3>
-                  <p className="text-black/75 font-archia font-medium leading-relaxed text-sm md:text-base">
+                  <p className="text-[15px] leading-[1.75] text-[#0B0F14]/70">
                     {linkifyText(locData.institutionsServed, { excludeTerms: selfExcludeTerms, usedHrefs: usedLinkHrefs })}
                   </p>
-                </FadeIn>
+                </div>
               )}
 
-              {/* Wholesale Ordering Process */}
+              {/* Wholesale ordering process */}
               <WholesaleOrderingProcess locationName={location.city} />
 
-              {/* Cities We Serve (Rendered only on State pages) */}
+              {/* Cities we serve (state pages only) */}
               {!isCity && citiesData.some(c => c.stateSlug === location.slug) && (
-                <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm">
-                  <h3 className="text-2xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+                <div className={`${card} p-6 md:p-9`}>
+                  <h3 className={`${H3} mb-6`}>
                     {isEs ? `Ciudades a las que Servimos en ${location.city}` : `Cities We Serve in ${location.city}`}
                   </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                     {citiesData.filter(c => c.stateSlug === location.slug).map((city) => (
-                      <Link 
-                        key={city.slug} 
+                      <Link
+                        key={city.slug}
                         href={`/locations/${city.region.toLowerCase().replace(/ /g, '-')}/${city.stateSlug}/${city.slug}`}
-                        className="text-black/60 hover:text-[#13a7b7] font-archia font-semibold transition-colors flex items-center gap-2"
+                        className="flex items-center gap-2 text-[14px] text-[#0B0F14]/65 transition-colors hover:text-[#0B6F7B]"
                       >
-                        <MapPin className="w-3.5 h-3.5 text-[#13a7b7]/50" />
+                        <MapPin className="h-3.5 w-3.5 text-[#4FC3D0]" />
                         {city.city}
                       </Link>
                     ))}
                   </div>
-                </FadeIn>
+                </div>
               )}
 
-              {/* Nationwide Logistics & Distribution Framework (State only) */}
+              {/* Nationwide logistics framework (state only) */}
               {!isCity && (
                 <NationwideLogisticsTable
                   heading={isEs ? `Marco de Distribución Nacional para ${location.city}` : `Nationwide Distribution Framework Serving ${location.city}`}
@@ -464,62 +444,62 @@ export default async function LocationTemplatePage({ params }: { params: { local
                 />
               )}
 
-              {/* Local Logistics (GEO Content) */}
+              {/* Local logistics (GEO content) */}
               {locData.logisticsDetails && (
-                <FadeIn className="space-y-4">
-                  <h3 className="text-xl md:text-2xl font-absans font-bold text-black uppercase tracking-tight border-b border-black/10 pb-4">
+                <div className="space-y-4">
+                  <h3 className={`${H3} border-b border-[#E6EAF1] pb-4`}>
                     {isEs ? `Logística Mayorista Prioritaria para ${location.city}` : `Priority Wholesale Logistics to ${location.city}`}
                   </h3>
-                  <p className="text-black/75 font-archia font-medium leading-relaxed text-sm md:text-base">
+                  <p className="text-[15px] leading-[1.75] text-[#0B0F14]/70">
                     {linkifyText(locData.logisticsDetails, { excludeTerms: selfExcludeTerms, maxLinks: 3, usedHrefs: usedLinkHrefs })}
                   </p>
-                </FadeIn>
+                </div>
               )}
 
-              {/* Shipping Info */}
-              <FadeIn className="bg-white border border-black/5 rounded-[2.5rem] p-8 md:p-10 shadow-sm">
-                <div className="flex items-start gap-5 mb-8">
-                  <div className="w-12 h-12 rounded-2xl bg-[#F8F8F6] border border-black/5 flex items-center justify-center flex-shrink-0">
-                    <Truck className="w-6 h-6 text-black/55" />
+              {/* Shipping info */}
+              <div className={`${card} p-6 md:p-9`}>
+                <div className="mb-8 flex items-start gap-5">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                    <Truck className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-absans font-bold text-black uppercase tracking-tight mb-2">
+                    <h3 className={`${H3} mb-2`}>
                       {t('fastShippingTitle', { state: location.city })}
                     </h3>
-                    <p className="text-black/50 font-archia font-semibold text-sm leading-relaxed">
+                    <p className="text-[14px] leading-relaxed text-[#0B0F14]/60">
                       {t('fastShippingDesc', { city: location.city })}
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                   {[
                     { icon: Package, label: t('shippingPoints.priority'), sub: t('shippingPoints.prioritySub', { city: location.city }) },
                     { icon: ShieldCheck, label: t('shippingPoints.discreet'), sub: t('shippingPoints.discreetSub') },
                     { icon: CheckCircle2, label: t('shippingPoints.noCustoms'), sub: t('shippingPoints.noCustomsSub') },
                   ].map((item, i) => (
-                    <div key={i} className="flex flex-col justify-between bg-[#F8F8F6] border border-black/5 rounded-2xl p-5 hover:border-[#13a7b7]/20 transition-all">
-                      <div className="w-9 h-9 rounded-xl bg-white border border-black/5 flex items-center justify-center mb-4">
-                        <item.icon className="w-4 h-4 text-black/55" />
+                    <div key={i} className="flex flex-col justify-between rounded-[1rem] border border-[#E6EAF1] bg-[#F3F5FA] p-5">
+                      <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0B6F7B]">
+                        <item.icon className="h-4 w-4" />
                       </div>
                       <div>
-                        <div className="text-black font-absans font-bold text-sm uppercase tracking-wide">{item.label}</div>
-                        <div className="text-black/40 font-archia font-semibold text-[10px] leading-relaxed mt-1">{item.sub}</div>
+                        <div className="text-[14px] font-medium tracking-[-0.01em]">{item.label}</div>
+                        <div className="mt-1 text-[12px] leading-relaxed text-[#0B0F14]/55">{item.sub}</div>
                       </div>
                     </div>
                   ))}
                 </div>
-              </FadeIn>
+              </div>
 
-              {/* Quality, Compliance & Testing Standards (State only) */}
+              {/* Quality, compliance and testing standards (state only) */}
               {!isCity && <QualityStandardsSection locationSlug={location.slug} />}
 
-              {/* SEO Content: What We Supply (State only) */}
+              {/* SEO content: what we supply (state only) */}
               {!isCity && (
-                <FadeIn className="space-y-6">
-                  <h2 className="text-2xl md:text-3xl font-absans font-bold text-black uppercase tracking-tight">
+                <div className="space-y-6">
+                  <h2 className={H2}>
                     {t('catTitle', { city: location.city })}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {[
                       { cat: isEs ? 'Péptidos GLP-1 y Metabólicos' : 'GLP-1 & Metabolic Peptides', products: 'Semaglutide, Tirzepatide, Retatrutide, Cagrilintide' },
                       { cat: isEs ? 'Péptidos de Hormona de Crecimiento' : 'Growth Hormone Peptides', products: 'Ipamorelin, CJC-1295, Sermorelin, Tesamorelin, GHRP-2' },
@@ -528,14 +508,14 @@ export default async function LocationTemplatePage({ params }: { params: { local
                       { cat: isEs ? 'Antienvejecimiento y Longevidad' : 'Anti-Aging & Longevity', products: 'Epithalon, MOTS-c, NAD+, Thymalin, SS-31' },
                       { cat: isEs ? 'Cosméticos y Estéticos' : 'Cosmetic & Aesthetic', products: 'GHK-Cu, Snap-8, AOD9604, 5-AMINO-1MQ' },
                     ].map((item, i) => (
-                      <div key={i} className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[#13a7b7]/25 transition-all shadow-sm">
+                      <div key={i} className={`${card} p-6`}>
                         <div className="flex items-start gap-4">
-                          <div className="w-10 h-10 rounded-xl bg-[#F8F8F6] border border-black/5 flex items-center justify-center flex-shrink-0">
-                            <FlaskConical className="w-5 h-5 text-black/55" />
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F3F5FA] text-[#0B6F7B]">
+                            <FlaskConical className="h-4 w-4" />
                           </div>
                           <div>
-                            <div className="text-black font-absans font-bold text-sm uppercase tracking-wide mb-1.5">{item.cat}</div>
-                            <div className="text-black/45 font-archia font-medium text-[11px] leading-relaxed flex flex-wrap gap-x-1 gap-y-0.5">
+                            <div className="mb-1.5 text-[15px] font-medium tracking-[-0.01em]">{item.cat}</div>
+                            <div className="flex flex-wrap gap-x-1 gap-y-0.5 text-[12.5px] leading-relaxed text-[#0B0F14]/55">
                               {item.products.split(', ').map((prodName: string, pIdx: number, arr: string[]) => {
                                 const matched = productsData.find(
                                   (p: any) => p.name.toLowerCase() === prodName.toLowerCase()
@@ -548,13 +528,13 @@ export default async function LocationTemplatePage({ params }: { params: { local
                                 return (
                                   <span key={prodName} className="inline-flex items-center">
                                     {alreadyLinkedElsewhere ? (
-                                      <span className="font-semibold">{prodName}</span>
+                                      <span className="font-medium">{prodName}</span>
                                     ) : (
-                                      <Link href={href} className="hover:text-[#13a7b7] hover:underline transition-colors font-semibold">
+                                      <Link href={href} className="font-medium transition-colors hover:text-[#0B6F7B] hover:underline">
                                         {prodName}
                                       </Link>
                                     )}
-                                    {pIdx < arr.length - 1 && <span className="text-black/30 ml-0.5">,</span>}
+                                    {pIdx < arr.length - 1 && <span className="ml-0.5 text-[#0B0F14]/30">,</span>}
                                   </span>
                                 );
                               })}
@@ -564,74 +544,72 @@ export default async function LocationTemplatePage({ params }: { params: { local
                       </div>
                     ))}
                   </div>
-                </FadeIn>
+                </div>
               )}
 
-              {/* Compliance Note */}
-              <FadeIn className="bg-amber-500/5 border border-amber-500/10 rounded-[2rem] p-6 flex gap-4">
-                <ShieldAlert className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+              {/* Compliance note */}
+              <div className="flex gap-4 rounded-[1.25rem] border border-amber-500/20 bg-amber-500/5 p-6">
+                <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-amber-600" />
                 <div>
-                  <h4 className="font-absans font-bold text-amber-700 text-sm uppercase tracking-wider mb-1.5">{t('complianceTitle')}</h4>
-                  <p className="text-xs text-amber-950/60 font-archia font-semibold leading-relaxed">
+                  <h4 className="mb-1.5 text-[15px] font-medium text-amber-800">{t('complianceTitle')}</h4>
+                  <p className="text-[13px] leading-relaxed text-amber-950/65">
                     {t('complianceDesc', { city: location.city, state: location.state })}
                   </p>
                 </div>
-              </FadeIn>
+              </div>
                 </>
               )}
             </div>
 
-            {/* Right: Sticky Sidebar CTAs */}
-            <div className="lg:col-span-4 relative">
-              <div className="sticky top-28 md:top-36 space-y-6">
+            {/* Right: sticky sidebar CTAs */}
+            <div className="relative lg:col-span-4">
+              <div className="space-y-4 lg:sticky lg:top-28">
 
-                {/* Primary CTA Card */}
-                <div id="wholesale-inquiry" className="scroll-mt-36 bg-[#0D0E10] text-white border border-white/5 rounded-[2.5rem] p-6 md:p-8 shadow-2xl relative overflow-hidden group">
-                  <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-                  
-                  <h3 className="text-xl md:text-2xl font-absans font-bold text-white uppercase tracking-tight mb-2">
+                {/* Primary CTA card */}
+                <div id="wholesale-inquiry" className="scroll-mt-28 rounded-[1.25rem] bg-[#0B0D10] p-6 text-white md:p-8">
+                  <h3 className="mb-2 text-[1.4rem] font-light leading-tight tracking-[-0.03em]">
                     {t('contactTitle', { city: location.city })}
                   </h3>
-                  <p className="text-white/40 font-archia font-medium text-xs leading-relaxed mb-8">
+                  <p className="mb-8 text-[13px] leading-relaxed text-white/55">
                     {t('contactDesc', { state: location.city })}
                   </p>
 
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <a
                       href={`https://wa.me/18433307365?text=${encodeURIComponent(t('whatsappMsg', { city: location.city, state: location.state }))}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full bg-white hover:bg-white/90 text-black font-bold py-4 rounded-xl transition-all font-absans text-[11px] uppercase tracking-widest flex items-center justify-center gap-2.5 shadow-lg"
+                      className="flex w-full items-center justify-center gap-2.5 rounded-full bg-[#4FC3D0] py-3.5 text-[13px] font-medium text-[#0B0F14] transition-colors hover:bg-[#6fd2dd]"
                     >
-                      <Zap className="w-4 h-4 fill-current animate-pulse" /> {t('whatsappCta')}
+                      <Zap className="h-4 w-4" /> {t('whatsappCta')}
                     </a>
 
-                    <div className="relative flex items-center py-2">
+                    <div className="relative flex items-center py-1">
                       <div className="flex-grow border-t border-white/10"></div>
-                      <span className="flex-shrink-0 mx-4 text-white/30 font-dm-mono text-[9px] uppercase tracking-widest font-bold">{t('or')}</span>
+                      <span className="mx-4 flex-shrink-0 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-white/35">{t('or')}</span>
                       <div className="flex-grow border-t border-white/10"></div>
                     </div>
 
                     <a
                       href={`mailto:sales@99puritywholesale.com?subject=${encodeURIComponent(t('emailSubject', { city: location.city, state: location.state }))}`}
-                      className="w-full bg-white/5 border border-white/10 hover:border-white hover:bg-white/10 text-white font-bold py-4 rounded-xl transition-all font-absans text-[11px] uppercase tracking-widest flex items-center justify-center gap-2.5"
+                      className="flex w-full items-center justify-center gap-2.5 rounded-full border border-white/25 py-3.5 text-[13px] font-medium transition-colors hover:bg-white hover:text-[#0B0F14]"
                     >
-                      <Mail className="w-4 h-4" /> {t('emailCta')}
+                      <Mail className="h-4 w-4" /> {t('emailCta')}
                     </a>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-white/5 text-center">
-                    <Link href="/products" className="text-white hover:text-white/70 font-dm-mono text-[10px] uppercase tracking-widest transition-colors inline-flex items-center gap-2 font-bold">
-                      {t('viewCatalog')} <ArrowRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white transition-colors" />
+                  <div className="mt-8 border-t border-white/10 pt-6 text-center">
+                    <Link href="/products" className="inline-flex items-center gap-2 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white">
+                      {t('viewCatalog')} <ArrowRight className="h-3.5 w-3.5 text-[#4FC3D0]" />
                     </Link>
                   </div>
                 </div>
 
-                {/* Quick Info Card */}
+                {/* Quick info card */}
                 {location.slug !== 'delaware' && (
-                  <div className="bg-white border border-black/5 rounded-[2.5rem] p-6 md:p-8 shadow-sm">
-                    <h4 className="text-base font-absans font-bold text-black uppercase tracking-wider mb-6">{t('accountDetails')}</h4>
-                    <div className="space-y-4">
+                  <div className={`${card} p-6 md:p-8`}>
+                    <h4 className="mb-5 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/55">{t('accountDetails')}</h4>
+                    <div>
                       {[
                         { label: t('details.moq'), value: t('details.moqVal') },
                         { label: t('details.purity'), value: t('details.purityVal') },
@@ -640,9 +618,9 @@ export default async function LocationTemplatePage({ params }: { params: { local
                         { label: t('details.shipping'), value: t('details.shippingVal') },
                         { label: t('details.buyers'), value: t('details.buyersVal') },
                       ].map((item) => (
-                        <div key={item.label} className="flex items-center justify-between py-2 border-b border-black/5 last:border-0">
-                          <span className="text-black/40 font-dm-mono text-[9px] uppercase tracking-widest font-bold">{item.label}</span>
-                          <span className="text-black/85 font-archia font-bold text-xs text-right leading-tight">{item.value}</span>
+                        <div key={item.label} className="flex items-center justify-between gap-4 border-b border-[#E6EAF1] py-3 last:border-0">
+                          <span className="font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/45">{item.label}</span>
+                          <span className="text-right text-[13px] font-medium leading-tight text-[#0B0F14]/85">{item.value}</span>
                         </div>
                       ))}
                     </div>
@@ -650,14 +628,11 @@ export default async function LocationTemplatePage({ params }: { params: { local
                 )}
 
                 {/* Apply CTA */}
-                <div className="bg-[#13a7b7]/5 border border-[#13a7b7]/10 rounded-[2.5rem] p-6 text-center">
-                  <p className="text-black/50 font-archia font-semibold text-xs leading-relaxed mb-5">{t('applyMsg')}</p>
-                  <Link
-                    href="/wholesale-application"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-[#13a7b7]/10 border border-[#13a7b7]/30 text-[#13a7b7] hover:bg-[#13a7b7]/25 font-bold py-3.5 px-6 rounded-xl transition-all font-absans uppercase tracking-widest text-[10px]"
-                  >
-                    {t('applyCta')} <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+                <div className="rounded-[1.25rem] border border-[#4FC3D0]/30 bg-[#4FC3D0]/10 p-6 text-center">
+                  <p className="mb-5 text-[13px] leading-relaxed text-[#0B0F14]/65">{t('applyMsg')}</p>
+                  <PillButton href="/wholesale-application" variant="outline" className="mx-auto">
+                    {t('applyCta')}
+                  </PillButton>
                 </div>
               </div>
             </div>
@@ -666,70 +641,59 @@ export default async function LocationTemplatePage({ params }: { params: { local
         </div>
       </section>
 
-      {/* Related Locations */}
+      {/* Related locations */}
       {location.slug !== 'united-states' && (
-      <section className="py-24 bg-white border-t border-black/5">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <FadeIn>
-            <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-8">
-              {isCity ? (isEs ? `Ciudades Cercanas en ${location.state}` : `Nearby Cities in ${location.state}`) : t('otherRegions')}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {isCity ? (
-                citiesData
-                  .filter((c) => c.stateSlug === location.stateSlug && c.slug !== location.slug)
-                  .map((nearbyCity, idx: number) => {
-                  return (
-                    <Link key={idx} href={`/locations/${location.region.toLowerCase().replace(/ /g, '-')}/${location.stateSlug}/${nearbyCity.slug}`} className="group block">
-                      <div className="bg-[#F8F8F6] border border-black/5 rounded-2xl p-6 hover:border-[#13a7b7]/30 hover:bg-white hover:shadow-md transition-all duration-300">
-                        <div className="flex items-center gap-2 mb-3">
-                          <MapPin className="w-3.5 h-3.5 text-[#13a7b7]" />
-                          <span className="text-[#13a7b7] font-dm-mono text-[9px] font-bold uppercase tracking-wider">
-                            {isEs ? 'Ciudad Cercana' : 'Nearby City'}
-                          </span>
-                        </div>
-                        <div className="text-black font-absans font-bold text-xl group-hover:text-[#13a7b7] transition-colors uppercase tracking-tight mb-4">{nearbyCity.city}</div>
-                        <div className="text-black/40 font-archia font-semibold text-[10px] uppercase tracking-wider flex items-center gap-1">
-                          {t('viewHub')} <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })
-              ) : (
-                locationsData
-                  .filter((loc) => loc.slug !== targetSlug && loc.city !== loc.region)
-                  .slice(0, 4)
-                  .map((loc) => {
-                  const isRelatedCountry = loc.city === loc.region;
-                  const relatedCountrySlug = loc.region.toLowerCase().replace(/ /g, '-');
-                  const relatedPath = isRelatedCountry ? relatedCountrySlug : `${relatedCountrySlug}/${loc.slug}`;
-                  
-                  return (
-                  <Link key={loc.slug} href={`/locations/${relatedPath}`} className="group block">
-                    <div className="bg-[#F8F8F6] border border-black/5 rounded-2xl p-6 hover:border-[#13a7b7]/30 hover:bg-white hover:shadow-md transition-all duration-300">
-                      <div className="flex items-center gap-2 mb-3">
-                        <MapPin className="w-3.5 h-3.5 text-[#13a7b7]" />
-                        <span className="text-[#13a7b7] font-dm-mono text-[9px] font-bold uppercase tracking-wider">{isRelatedCountry ? t('nationalHub') : t('stateHub')}</span>
-                      </div>
-                      <div className="text-black font-absans font-bold text-xl group-hover:text-[#13a7b7] transition-colors uppercase tracking-tight mb-4">{loc.city}</div>
-                      <div className="text-black/40 font-archia font-semibold text-[10px] uppercase tracking-wider flex items-center gap-1">
-                        {t('viewHub')} <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </div>
+      <Section
+        eyebrow={t('locations')}
+        title={isCity ? (isEs ? `Ciudades Cercanas en ${location.state}` : `Nearby Cities in ${location.state}`) : t('otherRegions')}
+        className="border-t border-[#E6EAF1] bg-white"
+      >
+        <CardGrid cols={4}>
+          {isCity ? (
+            citiesData
+              .filter((c) => c.stateSlug === location.stateSlug && c.slug !== location.slug)
+              .map((nearbyCity, idx: number) => (
+                <Link key={idx} data-reveal href={`/locations/${location.region.toLowerCase().replace(/ /g, '-')}/${location.stateSlug}/${nearbyCity.slug}`} className="group rounded-[1.25rem] border border-[#E6EAF1] bg-[#F3F5FA] p-6 transition-colors duration-300 hover:border-[#4FC3D0] hover:bg-white">
+                  <div className="mb-3 flex items-center gap-2 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B6F7B]">
+                    <MapPin className="h-3.5 w-3.5" />
+                    {isEs ? 'Ciudad Cercana' : 'Nearby City'}
+                  </div>
+                  <div className="mb-4 text-[1.4rem] font-light tracking-[-0.03em]">{nearbyCity.city}</div>
+                  <div className="flex items-center gap-1.5 text-[13px] font-medium text-[#0B0F14]/60 group-hover:text-[#0B0F14]">
+                    {t('viewHub')} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </Link>
+              ))
+          ) : (
+            locationsData
+              .filter((loc) => loc.slug !== targetSlug && loc.city !== loc.region)
+              .slice(0, 4)
+              .map((loc) => {
+                const isRelatedCountry = loc.city === loc.region;
+                const relatedCountrySlug = loc.region.toLowerCase().replace(/ /g, '-');
+                const relatedPath = isRelatedCountry ? relatedCountrySlug : `${relatedCountrySlug}/${loc.slug}`;
+
+                return (
+                  <Link key={loc.slug} data-reveal href={`/locations/${relatedPath}`} className="group rounded-[1.25rem] border border-[#E6EAF1] bg-[#F3F5FA] p-6 transition-colors duration-300 hover:border-[#4FC3D0] hover:bg-white">
+                    <div className="mb-3 flex items-center gap-2 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B6F7B]">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {isRelatedCountry ? t('nationalHub') : t('stateHub')}
+                    </div>
+                    <div className="mb-4 text-[1.4rem] font-light tracking-[-0.03em]">{loc.city}</div>
+                    <div className="flex items-center gap-1.5 text-[13px] font-medium text-[#0B0F14]/60 group-hover:text-[#0B0F14]">
+                      {t('viewHub')} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                     </div>
                   </Link>
-                  );
-                })
-              )}
-            </div>
-          </FadeIn>
-        </div>
-      </section>
+                );
+              })
+          )}
+        </CardGrid>
+      </Section>
       )}
 
-      {/* FAQ Segment */}
+      {/* FAQ segment */}
       {location.slug === 'united-states' ? (
-        <FaqSection 
+        <FaqSection
           title={isEs ? 'Preguntas Frecuentes (Venta Mayorista en EE. UU.)' : 'Frequently Asked Questions (US Wholesale)'}
           subtitle={isEs
             ? 'Para ayudar a nuestros socios institucionales, hemos recopilado respuestas detalladas a las preguntas logísticas, legales y operativas más críticas sobre la adquisición de péptidos a granel en los Estados Unidos.'
@@ -738,7 +702,7 @@ export default async function LocationTemplatePage({ params }: { params: { local
           eyebrow={isEs ? 'Preguntas Frecuentes Nacionales' : 'National FAQ'}
         />
       ) : locData.localFaqs && locData.localFaqs.length > 0 ? (
-        <FaqSection 
+        <FaqSection
           title={isEs ? `Preguntas Frecuentes en ${location.city}` : `Frequently Asked Questions in ${location.city}`}
           subtitle={isEs
             ? `Información de adquisición de péptidos al por mayor para empresas en ${location.city}.`
@@ -754,7 +718,7 @@ export default async function LocationTemplatePage({ params }: { params: { local
           eyebrow={isEs ? 'Preguntas Frecuentes Locales' : 'Local FAQ'}
         />
       ) : (
-        <FaqSection 
+        <FaqSection
           title={isEs ? `Preguntas Frecuentes en ${location.city}` : `Frequently Asked Questions in ${location.city}`}
           subtitle={isEs
             ? `Información de adquisición de péptidos al por mayor para empresas en ${location.city}.`
@@ -763,6 +727,6 @@ export default async function LocationTemplatePage({ params }: { params: { local
           eyebrow={isEs ? 'Preguntas Frecuentes Locales' : 'Local FAQ'}
         />
       )}
-    </main>
+    </PageShell>
   );
 }

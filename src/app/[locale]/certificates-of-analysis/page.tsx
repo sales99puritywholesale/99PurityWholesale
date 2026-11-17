@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { ShieldCheck, FileText, Check, X, Search, Beaker, FlaskConical, Microscope, Award, Globe, HelpCircle } from 'lucide-react';
+import { ShieldCheck, FileText, Check, X, Search, Beaker, FlaskConical, Microscope, Award, Globe } from 'lucide-react';
 import productsData from '@/data/products.json';
-import GlobalCTA from '@/components/layout/GlobalCTA';
 import FaqSection from '@/components/shared/FaqSection';
+import Parallax from '@/components/home/Parallax';
+import { Photo } from '@/components/home/ui';
+import { PageShell, PageHero, Section, CardGrid, InfoCard, CtaBand, Eyebrow, RevealGroup, SplitHeading, WRAP, SECTION, h2, card } from '@/components/home/page-kit';
 import { useNestedSmoothScroll } from '@/hooks/useNestedSmoothScroll';
 
 export default function COAPage() {
@@ -17,171 +18,84 @@ export default function COAPage() {
   const desktopLibraryRef = useNestedSmoothScroll<HTMLDivElement>();
   const mobileLibraryRef = useNestedSmoothScroll<HTMLDivElement>();
 
-  const filteredProducts = productsData.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredProducts = productsData.filter(p =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const comparisonRows = [
-    { 
-      id: 'purity', 
-      crit: t('comparison.rows.purity.crit'), 
-      ours: t('comparison.rows.purity.ours'), 
-      theirs: t('comparison.rows.purity.theirs') 
-    },
-    { 
-      id: 'testing', 
-      crit: t('comparison.rows.testing.crit'), 
-      ours: t('comparison.rows.testing.ours'), 
-      theirs: t('comparison.rows.testing.theirs') 
-    },
-    { 
-      id: 'coa', 
-      crit: t('comparison.rows.coa.crit'), 
-      ours: t('comparison.rows.coa.ours'), 
-      theirs: t('comparison.rows.coa.theirs') 
-    },
-    { 
-      id: 'support', 
-      crit: t('comparison.rows.support.crit'), 
-      ours: t('comparison.rows.support.ours'), 
-      theirs: t('comparison.rows.support.theirs') 
-    },
-    { 
-      id: 'shipping', 
-      crit: t('comparison.rows.shipping.crit'), 
-      ours: t('comparison.rows.shipping.ours'), 
-      theirs: t('comparison.rows.shipping.theirs') 
-    }
+    { id: 'purity', crit: t('comparison.rows.purity.crit'), ours: t('comparison.rows.purity.ours'), theirs: t('comparison.rows.purity.theirs') },
+    { id: 'testing', crit: t('comparison.rows.testing.crit'), ours: t('comparison.rows.testing.ours'), theirs: t('comparison.rows.testing.theirs') },
+    { id: 'coa', crit: t('comparison.rows.coa.crit'), ours: t('comparison.rows.coa.ours'), theirs: t('comparison.rows.coa.theirs') },
+    { id: 'support', crit: t('comparison.rows.support.crit'), ours: t('comparison.rows.support.ours'), theirs: t('comparison.rows.support.theirs') },
+    { id: 'shipping', crit: t('comparison.rows.shipping.crit'), ours: t('comparison.rows.shipping.ours'), theirs: t('comparison.rows.shipping.theirs') },
   ];
 
+  const th = 'p-4 md:p-5 font-dm-mono text-[10px] font-normal uppercase tracking-[0.16em] text-[#0B0F14]/45';
+  const pill = 'inline-flex items-center rounded-full border border-[#4FC3D0]/40 bg-[#4FC3D0]/10 px-3 py-1 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B6F7B]';
+  const dl = 'inline-flex items-center justify-center gap-2 rounded-full border border-[#0B0F14]/15 px-4 py-2.5 font-dm-sans text-[12px] font-medium text-[#0B0F14] transition-colors hover:bg-[#0B0F14] hover:text-white';
+
   return (
-    <main className="min-h-screen bg-[#F8F8F6] text-black -mt-24 md:-mt-32">
-      
-      {/* Hero Section - Elegant Light Off-White Linen */}
-      <section className="relative overflow-hidden pt-52 pb-24 md:pt-64 md:pb-32 border-b border-black/5 bg-[#F8F8F6]">
-        {/* Light Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <div className="container mx-auto px-6 max-w-5xl relative z-10 text-center">
-          <div>
-            <div className="inline-block bg-black/5 border border-black/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-black/60 mb-6">
-              {t('badge')}
-            </div>
-            
-            <h1 className="reveal-text text-4xl sm:text-6xl md:text-7xl font-bold font-absans text-black uppercase tracking-tight leading-none mb-6 break-words w-full">
-              {t('title')}
-            </h1>
-            
-            <p className="reveal-text text-lg md:text-xl font-archia font-semibold text-black/75 max-w-3xl mx-auto leading-relaxed">
-              {t('subtitle')}
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageShell>
+      <PageHero
+        eyebrow={t('badge')}
+        title={t('title')}
+        intro={t('subtitle')}
+        aside={
+          <Parallax className="aspect-[4/3] rounded-[1.25rem] border border-[#E6EAF1] bg-white">
+            <Photo src="/lab_quality_bg_1778896760027.png" alt="99 Purity Wholesale Certified Quality Control Laboratory" sizes="(max-width: 1024px) 100vw, 40vw" priority />
+          </Parallax>
+        }
+      />
 
-      {/* Standalone Widescreen Clinical Laboratory Showcase Banner */}
-      <section className="bg-[#F8F8F6] py-12 relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="reveal-card-3d relative overflow-hidden rounded-[2.5rem] h-[320px] md:h-[480px] border border-black/5 shadow-sm group">
-            {/* Pristine Full-Color Clinical Laboratory v2 Visual */}
-            <Image 
-              src="/lab_quality_bg_1778896760027.png"
-              alt="99 Purity Wholesale Certified Quality Control Laboratory"
-              fill
-              sizes="(max-width: 1200px) 100vw, 1200px"
-              className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+      {/* COA Document Library */}
+      <Section eyebrow="ANALYTICAL DATABASE" title={t('library.title')} description={t('library.subtitle')}>
+        <div className="mb-6 max-w-md">
+          <div className="relative w-full">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-5">
+              <Search className="h-4 w-4 text-[#0B0F14]/40" />
+            </div>
+            <input
+              type="text"
+              aria-label={t('library.placeholder')}
+              className="w-full rounded-full border border-[#E6EAF1] bg-white py-3.5 pl-12 pr-5 font-dm-sans text-[14px] text-[#0B0F14] shadow-sm transition-all placeholder:text-[#0B0F14]/40 focus:border-[#0B6F7B] focus:outline-none focus:ring-2 focus:ring-[#4FC3D0]/40"
+              placeholder={t('library.placeholder')}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
-      </section>
 
-      {/* COA Document Library - Interactive Reflowable Section */}
-      <section className="py-24 md:py-32 bg-[#FAF9F5] border-b border-black/5 relative overflow-hidden">
-        <div className="reveal-grid container mx-auto px-6 max-w-6xl relative z-10">
-          
-          {/* Header & Search Bar split row */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-16">
-            <div className="max-w-xl">
-              <div className="inline-block bg-black/5 border border-black/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-black/60 mb-6">
-                ANALYTICAL DATABASE
-              </div>
-              <h2 className="reveal-text text-3xl md:text-5xl font-bold font-absans text-black uppercase tracking-tight mb-4">
-                {t('library.title')}
-              </h2>
-              <p className="reveal-text text-sm md:text-base font-archia font-medium text-black/55">
-                {t('library.subtitle')}
-              </p>
-            </div>
-
-            {/* Glassmorphic Search Bar */}
-            <div className="w-full lg:w-auto min-w-[320px]">
-              <div className="relative w-full">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-black/40" />
-                </div>
-                <input
-                  type="text"
-                  className="w-full bg-white border border-black/10 text-black rounded-xl pl-11 pr-4 py-4 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all font-archia font-medium text-sm shadow-sm"
-                  placeholder={t('library.placeholder')}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Table / Cards Container - Dynamic Reveal */}
-          <div className="reveal-card bg-white border border-black/5 rounded-[2.5rem] overflow-hidden shadow-sm">
-            
+        <RevealGroup>
+          <div data-reveal className={`${card} overflow-hidden`}>
             {/* Desktop Table View */}
-            <div ref={desktopLibraryRef} className="hidden md:block overflow-y-auto max-h-[600px]" data-lenis-prevent>
-              <table className="w-full text-left border-collapse">
-                <thead className="sticky top-0 bg-[#FAF9F5] shadow-sm z-10">
-                  <tr className="border-b border-black/5">
-                    <th className="p-6 text-black/40 font-dm-mono uppercase tracking-widest text-[10px] font-bold">
-                      {t('library.headers.name')}
-                    </th>
-                    <th className="p-6 text-black/40 font-dm-mono uppercase tracking-widest text-[10px] font-bold">
-                      {t('library.headers.category')}
-                    </th>
-                    <th className="p-6 text-black/40 font-dm-mono uppercase tracking-widest text-[10px] font-bold">
-                      {t('library.headers.batch')}
-                    </th>
-                    <th className="p-6 text-right text-black/40 font-dm-mono uppercase tracking-widest text-[10px] font-bold">
-                      {t('library.headers.action')}
-                    </th>
+            <div ref={desktopLibraryRef} className="hidden max-h-[600px] overflow-y-auto md:block" data-lenis-prevent>
+              <table className="w-full border-collapse text-left">
+                <thead className="sticky top-0 z-10 bg-[#F3F5FA]">
+                  <tr className="border-b border-[#E6EAF1]">
+                    <th className={th}>{t('library.headers.name')}</th>
+                    <th className={th}>{t('library.headers.category')}</th>
+                    <th className={th}>{t('library.headers.batch')}</th>
+                    <th className={`${th} text-right`}>{t('library.headers.action')}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-black/5 font-archia font-medium text-sm">
+                <tbody className="divide-y divide-[#E6EAF1] text-sm">
                   {filteredProducts.length > 0 ? (
                     filteredProducts.map((product, idx) => (
-                      <tr key={idx} className="hover:bg-black/[0.01] transition-colors">
-                        <td className="p-6">
-                          <div className="font-bold text-black text-base">{product.name}</div>
+                      <tr key={idx} className="transition-colors hover:bg-[#F3F5FA]/60">
+                        <td className="p-4 md:p-5">
+                          <div className="text-[15px] font-medium tracking-[-0.01em] text-[#0B0F14]">{product.name}</div>
                           {product.cas !== 'N/A' && (
-                            <div className="text-[10px] text-black/40 font-dm-mono mt-1 tracking-widest uppercase">
-                              CAS: {product.cas}
-                            </div>
+                            <div className="mt-1 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/40">CAS: {product.cas}</div>
                           )}
                         </td>
-                        <td className="p-6 text-black/55 capitalize">
-                          {product.category.replace(/-/g, ' ')}
+                        <td className="p-4 capitalize text-[#0B0F14]/60 md:p-5">{product.category.replace(/-/g, ' ')}</td>
+                        <td className="p-4 md:p-5">
+                          <span className={pill}>{t('library.verified')}</span>
                         </td>
-                        <td className="p-6">
-                          <span className="bg-black/5 text-black border border-black/5 px-3 py-1 rounded-full text-[10px] font-bold font-dm-mono uppercase tracking-wider">
-                            {t('library.verified')}
-                          </span>
-                        </td>
-                        <td className="p-6 text-right">
-                          <a 
-                            href="/placeholder-coa.pdf" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="inline-flex items-center justify-center gap-2 border border-black/15 hover:border-black hover:bg-black hover:text-white px-5 py-3 rounded-xl font-bold font-dm-sans text-[10px] uppercase tracking-[0.2em] transition-all cursor-pointer"
-                          >
-                            <FileText className="w-3.5 h-3.5" /> 
+                        <td className="p-4 text-right md:p-5">
+                          <a href="/placeholder-coa.pdf" target="_blank" rel="noopener noreferrer" className={dl}>
+                            <FileText className="h-3.5 w-3.5" />
                             {t('library.download')}
                           </a>
                         </td>
@@ -189,7 +103,7 @@ export default function COAPage() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="p-12 text-center text-black/40 font-archia">
+                      <td colSpan={4} className="p-12 text-center text-[#0B0F14]/40">
                         {t('library.empty', { searchTerm })}
                       </td>
                     </tr>
@@ -198,286 +112,169 @@ export default function COAPage() {
               </table>
             </div>
 
-            {/* Mobile Mobile Reflowed Card View */}
-            <div ref={mobileLibraryRef} className="md:hidden divide-y divide-black/5 max-h-[600px] overflow-y-auto" data-lenis-prevent>
+            {/* Mobile Card View */}
+            <div ref={mobileLibraryRef} className="max-h-[600px] divide-y divide-[#E6EAF1] overflow-y-auto md:hidden" data-lenis-prevent>
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product, idx) => (
-                  <div key={idx} className="p-6 flex flex-col gap-4">
+                  <div key={idx} className="flex flex-col gap-4 p-5">
                     <div>
-                      <div className="font-bold text-black text-base">{product.name}</div>
+                      <div className="text-[15px] font-medium text-[#0B0F14]">{product.name}</div>
                       {product.cas !== 'N/A' && (
-                        <div className="text-[9px] text-black/45 font-dm-mono mt-1 tracking-wider uppercase">
-                          CAS: {product.cas}
-                        </div>
+                        <div className="mt-1 font-dm-mono text-[10px] uppercase tracking-[0.14em] text-[#0B0F14]/40">CAS: {product.cas}</div>
                       )}
-                      <div className="text-xs text-black/55 capitalize mt-1">
-                        Category: {product.category.replace(/-/g, ' ')}
-                      </div>
+                      <div className="mt-1 text-xs capitalize text-[#0B0F14]/55">Category: {product.category.replace(/-/g, ' ')}</div>
                     </div>
-
-                    <div className="flex items-center justify-between gap-4 mt-2">
-                      <span className="bg-black/5 text-black border border-black/5 px-2.5 py-1 rounded-full text-[9px] font-bold font-dm-mono uppercase tracking-wider">
-                        {t('library.verified')}
-                      </span>
-                      
-                      <a 
-                        href="/placeholder-coa.pdf" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="inline-flex items-center justify-center gap-2 border border-black/15 hover:border-black hover:bg-black hover:text-white px-4 py-2.5 rounded-lg font-bold font-dm-sans text-[9px] uppercase tracking-[0.2em] transition-all cursor-pointer"
-                      >
-                        <FileText className="w-3 h-3" /> 
+                    <div className="flex items-center justify-between gap-4">
+                      <span className={pill}>{t('library.verified')}</span>
+                      <a href="/placeholder-coa.pdf" target="_blank" rel="noopener noreferrer" className={dl}>
+                        <FileText className="h-3.5 w-3.5" />
                         {t('library.download')}
                       </a>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="p-12 text-center text-black/40 font-archia text-sm">
-                  {t('library.empty', { searchTerm })}
-                </div>
+                <div className="p-10 text-center text-sm text-[#0B0F14]/40">{t('library.empty', { searchTerm })}</div>
               )}
             </div>
-
           </div>
-        </div>
-      </section>
+        </RevealGroup>
+      </Section>
 
-      
-      {/* How to Read a COA - Sleek Split Section */}
-      <section className="py-24 md:py-32 bg-white relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-            
-            {/* Visual Side */}
-            <div className="w-full lg:w-1/2 relative">
-              <div className="absolute -inset-4 bg-black/5 rounded-[3rem] -rotate-3"></div>
-              <div className="reveal-card-3d relative bg-[#F8F8F6] border border-black/10 rounded-[2.5rem] p-8 md:p-12 shadow-2xl">
-                <div className="w-full h-[400px] bg-white border border-black/5 rounded-2xl shadow-sm relative overflow-hidden flex flex-col">
-                  {/* Faux COA Header */}
-                  <div className="border-b border-black/5 p-6 flex justify-between items-start">
+      {/* How to read a COA */}
+      <section className={SECTION}>
+        <div className={WRAP}>
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+            {/* Illustrative COA document (decorative) */}
+            <RevealGroup>
+              <div data-reveal className={`${card} p-5 md:p-8`} aria-hidden="true">
+                <div className="relative flex h-[380px] flex-col overflow-hidden rounded-xl border border-[#E6EAF1] bg-[#F3F5FA]">
+                  <div className="flex items-start justify-between border-b border-[#E6EAF1] p-5">
                     <div>
-                      <div className="w-24 h-4 bg-black/10 rounded mb-2"></div>
-                      <div className="w-32 h-3 bg-black/5 rounded"></div>
+                      <div className="mb-2 h-3.5 w-24 rounded bg-[#0B0F14]/10" />
+                      <div className="h-3 w-32 rounded bg-[#0B0F14]/5" />
                     </div>
-                    <div className="w-12 h-12 bg-black/5 rounded-full"></div>
+                    <div className="h-11 w-11 rounded-full bg-[#4FC3D0]/25" />
                   </div>
-                  {/* Faux Chart */}
-                  <div className="flex-1 p-6 relative">
-                    <div className="absolute bottom-6 left-6 right-6 h-32 border-l border-b border-black/10 flex items-end gap-2">
-                      <div className="w-1/6 h-1/6 bg-brand-accent/20 rounded-t"></div>
-                      <div className="w-1/6 h-full bg-brand-accent rounded-t relative group">
-                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-bold py-1 px-2 rounded opacity-100">99.8%</div>
+                  <div className="relative flex-1 p-5">
+                    <div className="absolute bottom-5 left-5 right-5 flex h-32 items-end gap-2 border-b border-l border-[#0B0F14]/10">
+                      <div className="h-1/6 w-1/6 rounded-t bg-[#4FC3D0]/25" />
+                      <div className="relative h-full w-1/6 rounded-t bg-[#4FC3D0]">
+                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 rounded bg-[#0B0F14] px-2 py-1 font-dm-mono text-[10px] text-white">99.8%</div>
                       </div>
-                      <div className="w-1/6 h-1/4 bg-brand-accent/40 rounded-t"></div>
-                      <div className="w-1/6 h-1/5 bg-brand-accent/30 rounded-t"></div>
+                      <div className="h-1/4 w-1/6 rounded-t bg-[#4FC3D0]/45" />
+                      <div className="h-1/5 w-1/6 rounded-t bg-[#4FC3D0]/35" />
                     </div>
                   </div>
-                  {/* Faux Signature */}
-                  <div className="p-6 border-t border-black/5 flex justify-end">
-                    <div className="w-32 h-8 bg-[url('https://upload.wikimedia.org/wikipedia/commons/f/f6/Signature_placeholder.svg')] bg-contain bg-no-repeat bg-right opacity-40"></div>
+                  <div className="flex justify-end border-t border-[#E6EAF1] p-5">
+                    <div className="h-6 w-28 rounded bg-[#0B0F14]/10" />
                   </div>
-
-                  {/* Hotspots */}
-                  <div className="absolute top-[80px] left-[30px] w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold font-dm-mono shadow-xl z-20">01</div>
-                  <div className="absolute top-[200px] left-[150px] w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold font-dm-mono shadow-xl z-20">02</div>
-                  <div className="absolute top-[280px] left-[260px] w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold font-dm-mono shadow-xl z-20">03</div>
-                  <div className="absolute bottom-[30px] right-[40px] w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold font-dm-mono shadow-xl z-20">04</div>
+                  <div className="absolute left-[28px] top-[78px] flex h-6 w-6 items-center justify-center rounded-full bg-[#0B0F14] font-dm-mono text-[10px] text-white">01</div>
+                  <div className="absolute left-[150px] top-[190px] flex h-6 w-6 items-center justify-center rounded-full bg-[#0B0F14] font-dm-mono text-[10px] text-white">02</div>
+                  <div className="absolute left-[240px] top-[270px] flex h-6 w-6 items-center justify-center rounded-full bg-[#0B0F14] font-dm-mono text-[10px] text-white">03</div>
+                  <div className="absolute bottom-[30px] right-[30px] flex h-6 w-6 items-center justify-center rounded-full bg-[#0B0F14] font-dm-mono text-[10px] text-white">04</div>
                 </div>
               </div>
-            </div>
+            </RevealGroup>
 
-            {/* Content Side */}
-            <div className="w-full lg:w-1/2">
-              <div className="inline-block bg-black/5 border border-black/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-black/60 mb-6">
-                DOCUMENT ANATOMY
-              </div>
-              
-              <h2 className="reveal-text text-3xl md:text-5xl font-bold font-absans text-black uppercase tracking-tight mb-6">
-                {t('howToRead.title')}
-              </h2>
-              
-              <p className="reveal-text text-base font-archia font-medium text-black/60 mb-12">
-                {t('howToRead.subtitle')}
-              </p>
-
-              <div className="space-y-8">
+            <div>
+              <Eyebrow className="mb-5">DOCUMENT ANATOMY</Eyebrow>
+              <SplitHeading text={t('howToRead.title')} className={`${h2} mb-5`} />
+              <p className="mb-10 text-[15px] leading-relaxed text-[#0B0F14]/60">{t('howToRead.subtitle')}</p>
+              <RevealGroup className="space-y-6">
                 {t.raw('howToRead.steps').map((step: any, i: number) => (
-                  <div key={i} className="reveal-card flex gap-6 group">
-                    <div className="w-12 h-12 bg-black/[0.03] border border-black/5 rounded-full flex items-center justify-center font-bold font-dm-mono text-black text-sm group-hover:bg-black group-hover:text-white transition-all shrink-0">
-                      {step.id}
-                    </div>
+                  <div key={i} data-reveal className="flex gap-5">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#E6EAF1] bg-white font-dm-mono text-[12px] text-[#0B6F7B]">{step.id}</div>
                     <div>
-                      <h4 className="font-bold font-absans text-black text-lg mb-2 uppercase tracking-wide">{step.title}</h4>
-                      <p className="font-archia text-sm text-black/60 leading-relaxed">{step.desc}</p>
+                      <h3 className="mb-1.5 text-[1.1rem] font-medium tracking-[-0.02em]">{step.title}</h3>
+                      <p className="text-[13.5px] leading-relaxed text-[#0B0F14]/60">{step.desc}</p>
                     </div>
                   </div>
                 ))}
-              </div>
+              </RevealGroup>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* Our Testing Parameters - Modern Grid */}
-      <section className="py-24 md:py-32 bg-[#F8F8F6] border-b border-black/5 relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="text-center mb-16">
-            <div className="max-w-xl mx-auto">
-              <div className="inline-block bg-black/5 border border-black/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-black/60 mb-6">
-                BEYOND PURITY
-              </div>
-              <h2 className="reveal-text text-3xl md:text-5xl font-bold font-absans text-black uppercase tracking-tight mb-4">
-                {t('parameters.title')}
-              </h2>
-              <p className="reveal-text text-sm md:text-base font-archia font-medium text-black/55">
-                {t('parameters.subtitle')}
-              </p>
-            </div>
-          </div>
+      {/* Testing parameters */}
+      <Section eyebrow="BEYOND PURITY" title={t('parameters.title')} description={t('parameters.subtitle')}>
+        <CardGrid cols={3}>
+          {t.raw('parameters.cards').map((c: any, idx: number) => (
+            <InfoCard
+              key={idx}
+              icon={idx === 0 ? <Microscope className="h-4 w-4" /> : idx === 1 ? <FlaskConical className="h-4 w-4" /> : <Beaker className="h-4 w-4" />}
+              title={c.title}
+            >
+              <div className="mb-2 font-dm-mono text-[10px] uppercase tracking-[0.16em] text-[#0B0F14]/40">{c.subtitle}</div>
+              {c.desc}
+            </InfoCard>
+          ))}
+        </CardGrid>
+      </Section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {t.raw('parameters.cards').map((card: any, idx: number) => (
-              <div key={idx} className="reveal-card bg-white border border-black/5 rounded-[2rem] p-8 md:p-10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                <div className="w-14 h-14 bg-[#F8F8F6] rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                  {idx === 0 && <Microscope className="w-6 h-6 text-black/80" />}
-                  {idx === 1 && <FlaskConical className="w-6 h-6 text-black/80" />}
-                  {idx === 2 && <Beaker className="w-6 h-6 text-black/80" />}
+      {/* Testing pipeline: the one dark panel besides the CTA */}
+      <section className="px-3 py-6 md:px-4">
+        <div className="relative mx-auto max-w-[1760px] overflow-hidden rounded-[1.75rem] bg-[#0B0D10] px-6 py-16 text-white md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1360px]">
+            <div className="mb-12 max-w-3xl md:mb-16">
+              <Eyebrow light className="mb-5">QUALITY ASSURANCE LOOP</Eyebrow>
+              <SplitHeading text={t('pipeline.title')} className={`${h2} mb-5 !text-white`} />
+              <p className="text-[15px] leading-relaxed text-white/55">{t('pipeline.subtitle')}</p>
+            </div>
+            <RevealGroup className="grid gap-4 md:grid-cols-3">
+              {[
+                { Icon: FlaskConical, k: 'step1' },
+                { Icon: Microscope, k: 'step2' },
+                { Icon: FileText, k: 'step3' },
+              ].map(({ Icon, k }, i) => (
+                <div key={k} data-reveal className="rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-6 md:p-8">
+                  <div className="mb-6 flex items-center justify-between">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#4FC3D0]/15 text-[#4FC3D0]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="font-dm-mono text-[10px] uppercase tracking-[0.2em] text-white/40">Step 0{i + 1}</span>
+                  </div>
+                  <h3 className="mb-3 text-[1.25rem] font-light tracking-[-0.02em]">{t(`pipeline.${k}.title`)}</h3>
+                  <p className="text-[13.5px] leading-relaxed text-white/55">{t(`pipeline.${k}.desc`)}</p>
                 </div>
-                <div className="text-black/40 font-dm-mono font-bold text-[10px] uppercase tracking-widest mb-2">{card.subtitle}</div>
-                <h3 className="text-xl font-bold font-absans text-black mb-4 uppercase tracking-wide">{card.title}</h3>
-                <p className="text-black/60 font-archia font-medium text-sm leading-relaxed">
-                  {card.desc}
-                </p>
-              </div>
-            ))}
+              ))}
+            </RevealGroup>
           </div>
         </div>
       </section>
 
-      {/* 3-Step Testing Process - Stealth Luxury Dark Section */}
-      <section className="py-24 md:py-32 bg-[#05080C] text-white border-b border-white/5 relative overflow-hidden">
-        {/* Dark Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('/images/noise.svg')]" />
-        
-        <div className="container mx-auto px-6 max-w-7xl relative z-20">
-          
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <div>
-              <div className="inline-block bg-white/5 border border-white/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-white/60 mb-6">
-                QUALITY ASSURANCE LOOP
-              </div>
-              
-              <h2 className="reveal-text text-3xl md:text-5xl lg:text-6xl font-bold font-absans text-white uppercase tracking-tight leading-none mb-6 max-w-4xl mx-auto">
-                {t('pipeline.title')}
-              </h2>
-              
-              <p className="reveal-text text-sm md:text-base font-archia font-medium text-white/55 max-w-3xl mx-auto leading-relaxed">
-                {t('pipeline.subtitle')}
-              </p>
-            </div>
-          </div>
-
-          {/* Cards Pipeline Grid */}
-          <div className="reveal-grid grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Desktop connecting line */}
-            <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-y-1/2 z-0 pointer-events-none"></div>
-            
-            {/* Step 1 */}
-            <div className="reveal-card bg-[#090C12] border border-white/5 rounded-[2.5rem] p-8 md:p-10 text-center relative z-10 hover:border-brand-accent/30 hover:bg-[#0E131C] transition-all duration-500 shadow-2xl flex flex-col items-center">
-              <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center mb-6">
-                <FlaskConical className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-white/40 font-dm-mono font-bold text-[10px] uppercase tracking-widest mb-2">Step 01</div>
-              <h3 className="text-xl font-bold font-absans text-white mb-4 uppercase tracking-wide">{t('pipeline.step1.title')}</h3>
-              <p className="text-white/60 font-archia font-medium text-xs leading-relaxed">
-                {t('pipeline.step1.desc')}
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="reveal-card bg-[#090C12] border border-white/10 rounded-[2.5rem] p-8 md:p-10 text-center relative z-10 hover:border-brand-accent/40 hover:bg-[#0E131C] transition-all duration-500 shadow-2xl flex flex-col items-center">
-              <div className="w-16 h-16 bg-brand-accent/10 border border-brand-accent/20 rounded-2xl flex items-center justify-center mb-6">
-                <Microscope className="w-6 h-6 text-brand-accent" />
-              </div>
-              <div className="text-white/40 font-dm-mono font-bold text-[10px] uppercase tracking-widest mb-2">Step 02</div>
-              <h3 className="text-xl font-bold font-absans text-white mb-4 uppercase tracking-wide">{t('pipeline.step2.title')}</h3>
-              <p className="text-white/60 font-archia font-medium text-xs leading-relaxed">
-                {t('pipeline.step2.desc')}
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="reveal-card bg-[#090C12] border border-white/5 rounded-[2.5rem] p-8 md:p-10 text-center relative z-10 hover:border-brand-accent/30 hover:bg-[#0E131C] transition-all duration-500 shadow-2xl flex flex-col items-center">
-              <div className="w-16 h-16 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center mb-6">
-                <FileText className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-white/40 font-dm-mono font-bold text-[10px] uppercase tracking-widest mb-2">Step 03</div>
-              <h3 className="text-xl font-bold font-absans text-white mb-4 uppercase tracking-wide">{t('pipeline.step3.title')}</h3>
-              <p className="text-white/60 font-archia font-medium text-xs leading-relaxed">
-                {t('pipeline.step3.desc')}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Competitor Comparison Section - Sleek Off-White Linen */}
-      <section className="py-24 md:py-32 bg-[#F8F8F6] border-b border-black/5 relative overflow-hidden">
-        <div className="reveal-grid container mx-auto px-6 max-w-6xl">
-          <div className="text-center mb-16">
-            <div className="max-w-xl mx-auto">
-              <div className="inline-block bg-black/5 border border-black/5 px-5 py-2 rounded-full text-[10px] font-bold font-dm-sans uppercase tracking-widest text-black/60 mb-6">
-                COMPARATIVE STANDARDS
-              </div>
-              
-              <h2 className="reveal-text text-3xl md:text-5xl font-bold font-absans text-black uppercase tracking-tight mb-4">
-                {t('comparison.title')}
-              </h2>
-              
-              <p className="reveal-text text-sm md:text-base font-archia font-medium text-black/55 max-w-2xl mx-auto leading-relaxed">
-                {t('comparison.subtitle')}
-              </p>
-            </div>
-          </div>
-
-          {/* Table Container - Interactive Card */}
-          <div className="reveal-card bg-white border border-black/5 rounded-[2.5rem] overflow-hidden shadow-sm">
+      {/* Comparison */}
+      <Section eyebrow="COMPARATIVE STANDARDS" title={t('comparison.title')} description={t('comparison.subtitle')}>
+        <RevealGroup>
+          <div data-reveal className={`${card} overflow-hidden`}>
             <div ref={comparisonTableRef} className="overflow-x-auto" data-lenis-prevent>
-              <table className="w-full text-left border-collapse min-w-[600px]">
+              <table className="w-full min-w-[600px] border-collapse text-left">
                 <thead>
-                  <tr className="border-b border-black/5 bg-[#FAF9F5]">
-                    <th className="p-6 text-black/40 font-dm-mono uppercase tracking-widest text-[10px] font-bold w-1/3">
-                      {t('comparison.headers.criteria')}
-                    </th>
-                    <th className="p-6 text-black font-absans font-bold text-sm uppercase tracking-wider w-1/3 bg-black/5">
+                  <tr className="border-b border-[#E6EAF1] bg-[#F3F5FA]">
+                    <th className={`${th} w-1/3`}>{t('comparison.headers.criteria')}</th>
+                    <th className="w-1/3 bg-[#4FC3D0]/10 p-4 text-[14px] font-medium text-[#0B0F14] md:p-5">
                       <div className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-black" />
+                        <Check className="h-4 w-4 text-[#0B6F7B]" />
                         {t('comparison.headers.ours')}
                       </div>
                     </th>
-                    <th className="p-6 text-black/55 font-absans font-bold text-sm uppercase tracking-wider w-1/3">
-                      {t('comparison.headers.theirs')}
-                    </th>
+                    <th className="w-1/3 p-4 text-[14px] font-medium text-[#0B0F14]/55 md:p-5">{t('comparison.headers.theirs')}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-black/5 font-archia font-medium text-sm">
+                <tbody className="divide-y divide-[#E6EAF1] text-sm">
                   {comparisonRows.map((row) => (
-                    <tr key={row.id} className="hover:bg-black/[0.01] transition-colors">
-                      <td className="p-6 text-black font-bold uppercase tracking-wide text-xs">
-                        {row.crit}
-                      </td>
-                      <td className="p-6 bg-black/[0.02] text-black">
+                    <tr key={row.id} className="transition-colors hover:bg-[#F3F5FA]/50">
+                      <td className="p-4 font-dm-mono text-[11px] uppercase tracking-[0.12em] text-[#0B0F14] md:p-5">{row.crit}</td>
+                      <td className="bg-[#4FC3D0]/[0.06] p-4 text-[#0B0F14] md:p-5">
                         <div className="flex items-start gap-2.5">
-                          <Check className="w-4 h-4 text-black flex-shrink-0 mt-0.5" />
+                          <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#0B6F7B]" />
                           <span>{row.ours}</span>
                         </div>
                       </td>
-                      <td className="p-6 text-black/45">
+                      <td className="p-4 text-[#0B0F14]/45 md:p-5">
                         <div className="flex items-start gap-2.5">
-                          <X className="w-4 h-4 text-black/35 flex-shrink-0 mt-0.5" />
+                          <X className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#0B0F14]/30" />
                           <span>{row.theirs}</span>
                         </div>
                       </td>
@@ -487,51 +284,27 @@ export default function COAPage() {
               </table>
             </div>
           </div>
-        </div>
-      </section>
+        </RevealGroup>
+      </Section>
 
-      {/* Lab Credentials & Trust Section - Stealth Luxury Dark Section */}
-      <section className="py-24 md:py-32 bg-[#05080C] text-white relative overflow-hidden">
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl translate-y-1/2 translate-x-1/2"></div>
-        <div className="container mx-auto px-6 max-w-5xl relative z-10 text-center">
-          
-          <div>
-            <ShieldCheck className="w-16 h-16 text-white/60 mx-auto mb-8 animate-pulse" />
-            
-            <h2 className="reveal-text text-3xl md:text-5xl font-bold font-absans text-white uppercase tracking-tight mb-6">
-              {t('trust.title')}
-            </h2>
-            
-            <p className="reveal-text text-base md:text-lg font-archia font-medium text-white/55 max-w-3xl mx-auto leading-relaxed mb-16">
-              {t('trust.desc')}
-            </p>
-            
-            <div className="reveal-grid grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-              {/* Badge 1 */}
-              <div className="reveal-card bg-white/5 border border-white/5 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 hover:border-white/10 transition-colors">
-                <Globe className="w-5 h-5 text-white/70" />
-                <span className="font-absans font-bold text-white text-sm tracking-wider uppercase">
-                  {t('trust.badges.us')}
-                </span>
+      {/* Lab credentials */}
+      <section className={SECTION}>
+        <div className={`${WRAP} text-center`}>
+          <ShieldCheck className="mx-auto mb-6 h-9 w-9 text-[#0B6F7B]" aria-hidden="true" />
+          <SplitHeading text={t('trust.title')} className={`${h2} mx-auto mb-5 max-w-3xl`} />
+          <p className="mx-auto mb-10 max-w-2xl text-[15px] leading-relaxed text-[#0B0F14]/60">{t('trust.desc')}</p>
+          <RevealGroup className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-3">
+            {[
+              { Icon: Globe, k: 'us' },
+              { Icon: Award, k: 'cgmp' },
+              { Icon: Beaker, k: 'qa' },
+            ].map(({ Icon, k }) => (
+              <div key={k} data-reveal className={`${card} flex items-center justify-center gap-3 px-6 py-5`}>
+                <Icon className="h-5 w-5 text-[#0B6F7B]" />
+                <span className="text-[14px] font-medium tracking-[-0.01em]">{t(`trust.badges.${k}`)}</span>
               </div>
-              
-              {/* Badge 2 */}
-              <div className="reveal-card bg-white/5 border border-white/5 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 hover:border-white/10 transition-colors">
-                <Award className="w-5 h-5 text-white/70" />
-                <span className="font-absans font-bold text-white text-sm tracking-wider uppercase">
-                  {t('trust.badges.cgmp')}
-                </span>
-              </div>
-              
-              {/* Badge 3 */}
-              <div className="reveal-card bg-white/5 border border-white/5 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 hover:border-white/10 transition-colors">
-                <Beaker className="w-5 h-5 text-white/70" />
-                <span className="font-absans font-bold text-white text-sm tracking-wider uppercase">
-                  {t('trust.badges.qa')}
-                </span>
-              </div>
-            </div>
-          </div>
+            ))}
+          </RevealGroup>
         </div>
       </section>
 
@@ -545,17 +318,13 @@ export default function COAPage() {
         theme="light"
       />
 
-      {/* Global B2B Call-To-Action Segment (Sleek Contrast) */}
-      <GlobalCTA
-        badge={t('cta.badge')}
+      <CtaBand
+        eyebrow={t('cta.badge')}
         title={t('cta.title')}
-        subtitle={t('cta.subtitle')}
-        primaryCtaText="WhatsApp Sales"
-        primaryCtaHref="https://wa.me/18433307365?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20verified%20batch%20quality%20and%20receiving%20the%20wholesale%20price%20list."
-        secondaryCtaText="Email Laboratory"
-        secondaryCtaHref="mailto:sales@99puritywholesale.com"
+        description={t('cta.subtitle')}
+        primary={{ label: 'WhatsApp Sales', href: "https://wa.me/18433307365?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20verified%20batch%20quality%20and%20receiving%20the%20wholesale%20price%20list.", external: true }}
+        secondary={{ label: 'Email Laboratory', href: 'mailto:sales@99puritywholesale.com' }}
       />
-
-    </main>
+    </PageShell>
   );
 }

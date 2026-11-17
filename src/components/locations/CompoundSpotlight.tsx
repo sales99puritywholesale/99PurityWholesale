@@ -71,12 +71,12 @@ export default function CompoundSpotlight({ heading, intro }: CompoundSpotlightP
   const compounds = isEs ? compoundsEs : compoundsEn;
 
   return (
-    <section id="popular-compounds" className="scroll-mt-36 bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-sm">
+    <section id="popular-compounds" className="scroll-mt-36 bg-white border border-black/5 rounded-[1.75rem] p-8 md:p-12 shadow-sm">
       <FadeIn>
-        <h2 className="text-3xl font-absans font-bold text-black uppercase tracking-tight mb-6">
+        <h2 className="text-3xl font-dm-sans font-light text-black tracking-[-0.03em] mb-6">
           {heading}
         </h2>
-        <div className="prose prose-lg max-w-none text-black/70 font-archia font-medium leading-relaxed mb-10">
+        <div className="prose prose-lg max-w-none text-black/70 leading-relaxed mb-10">
           <p>{intro}</p>
         </div>
       </FadeIn>
@@ -86,15 +86,15 @@ export default function CompoundSpotlight({ heading, intro }: CompoundSpotlightP
           <Link
             key={c.slug}
             href={`/products/${c.slug}`}
-            className="group block bg-[#F8F8F6] border border-black/5 p-8 rounded-[2rem] hover:bg-black hover:text-white transition-all duration-500"
+            className="group block bg-[#F3F5FA] border border-black/5 p-8 rounded-[1.25rem] hover:bg-black hover:text-white transition-all duration-500"
           >
             <div className="flex justify-between items-start mb-6">
-              <h3 className="text-2xl font-absans font-bold uppercase tracking-tight group-hover:text-[#13a7b7] transition-colors">{c.name}</h3>
-              <div className="w-10 h-10 rounded-full bg-white border border-black/5 flex items-center justify-center group-hover:border-[#13a7b7]/30">
+              <h3 className="text-2xl font-dm-sans font-light tracking-[-0.03em] group-hover:text-[#0B6F7B] transition-colors">{c.name}</h3>
+              <div className="w-10 h-10 rounded-full bg-white border border-black/5 flex items-center justify-center group-hover:border-[#0B6F7B]/30">
                 <ArrowRight className="w-4 h-4 text-black" />
               </div>
             </div>
-            <p className="font-archia text-sm leading-relaxed mb-6 group-hover:text-white/70">
+            <p className="text-sm leading-relaxed mb-6 group-hover:text-white/70">
               {c.desc}
             </p>
             <div className="flex flex-wrap gap-2">
